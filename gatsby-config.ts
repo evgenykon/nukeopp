@@ -3,7 +3,7 @@ import type { GatsbyConfig } from "gatsby";
 const config: GatsbyConfig = {
   siteMetadata: {
     title: ``,
-    siteUrl: `https://www.yourdomain.tld`
+    siteUrl: `https://nukeopp.effus.repl.co`
   },
   plugins: ["gatsby-plugin-sass", "gatsby-plugin-react-helmet", "gatsby-plugin-sitemap", "gatsby-transformer-remark", {
     resolve: 'gatsby-source-filesystem',
