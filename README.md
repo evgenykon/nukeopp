@@ -52,3 +52,15 @@
 Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
 
 [<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal-ts)
+
+
+
+## References 
+
+https://tympanus.net/Development/GridMenu/index2.html
+
+https://webkit.org/blog-files/3d-transforms/morphing-cubes.html
+
+## Deploy 
+
+https://blog.logrocket.com/8-ways-deploy-react-app-free/#github-pages
