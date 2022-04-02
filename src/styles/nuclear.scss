@@ -31,10 +31,11 @@ font-family: 'Playfair Display', serif;*/
 body {
   background-color: #ffffff;
   color: #000;
-  font-family: 'Playfair Display', serif;
-  height: 100vw;
+  font-family: "Playfair Display", serif;
+  height: 200vh;
   width: 100%;
-  overflow: hidden;
+  overflow-y: visible;
+  overflow-x: hidden;
 }
 @mixin fullPage {
   position: fixed;
@@ -49,21 +50,22 @@ main {
 }
 .content {
   @include fullPage;
+  margin-top: 20%;
   display: grid;
-  grid-template-rows: 4fr 1fr 1fr 4fr;
+  grid-template-rows: 1fr 1fr 4fr;
   grid-template-columns: 1fr;
   align-items: center;
   justify-content: center;
   justify-items: center;
   h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 6vw;
+    font-size: 5vw;
     margin: 0;
     font-weight: normal;
   }
   .subtitle {
     font-family: "Josefin Sans", serif;
-    font-size: 1.2rem;
+    font-size: 2.8vh;
     letter-spacing: 0;
     text-indent: 0;
     padding: 0 10%;
@@ -84,4 +86,16 @@ img.bg {
   overflow: hidden;
   width: 100%;
   height: 100%;
+}
+
+@import 'flags.scss';
+
+
+@keyframes topToMiddle {
+  from {
+    margin-top: 20%;
+  }
+  to {
+    margin-top: 0%;
+  }
 }
