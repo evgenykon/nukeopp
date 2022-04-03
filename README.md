@@ -1,39 +1,54 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby minimal TypeScript starter
-</h1>
+# NUCLEAR OPPOSITION SITE
 
-## 🚀 Quick start
+## Current Issues / Текущие задачи разработки
 
-1.  **Create a Gatsby site.**
+```
+  /* @todo 1
+  История:
+    - открытие ядерного распада
+    - создание атомного оружия (США, СССР)
+    - первые испытания (США, СССР)
+    - Карибский кризис
+    - договор о разоружении
+    - выход из договора о разоружении 
+  Нужно сделать в виде вертикального таймлайна в центре с датами, по обеим сторонам фотографии, описание и комментарии
+  */
 
-    Use the Gatsby CLI to create a new site, specifying the minimal TypeScript starter.
+  /* @todo 2
+  Вооружение на данный момент, существующее на планете
+  Несколько горизонтальных галлерей с карточками. 1 галлерея = 1 страна. На карточках любая доступная информация (и источник)
+  */
 
-    ```shell
-    # create a new Gatsby site using the minimal TypeScript starter
-    npm init gatsby
-    ```
+  /* @todo 3
+  Оценка поражения выбранным типом оружия
+  Карта гугл, пользовтаель может указать эпицентр, отобразится зона поражения, заражения, ударной волны
+  */
 
-2.  **Start developing.**
+  /* @todo 4
+  Перечень лиц, имеющих доступ к активации оружия
+  Несколько горизонтальных галлерей с фотографиями, фамилиями и должностями
+  */
 
-    Navigate into your new site’s directory and start it up.
+  /* @todo 5
+  Оценка уровня опасности наступления ядерной войны.
+  Плитка из блоков, содержащих скриншоты цитат с разных сайтов.
+  */
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+  /* @todo 6
+  Советы как спастись в зоне заражения
+  Несколько статьей с указанием источников.
+  */
+```
 
-3.  **Open the code and start customizing!**
+## Gatsby Readme
 
-    Your site is now running at http://localhost:8000!
+```shell
+npm run develop
+```
 
-    Edit `src/pages/index.tsx` to see your site update in real-time!
+Your site is now running at http://localhost:8000
 
-4.  **Learn more**
+**Learn more**
 
     - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
 
@@ -46,13 +61,6 @@
     - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
 
     - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-## 🚀 Quick start (Gatsby Cloud)
-
-Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
-
-[<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal-ts)
-
 
 
 ## References 
