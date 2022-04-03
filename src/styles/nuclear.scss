@@ -32,7 +32,7 @@ body {
   background-color: #ffffff;
   color: #000;
   font-family: "Playfair Display", serif;
-  height: 200vh;
+  height: 2000vh;
   width: 100%;
   overflow-y: visible;
   overflow-x: hidden;
@@ -52,7 +52,7 @@ main {
   @include fullPage;
   margin-top: 20%;
   display: grid;
-  grid-template-rows: 1fr 1fr 4fr;
+  grid-template-rows: 10% 4% auto;
   grid-template-columns: 1fr;
   align-items: center;
   justify-content: center;
@@ -65,11 +65,19 @@ main {
   }
   .subtitle {
     font-family: "Josefin Sans", serif;
-    font-size: 2.8vh;
+    font-size: 1.8vh;
     letter-spacing: 0;
     text-indent: 0;
     padding: 0 10%;
     text-shadow: 1px 1px 18px #ffffff;
+  }
+  @media screen and ( max-width: 600px ){
+    & {
+      grid-template-rows: 10% 0% auto;
+      .subtitle {
+        display:none;
+      }
+    }
   }
 }
 img.bg {
@@ -90,12 +98,3 @@ img.bg {
 
 @import 'flags.scss';
 
-
-@keyframes topToMiddle {
-  from {
-    margin-top: 20%;
-  }
-  to {
-    margin-top: 0%;
-  }
-}
