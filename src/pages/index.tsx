@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { graphql } from 'gatsby';
 import "../styles/nuclear.scss"
 import FlagsContainer from '../components/FlagsContainer';
 import BlockPositions from '../helpers/BlockPositions';
@@ -6,17 +7,36 @@ import AppState from '../interfaces/AppState';
 import Dictionary from '../i18n/Dictionary';
 import BaseCard from '../components/BaseCard';
 
-const ImageLib = {
-  SunsetMoscow: "../images/bg.jpg"
-}
-
 
 function getRandom(max: number){
   return Math.floor(Math.random() * Math.floor(max))
 }
 
+export const query  = graphql`
+query img {
+  bg: file(name: {eq: "bg"}) {
+    childImageSharp {
+      fluid {
+        originalImg
+      }
+    }
+  }
+  history1: file(name: {eq: "otto-fritz"}) {
+    id
+    childImageSharp {
+      fixed(height: 150) {
+        aspectRatio
+        srcWebp
+        originalName
+      }
+    }
+    name
+  }
+}
+`;
+
 // markup
-const IndexPage = () => {
+const IndexPage = ({data}) => {
   
   const [app, setAppState] = useState<AppState>({
     lang: 'ru',
@@ -28,15 +48,18 @@ const IndexPage = () => {
       position: 0,
       class: new BlockPositions(window.pageYOffset).mainClass,
       style: {
+        bgFilter: new BlockPositions(window.pageYOffset).bgFilter,
         headBlock: {
           marginTop: new BlockPositions(window.pageYOffset).headBlock
+        },
+        history: {
+          marginTop: new BlockPositions(window.pageYOffset).history
         }
       }
     }
   });
 
   const changeLanguage = (code: string) => {
-    
   
     type langKeys = keyof typeof Dictionary;
     const langDictionaryCode = code as langKeys;
@@ -60,8 +83,12 @@ const IndexPage = () => {
             position: window.pageYOffset,
             class: new BlockPositions(window.pageYOffset).mainClass,
             style: {
+              bgFilter: new BlockPositions(window.pageYOffset).bgFilter,
               headBlock: {
                 marginTop: new BlockPositions(window.pageYOffset).headBlock
+              },
+              history: {
+                marginTop: new BlockPositions(window.pageYOffset).history
               }
             }
           }
@@ -90,17 +117,29 @@ const IndexPage = () => {
 
   return (
     <main className={app.scroll.class}>
-      <img className="bg" src={require("../images/bg.jpg")} alt="bg" width="0" />
-      <div className="content" style={app.scroll.style.headBlock}>
-        <h1>{app.pageData.title}</h1>
-        <p className="subtitle">{app.pageData.randomQuote}</p>
-        <BaseCard 
-          title='Впервые в мире...' 
-          photoPos='photo-left' 
-          src='../images/history/otto-fritz.jpg' 
-          text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) 17 декабря 1938 года они провели решающий 
-          опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
-          comment='sdf'></BaseCard>
+      <img className="bg"  src={data.bg.childImageSharp.fluid.originalImg} placeholder="blurred" alt=" " style={app.scroll.style.bgFilter} />
+      <div className="content">
+        <div className='title' style={app.scroll.style.headBlock}>
+          <h1>{app.pageData.title}</h1>
+          <p className="subtitle">{app.pageData.randomQuote}</p>
+        </div>
+        <div id="history" style={app.scroll.style.history}>
+          <BaseCard 
+            title='Впервые в мире...' 
+            photoPos='photo-left' 
+            src={data.history1.childImageSharp.fixed.srcWebp}
+            text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
+            опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
+          <BaseCard 
+            title='Впервые в мире...' 
+            photoPos='photo-right' 
+            src={data.history1.childImageSharp.fixed.srcWebp}
+            text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
+            опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
+        </div>
+        
       </div>
       <FlagsContainer flags={flags}/>  
       <div style={debug}>{app.scroll.position} </div>

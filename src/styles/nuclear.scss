@@ -27,7 +27,10 @@
 /**
 font-family: 'Josefin Sans', sans-serif;
 font-family: 'Playfair Display', serif;*/
-
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 body {
   background-color: #ffffff;
   color: #000;
@@ -47,37 +50,8 @@ body {
 }
 main {
   @include fullPage;
-}
-.content {
-  @include fullPage;
-  margin-top: 20%;
-  display: grid;
-  grid-template-rows: 10% 4% auto;
-  grid-template-columns: 1fr;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 5vw;
-    margin: 0;
-    font-weight: normal;
-  }
-  .subtitle {
-    font-family: "Josefin Sans", serif;
-    font-size: 1.8vh;
-    letter-spacing: 0;
-    text-indent: 0;
-    padding: 0 10%;
-    text-shadow: 1px 1px 18px #ffffff;
-  }
-  @media screen and ( max-width: 600px ){
-    & {
-      grid-template-rows: 10% 0% auto;
-      .subtitle {
-        display:none;
-      }
-    }
+  .content {
+    @include fullPage;
   }
 }
 img.bg {
@@ -95,6 +69,7 @@ img.bg {
   width: 100%;
   height: 100%;
 }
-
+@import 'title.scss';
 @import 'flags.scss';
-
+@import 'scroll-blocks.scss';
+@import 'history.scss';

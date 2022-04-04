@@ -1,0 +1,21 @@
+main {
+    .subtitle {
+        opacity: 0;
+        transition: opacity 1s;  
+    }
+}
+.scroll-01 {
+    .subtitle {
+        opacity: 1;
+    }
+}
+.scroll-02 {
+    .subtitle {
+        opacity: 0;
+    }
+}
+.scroll-02 {
+    .subtitle {
+        opacity: 0;
+    }
+}

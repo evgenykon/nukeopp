@@ -8,7 +8,13 @@ interface AppState {
       position: number,
       class: string,
       style: {
+        bgFilter: {
+          filter: string
+        },
         headBlock: {
+          marginTop: string
+        },
+        history: {
           marginTop: string
         }
       }
