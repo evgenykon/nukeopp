@@ -15,7 +15,9 @@ interface AppState {
           marginTop: string
         },
         history: {
-          marginTop: string
+          marginTop: string,
+          position: string,
+          top: string
         }
       }
     }

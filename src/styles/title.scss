@@ -43,9 +43,15 @@
                 }
                 .title {
                     justify-items: start;
+                    height: 127px;
                 }
                 .subtitle {
                     display:none;
+                }
+                &.scroll-03 {
+                    h1 {
+                        box-shadow: 0 -21px 10px #fff;
+                    }
                 }
             }
         }

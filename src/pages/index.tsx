@@ -52,9 +52,7 @@ const IndexPage = ({data}) => {
         headBlock: {
           marginTop: new BlockPositions(window.pageYOffset).headBlock
         },
-        history: {
-          marginTop: new BlockPositions(window.pageYOffset).history
-        }
+        history: new BlockPositions(window.pageYOffset).history
       }
     }
   });
@@ -87,9 +85,7 @@ const IndexPage = ({data}) => {
               headBlock: {
                 marginTop: new BlockPositions(window.pageYOffset).headBlock
               },
-              history: {
-                marginTop: new BlockPositions(window.pageYOffset).history
-              }
+              history: new BlockPositions(window.pageYOffset).history
             }
           }
         });
@@ -112,7 +108,8 @@ const IndexPage = ({data}) => {
     position: 'fixed',
     top:0,
     right: 0,
-    width: '100px'
+    width: '100px',
+    zIndex: 2
   }
 
   return (
@@ -132,7 +129,35 @@ const IndexPage = ({data}) => {
             опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
             comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
           <BaseCard 
-            title='Впервые в мире...' 
+            title='Cоздание атомного оружия в США' 
+            photoPos='photo-right' 
+            src={data.history1.childImageSharp.fixed.srcWebp}
+            text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
+            опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
+          <BaseCard 
+            title='Cоздание атомного оружия в СССР' 
+            photoPos='photo-left' 
+            src={data.history1.childImageSharp.fixed.srcWebp}
+            text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
+            опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
+          <BaseCard 
+            title='Карибский Кризис' 
+            photoPos='photo-right' 
+            src={data.history1.childImageSharp.fixed.srcWebp}
+            text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
+            опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
+          <BaseCard 
+            title='Договор о разоружении' 
+            photoPos='photo-left' 
+            src={data.history1.childImageSharp.fixed.srcWebp}
+            text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
+            опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
+          <BaseCard 
+            title='Выход из договора о разоружении ' 
             photoPos='photo-right' 
             src={data.history1.childImageSharp.fixed.srcWebp}
             text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 

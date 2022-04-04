@@ -1,4 +1,10 @@
 main {
+    h1 {
+        background-color: none;
+        box-shadow: none;
+        width: 100%;
+        text-align: center;
+    }
     .subtitle {
         opacity: 0;
         transition: opacity 1s;  
@@ -14,8 +20,30 @@ main {
         opacity: 0;
     }
 }
-.scroll-02 {
+.scroll-03 {
     .subtitle {
         opacity: 0;
+    }
+    h1 {
+        background-color: #fff;
+        box-shadow: 0 34px 31px #fff;
+        width: 100%;
+        text-align: center;
+    }
+}
+@media screen and ( max-width: 700px ){
+    
+    .scroll-03 {
+        .title {
+            margin-bottom: 70px;
+            h1 {
+                height: 50px;
+                top: 0px;
+                padding-top: 10px;
+                position: absolute;
+                box-shadow: 0 10px 9px #fff;
+            }
+        }
+        
     }
 }

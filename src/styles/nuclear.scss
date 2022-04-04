@@ -52,6 +52,7 @@ main {
   @include fullPage;
   .content {
     @include fullPage;
+    position: relative;
   }
 }
 img.bg {
