@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { graphql } from 'gatsby';
 import "../styles/nuclear.scss"
+import 'keen-slider/keen-slider.min.css'
+
+import React, { useEffect, useState, useRef  } from 'react';
+import { graphql } from 'gatsby';
 import FlagsContainer from '../components/FlagsContainer';
 import BlockPositions from '../helpers/BlockPositions';
-import AppState from '../interfaces/AppState';
+import {AppState} from '../interfaces/AppState';
 import Dictionary from '../i18n/Dictionary';
 import BaseCard from '../components/BaseCard';
-
+import { useKeenSlider } from 'keen-slider/react'
 
 function getRandom(max: number){
   return Math.floor(Math.random() * Math.floor(max))
@@ -35,33 +37,22 @@ query img {
 }
 `;
 
+
 // markup
-const IndexPage = ({data}) => {
-  
+const IndexPage = ({data}) => {  
   const [app, setAppState] = useState<AppState>({
     lang: 'ru',
     pageData: {
       title: Dictionary.ru.title,
       randomQuote: Dictionary.ru.quotes[getRandom(Dictionary.ru.quotes.length - 1)],
     },
-    scroll: {
-      position: 0,
-      class: new BlockPositions(window.pageYOffset).mainClass,
-      style: {
-        bgFilter: new BlockPositions(window.pageYOffset).bgFilter,
-        headBlock: {
-          marginTop: new BlockPositions(window.pageYOffset).headBlock
-        },
-        history: new BlockPositions(window.pageYOffset).history
-      }
-    }
+    scroll: (new BlockPositions(window.pageYOffset)).getScrollProps()
   });
 
   const changeLanguage = (code: string) => {
   
     type langKeys = keyof typeof Dictionary;
     const langDictionaryCode = code as langKeys;
-
     setAppState({
       lang: code,
       pageData: {
@@ -72,23 +63,23 @@ const IndexPage = ({data}) => {
     });
   }
 
+  
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>(
+    {
+      loop: false
+    }
+  )
+
   useEffect(() => {
       const handleScroll = () => {
-        setAppState({
+        const scroll = {
           lang: app.lang,
           pageData: app.pageData,
-          scroll: {
-            position: window.pageYOffset,
-            class: new BlockPositions(window.pageYOffset).mainClass,
-            style: {
-              bgFilter: new BlockPositions(window.pageYOffset).bgFilter,
-              headBlock: {
-                marginTop: new BlockPositions(window.pageYOffset).headBlock
-              },
-              history: new BlockPositions(window.pageYOffset).history
-            }
-          }
-        });
+          scroll: (new BlockPositions(window.pageYOffset)).getScrollProps()
+        };
+        setAppState(scroll);
+        
+        instanceRef.current?.moveToIdx(scroll.scroll.weaponSlider.number);
       }
       window.addEventListener("scroll", handleScroll)
       return () => window.removeEventListener("scroll", handleScroll)
@@ -98,6 +89,7 @@ const IndexPage = ({data}) => {
   const onSelectFlag = (code: string) => {
     changeLanguage(code);
   }
+
   
   const flags = [
     {code: 'us', src: "https://flagicons.lipis.dev/flags/4x3/um.svg", onClick: onSelectFlag, isActive: false},
@@ -164,12 +156,27 @@ const IndexPage = ({data}) => {
             опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
             comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
         </div>
-        
+        <div id="weapons" style={app.scroll.weaponSlider.top}>
+          
+          <h3 >Вооружение, существующее на планете в данный момент</h3>
+          
+          <div ref={sliderRef} className="keen-slider">
+            <div className="keen-slider__slide slide">1</div>
+            <div className="keen-slider__slide slide">2</div>
+            <div className="keen-slider__slide slide">3</div>
+            <div className="keen-slider__slide slide">4</div>
+            <div className="keen-slider__slide slide">5</div>
+            <div className="keen-slider__slide slide">6</div>
+          </div>
+        </div>
       </div>
+      
       <FlagsContainer flags={flags}/>  
       <div style={debug}>{app.scroll.position} </div>
     </main>
   ) 
+
+  /// <BaseHorisontalGallery slideNum={app.scroll.weaponSlider.number} />
 
   /* @todo 1
   История:
