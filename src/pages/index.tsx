@@ -7,8 +7,9 @@ import FlagsContainer from '../components/FlagsContainer';
 import BlockPositions from '../helpers/BlockPositions';
 import {AppState} from '../interfaces/AppState';
 import Dictionary from '../i18n/Dictionary';
-import BaseCard from '../components/BaseCard';
+import BaseHistoryCard from '../components/BaseHistoryCard';
 import { useKeenSlider } from 'keen-slider/react'
+import BaseWeaponSlide from "../components/BaseWeaponSlide";
 
 function getRandom(max: number){
   return Math.floor(Math.random() * Math.floor(max))
@@ -24,6 +25,17 @@ query img {
     }
   }
   history1: file(name: {eq: "otto-fritz"}) {
+    id
+    childImageSharp {
+      fixed(height: 150) {
+        aspectRatio
+        srcWebp
+        originalName
+      }
+    }
+    name
+  },
+  weapon1: file(name: {eq: "b61"}) {
     id
     childImageSharp {
       fixed(height: 150) {
@@ -64,22 +76,22 @@ const IndexPage = ({data}) => {
   }
 
   
-  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>(
-    {
-      loop: false
-    }
-  )
+  const [sliderRef1, instanceRef1] = useKeenSlider<HTMLDivElement>({loop: false, selector: '.slide'})
+  const [sliderRef2, instanceRef2] = useKeenSlider<HTMLDivElement>({loop: false})
 
   useEffect(() => {
       const handleScroll = () => {
-        const scroll = {
+        const state = {
           lang: app.lang,
           pageData: app.pageData,
           scroll: (new BlockPositions(window.pageYOffset)).getScrollProps()
         };
-        setAppState(scroll);
-        
-        instanceRef.current?.moveToIdx(scroll.scroll.weaponSlider.number);
+        setAppState(state);
+        if (state.scroll.weaponSlider.isEnable) {
+          //instanceRef1.current?.emit('created');
+          instanceRef1.current?.moveToIdx(state.scroll.weaponSlider.number);
+          instanceRef2.current?.moveToIdx(state.scroll.weaponSlider.number);
+        }
       }
       window.addEventListener("scroll", handleScroll)
       return () => window.removeEventListener("scroll", handleScroll)
@@ -113,60 +125,82 @@ const IndexPage = ({data}) => {
           <p className="subtitle">{app.pageData.randomQuote}</p>
         </div>
         <div id="history" style={app.scroll.style.history}>
-          <BaseCard 
+          <BaseHistoryCard
             title='Впервые в мире...' 
             photoPos='photo-left' 
             src={data.history1.childImageSharp.fixed.srcWebp}
             text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
             опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
-            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
-          <BaseCard 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseHistoryCard>
+          <BaseHistoryCard 
             title='Cоздание атомного оружия в США' 
             photoPos='photo-right' 
             src={data.history1.childImageSharp.fixed.srcWebp}
             text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
             опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
-            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
-          <BaseCard 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseHistoryCard>
+          <BaseHistoryCard 
             title='Cоздание атомного оружия в СССР' 
             photoPos='photo-left' 
             src={data.history1.childImageSharp.fixed.srcWebp}
             text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
             опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
-            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
-          <BaseCard 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseHistoryCard>
+          <BaseHistoryCard 
             title='Карибский Кризис' 
             photoPos='photo-right' 
             src={data.history1.childImageSharp.fixed.srcWebp}
             text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
             опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
-            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
-          <BaseCard 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseHistoryCard>
+          <BaseHistoryCard 
             title='Договор о разоружении' 
             photoPos='photo-left' 
             src={data.history1.childImageSharp.fixed.srcWebp}
             text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
             опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
-            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
-          <BaseCard 
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseHistoryCard>
+          <BaseHistoryCard 
             title='Выход из договора о разоружении ' 
             photoPos='photo-right' 
             src={data.history1.childImageSharp.fixed.srcWebp}
             text='Отто Ган и Фриц Штрассман в 1938 году при поиске трансуранов облучали уран нейтронами. (...) Они провели решающий 
             опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
-            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseCard>
+            comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseHistoryCard>
         </div>
-        <div id="weapons" style={app.scroll.weaponSlider.top}>
-          
-          <h3 >Вооружение, существующее на планете в данный момент</h3>
-          
-          <div ref={sliderRef} className="keen-slider">
-            <div className="keen-slider__slide slide">1</div>
-            <div className="keen-slider__slide slide">2</div>
-            <div className="keen-slider__slide slide">3</div>
-            <div className="keen-slider__slide slide">4</div>
-            <div className="keen-slider__slide slide">5</div>
-            <div className="keen-slider__slide slide">6</div>
+        <div id="weapons1" style={app.scroll.weaponSlider.style}>
+          <h2>Вооружение, существующее на планете в данный момент</h2>
+          <h3>США</h3>
+          <div ref={sliderRef1} className="keen-slider">
+            <div className="slide">
+              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+          </div>
+        </div>
+        <div id="weapons2" style={app.scroll.weaponSlider.style}>
+          <h3>Российская Федерация</h3>
+          <div ref={sliderRef2} className="keen-slider">
+            <div className="keen-slider__slide slide">A</div>
+            <div className="keen-slider__slide slide">B</div>
+            <div className="keen-slider__slide slide">C</div>
+            <div className="keen-slider__slide slide">D</div>
+            <div className="keen-slider__slide slide">E</div>
+            <div className="keen-slider__slide slide">G</div>
           </div>
         </div>
       </div>

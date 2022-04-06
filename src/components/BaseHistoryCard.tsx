@@ -1,9 +1,9 @@
 import * as React from "react";
-import BaseCardProps from "../interfaces/BaseCardProps";
+import BaseHistoryCardProps from "../interfaces/BaseHistoryCardProps";
 
 
-export default class BaseCard extends React.Component<BaseCardProps, {}> {
-    constructor (props: BaseCardProps){
+export default class BaseHistoryCard extends React.Component<BaseHistoryCardProps, {}> {
+    constructor (props: BaseHistoryCardProps){
       super(props);
     }
 

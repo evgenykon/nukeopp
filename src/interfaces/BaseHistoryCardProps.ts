@@ -1,5 +1,5 @@
 
-export default interface BaseCardProps {
+export default interface BaseHistoryCardProps {
     src: string,
     title: string,
     text: string,

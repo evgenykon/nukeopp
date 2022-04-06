@@ -59,9 +59,9 @@ class BlockPositions {
         return 'scroll-01';
       } else if (scroll >= 100 && scroll < 800) {
         return 'scroll-02';
-      } else if (scroll >= 800 && scroll < 3300) {
+      } else if (scroll >= 800 && scroll < 1700) {
         return 'scroll-03';
-      } else if (scroll >= 3300) {
+      } else if (scroll >= 1700) {
         return 'scroll-04';
       } else {
         return '';
@@ -75,9 +75,6 @@ class BlockPositions {
         blur: 0,
         sepia: 0
       }
-      /*if (scroll>0 && scroll<10000) {
-        x.grayscale = 100 - (scroll * 0.01);
-      }*/
       x.brightness = (scroll * 0.1) + 200;
       x.sepia = (scroll * 0.01) ;
       return {filter: `grayscale(${x.grayscale}%) brightness(${x.brightness}%) sepia(${x.sepia}%)`};
@@ -88,11 +85,8 @@ class BlockPositions {
         position: 'relative',
         top: 0
       }
-      if (scroll > 0 && scroll < 800) {
+      if (scroll > 0 ) {
         x.marginTop = 60 - (scroll < 700 ? scroll * 0.08 : 60);
-      } else if (scroll >= 800 && scroll < 3300) {
-        x.position = 'absolute';
-        x.top = (scroll - 940) * -1;
       }
       return {
         marginTop: `${x.marginTop}%`,
@@ -101,10 +95,17 @@ class BlockPositions {
       };
     };
     getWeaponSlider(scroll: number) {
+      let top = '';
+      /*if (scroll < 3200) {
+        top = ((1500 - (scroll - 1700)) + 'px');
+      }*/
+      const opacity = (scroll - 1700) * 0.002;
       return {
-        number: Math.round((scroll - 3300) * 0.005),
+        isEnable: scroll > 1700,
+        number: Math.round((scroll - 2700) * 0.005),
         style: {
-          top: 0
+          top: top,
+          opacity: opacity > 0 ? (opacity <= 1 ? opacity : 1) : 0
         }
       }
     };

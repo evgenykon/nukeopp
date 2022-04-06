@@ -15,9 +15,10 @@ interface ScrollRelationProps {
     }
   },
   weaponSlider: {
+    isEnable: boolean,
     number: number,
     style: {
-      top: string
+      top: string,
     }
   }
 }
