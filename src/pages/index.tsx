@@ -35,7 +35,18 @@ query img {
     }
     name
   },
-  weapon1: file(name: {eq: "b61"}) {
+  weaponUsa1: file(name: {eq: "b61"}) {
+    id
+    childImageSharp {
+      fixed(height: 150) {
+        aspectRatio
+        srcWebp
+        originalName
+      }
+    }
+    name
+  },
+  weaponRu: file(name: {eq: "UR100H"}) {
     id
     childImageSharp {
       fixed(height: 150) {
@@ -77,7 +88,9 @@ const IndexPage = ({data}) => {
 
   
   const [sliderRef1, instanceRef1] = useKeenSlider<HTMLDivElement>({loop: false, selector: '.slide'})
-  const [sliderRef2, instanceRef2] = useKeenSlider<HTMLDivElement>({loop: false})
+  const [sliderRef2, instanceRef2] = useKeenSlider<HTMLDivElement>({loop: false, selector: '.slide'})
+  const [sliderRef3, instanceRef3] = useKeenSlider<HTMLDivElement>({loop: false, selector: '.slide'})
+  const [sliderRef4, instanceRef4] = useKeenSlider<HTMLDivElement>({loop: false, selector: '.slide'})
 
   useEffect(() => {
       const handleScroll = () => {
@@ -168,39 +181,67 @@ const IndexPage = ({data}) => {
             опыт — знаменитое фракционирование радия, бария и мезотория, на основании которого Отто Ган заключил, что ядро урана «лопается», распадаясь на более лёгкие элементы.' 
             comment='https://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BD,_%D0%9E%D1%82%D1%82%D0%BE'></BaseHistoryCard>
         </div>
-        <div id="weapons1" style={app.scroll.weaponSlider.style}>
+        <div id="weapons-head" style={app.scroll.weaponSlider.styleHead}>
           <h2>Вооружение, существующее на планете в данный момент</h2>
-          <h3>США</h3>
+        </div>
+        <div id="weapons1" style={app.scroll.weaponSlider.styleW1}>
           <div ref={sliderRef1} className="keen-slider">
             <div className="slide">
-              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+              <BaseWeaponSlide img={data.weaponUsa1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
             </div>
             <div className="slide">
-              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+              <BaseWeaponSlide img={data.weaponUsa1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
             </div>
             <div className="slide">
-              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+              <BaseWeaponSlide img={data.weaponUsa1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
             </div>
             <div className="slide">
-              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+              <BaseWeaponSlide img={data.weaponUsa1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
             </div>
             <div className="slide">
-              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+              <BaseWeaponSlide img={data.weaponUsa1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
             </div>
             <div className="slide">
-              <BaseWeaponSlide img={data.weapon1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+              <BaseWeaponSlide img={data.weaponUsa1.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
             </div>
           </div>
         </div>
-        <div id="weapons2" style={app.scroll.weaponSlider.style}>
-          <h3>Российская Федерация</h3>
+        <div id="weapons2" style={app.scroll.weaponSlider.styleW2}>
           <div ref={sliderRef2} className="keen-slider">
-            <div className="keen-slider__slide slide">A</div>
-            <div className="keen-slider__slide slide">B</div>
-            <div className="keen-slider__slide slide">C</div>
-            <div className="keen-slider__slide slide">D</div>
-            <div className="keen-slider__slide slide">E</div>
-            <div className="keen-slider__slide slide">G</div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weaponRu.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weaponRu.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weaponRu.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weaponRu.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weaponRu.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+            <div className="slide">
+              <BaseWeaponSlide img={data.weaponRu.childImageSharp.fixed.srcWebp}></BaseWeaponSlide>
+            </div>
+          </div>
+        </div>
+        <div id="person-cube">
+          <div className="shape cube backfaces">
+            <div className="plane one">1</div>
+            <div className="plane two">2</div>
+            <div className="plane three">3</div>
+            <div className="plane four">4</div>
+            <div className="plane five">5</div>
+            <div className="plane six">6</div>
+            <div className="plane seven">7</div>
+            <div className="plane eight">8</div>
+            <div className="plane nine">9</div>
+            <div className="plane ten">10</div>
+            <div className="plane eleven">11</div>
+            <div className="plane twelve">12</div>
           </div>
         </div>
       </div>
@@ -228,7 +269,7 @@ const IndexPage = ({data}) => {
   Несколько горизонтальных галлерей с карточками. 1 галлерея = 1 страна. На карточках любая доступная информация (и источник)
   */
 
-  /* @todo 3
+  /* @todo 3 ? возможно бъединить со слайдерем
   Оценка поражения выбранным типом оружия
   Карта гугл, пользовтаель может указать эпицентр, отобразится зона поражения, заражения, ударной волны
   */
@@ -238,12 +279,12 @@ const IndexPage = ({data}) => {
   Несколько горизонтальных галлерей с фотографиями, фамилиями и должностями
   */
 
-  /* @todo 5
+  /* @todo 5 
   Оценка уровня опасности наступления ядерной войны.
   Плитка из блоков, содержащих скриншоты цитат с разных сайтов.
   */
 
-  /* @todo 6
+  /* @todo 6 ? возможно ссылки на объединение
   Советы как спастись в зоне заражения
   Несколько статьей с указанием источников.
   */

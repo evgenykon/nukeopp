@@ -38,15 +38,18 @@ main {
     }
 }
 .scroll-04 {
-    #weapons1,#weapons2 {
+    #weapons-head,#weapons1,#weapons2,#weapons3,#weapons4 {
         position: fixed;
         top: 1vh;
         left: 0px;
         opacity: 0;
         width: 100%;
     }
+    #weapons1 {
+        top: 14vh;
+    }
     #weapons2 {
-        top: 48vh;
+        top: 50vh;
     }
 }
 @media screen and ( max-width: 700px ){

@@ -9,6 +9,7 @@ export default class BaseWeaponSlide extends React.Component<BaseWeaponSlideProp
   render() {
     return (  
       <div className="weapon-slide">
+        <h3>Header</h3>
         <div className="weapon-slide-content"  style={{ 
                 maxWidth: '900px', margin: '0 auto',
           display: 'grid', gridTemplateColumns: '1fr 2fr', gridTemplateRows: '0.5fr 3fr 1fr', padding: '1vh 10vh', boxSizing: 'border-box', gridGap: '2vw'

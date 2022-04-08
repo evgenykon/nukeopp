@@ -17,7 +17,19 @@ interface ScrollRelationProps {
   weaponSlider: {
     isEnable: boolean,
     number: number,
-    style: {
+    styleHead: {
+      top: string,
+    },
+    styleW1: {
+      top: string,
+    },
+    styleW2: {
+      top: string,
+    },
+    styleW3: {
+      top: string,
+    },
+    styleW4: {
       top: string,
     }
   }

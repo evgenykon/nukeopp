@@ -95,17 +95,36 @@ class BlockPositions {
       };
     };
     getWeaponSlider(scroll: number) {
-      let top = '';
       /*if (scroll < 3200) {
         top = ((1500 - (scroll - 1700)) + 'px');
       }*/
       const opacity = (scroll - 1700) * 0.002;
+      let leftW1 = '0%';
+      if (scroll > 4000) {
+        leftW1 = ((4000 - scroll)*0.1) + '%';
+      }
+      let leftW2 = '100%';
+      if (scroll > 4000) {
+        leftW2 = (100-(scroll-4000)*0.1) + '%';
+      }
+      let top = '1vh';
+      if (scroll > 4800) {
+        top = ((4800 - scroll) * 0.05) + 'vh';
+      }
       return {
         isEnable: scroll > 1700,
         number: Math.round((scroll - 2700) * 0.005),
-        style: {
-          top: top,
-          opacity: opacity > 0 ? (opacity <= 1 ? opacity : 1) : 0
+        styleHead: {
+          opacity: opacity > 0 ? (opacity <= 1 ? opacity : 1) : 0,
+          top: top
+        },
+        styleW1: {
+          opacity: opacity > 0 ? (opacity <= 1 ? opacity : 1) : 0,
+          left: leftW1
+        },
+        styleW2: {
+          opacity: opacity > 0 ? (opacity <= 1 ? opacity : 1) : 0,
+          left: leftW1
         }
       }
     };
