@@ -10,6 +10,7 @@ import Dictionary from '../i18n/Dictionary';
 import BaseHistoryCard from '../components/BaseHistoryCard';
 import { useKeenSlider } from 'keen-slider/react'
 import BaseWeaponSlide from "../components/BaseWeaponSlide";
+import BaseRoundPortrait from "../components/BaseRoundPortrait";
 
 function getRandom(max: number){
   return Math.floor(Math.random() * Math.floor(max))
@@ -56,7 +57,40 @@ query img {
       }
     }
     name
+  },
+  paperBook: file(name: {eq: "PaperBookTexture"}) {
+    id
+    childImageSharp {
+      fixed(height: 600) {
+        aspectRatio
+        src
+        originalName
+      }
+    }
+    name
+  },
+  killers: allMdx(
+    filter: {frontmatter: {tag: {eq: "killers"}}}
+    sort: {fields: frontmatter___order}
+  ) {
+    edges {
+      node {
+        id
+        imgData: frontmatter {
+          name
+          subtitle
+          image {
+            childImageSharp {
+              original {
+                src
+              }
+            }
+          }
+        }
+      }
+    }
   }
+  
 }
 `;
 
@@ -89,8 +123,6 @@ const IndexPage = ({data}) => {
   
   const [sliderRef1, instanceRef1] = useKeenSlider<HTMLDivElement>({loop: false, selector: '.slide'})
   const [sliderRef2, instanceRef2] = useKeenSlider<HTMLDivElement>({loop: false, selector: '.slide'})
-  const [sliderRef3, instanceRef3] = useKeenSlider<HTMLDivElement>({loop: false, selector: '.slide'})
-  const [sliderRef4, instanceRef4] = useKeenSlider<HTMLDivElement>({loop: false, selector: '.slide'})
 
   useEffect(() => {
       const handleScroll = () => {
@@ -228,22 +260,19 @@ const IndexPage = ({data}) => {
             </div>
           </div>
         </div>
-        <div id="person-cube">
-          <div className="shape cube backfaces">
-            <div className="plane one">1</div>
-            <div className="plane two">2</div>
-            <div className="plane three">3</div>
-            <div className="plane four">4</div>
-            <div className="plane five">5</div>
-            <div className="plane six">6</div>
-            <div className="plane seven">7</div>
-            <div className="plane eight">8</div>
-            <div className="plane nine">9</div>
-            <div className="plane ten">10</div>
-            <div className="plane eleven">11</div>
-            <div className="plane twelve">12</div>
-          </div>
+        <div id="portraits">
+          {
+            data.killers.edges.map((item) => {
+              return <BaseRoundPortrait 
+                id={item.node.id} 
+                key={item.node.id}
+                title={item.node.imgData.name}
+                subTitle={item.node.imgData.subtitle}
+                img={item.node.imgData.image.childImageSharp.original.src}></BaseRoundPortrait>
+            })
+          }
         </div>
+        
       </div>
       
       <FlagsContainer flags={flags}/>  

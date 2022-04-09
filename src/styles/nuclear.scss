@@ -97,8 +97,33 @@ img.bg {
   }
 }
 
+#paper {
+  img {
+    position: fixed;
+    top: 4%;
+    width: 65%;
+    filter: invert(1) sepia(1);
+    left: calc(50% - 33vw);
+  }
+}
+
+#portraits {
+  position: fixed;
+  top: 10%;
+  left: 15%;
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+  justify-content: center;
+  .round-portrait {
+    margin: 1%;
+  }
+}
+
+
 @import 'title.scss';
 @import 'flags.scss';
 @import 'scroll-blocks.scss';
 @import 'history.scss';
-@import 'cube.scss';
+@import 'book.scss';
+@import 'round-portrait.scss';

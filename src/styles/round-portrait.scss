@@ -1,0 +1,31 @@
+.round-portrait {
+    min-width: 180px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 9px 4px rgb(0 0 0 / 30%);
+    background-color: #F5E9BC;
+    border: 10px solid #452716;
+    position: relative;
+    .circleTextTop {
+        font-size: 40px;font-family: 'Tahoma';font-weight: bold;
+    }
+    .middleImg {
+        width: 76%;
+        height: 76%;
+        border-radius: 50%;
+        margin-left: 12%;
+        filter: sepia(0.5);
+        margin-top: 12%;
+        position: absolute;
+        top: 0;
+    }
+    .bottomLabel {
+        position: absolute;
+        top: 100px;
+        width: 100%;
+    }
+    .circleTextBottom {
+        font-size: 25px;font-family: 'Tahoma';font-weight: normal;
+    }
+}

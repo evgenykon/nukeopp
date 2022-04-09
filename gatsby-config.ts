@@ -24,9 +24,17 @@ const config: GatsbyConfig = {
         "path": "./src/images/"
       }
     },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        "name": "docs",
+        "path": "./src/docs/"
+      }
+    },
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`, 
+    "gatsby-plugin-mdx",
   ]
 };
 
