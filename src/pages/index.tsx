@@ -58,7 +58,7 @@ query img {
     }
     name
   },
-  paperBook: file(name: {eq: "PaperBookTexture"}) {
+  paper: file(name: {eq: "paper"}) {
     id
     childImageSharp {
       fixed(height: 600) {
@@ -103,7 +103,14 @@ const IndexPage = ({data}) => {
       title: Dictionary.ru.title,
       randomQuote: Dictionary.ru.quotes[getRandom(Dictionary.ru.quotes.length - 1)],
     },
-    scroll: (new BlockPositions(window.pageYOffset)).getScrollProps()
+    scroll: (new BlockPositions(window.pageYOffset)).getScrollProps(),
+    popups: {
+      person: {
+        style: {
+          display: 'none'
+        }
+      }
+    }
   });
 
   const changeLanguage = (code: string) => {
@@ -116,7 +123,8 @@ const IndexPage = ({data}) => {
         title: Dictionary[langDictionaryCode].title,
         randomQuote: Dictionary[langDictionaryCode].quotes[getRandom(Dictionary[langDictionaryCode].quotes.length - 1)],
       },
-      scroll: app.scroll
+      scroll: app.scroll,
+      popups: app.popups
     });
   }
 
@@ -129,7 +137,14 @@ const IndexPage = ({data}) => {
         const state = {
           lang: app.lang,
           pageData: app.pageData,
-          scroll: (new BlockPositions(window.pageYOffset)).getScrollProps()
+          scroll: (new BlockPositions(window.pageYOffset)).getScrollProps(),
+          popups: {
+            person: {
+              style: {
+                display: 'none'
+              }
+            }
+          }
         };
         setAppState(state);
         if (state.scroll.weaponSlider.isEnable) {
@@ -145,6 +160,41 @@ const IndexPage = ({data}) => {
   
   const onSelectFlag = (code: string) => {
     changeLanguage(code);
+  }
+
+  const onPortraitClick = (payload) => {
+    let popups = {
+      person: {
+        style: {
+          display: 'block'
+        }
+      }
+    };
+    const state = {
+      lang: app.lang,
+      pageData: app.pageData,
+      scroll: app.scroll,
+      popups: popups
+    };
+    console.log('onPortraitClick', payload);
+    setAppState(state);
+  }
+
+  const onClickPopup = () => {
+    let popups = {
+      person: {
+        style: {
+          display: 'none'
+        }
+      }
+    };
+    const state = {
+      lang: app.lang,
+      pageData: app.pageData,
+      scroll: app.scroll,
+      popups: popups
+    };
+    setAppState(state);
   }
 
   
@@ -260,7 +310,10 @@ const IndexPage = ({data}) => {
             </div>
           </div>
         </div>
-        <div id="portraits">
+        <div id="portraits" style={app.scroll.portraits.style}>
+          <div id="portraits-head">
+            <h2>Лица, имеющие полномочия применять ядерное оружие</h2>
+          </div>
           {
             data.killers.edges.map((item) => {
               return <BaseRoundPortrait 
@@ -268,9 +321,19 @@ const IndexPage = ({data}) => {
                 key={item.node.id}
                 title={item.node.imgData.name}
                 subTitle={item.node.imgData.subtitle}
-                img={item.node.imgData.image.childImageSharp.original.src}></BaseRoundPortrait>
+                img={item.node.imgData.image.childImageSharp.original.src}
+                onClick={onPortraitClick}
+              ></BaseRoundPortrait>
             })
           }
+        </div>
+        <div id="personInfo" style={app.popups.person.style} onClick={onClickPopup}>
+          <img src={data.paper.childImageSharp.fixed.src} />
+          <div className="pageContent">
+            <h4>dsafsdfsdf</h4>
+            <p>dsafsdfsdf dsafsdfsdf dsafsdfsdf dsafsdfsdf dsafsdfsdfdsafsdfsdf dsafsdfsdf dsafsdfsdf</p>
+            <p>dsafsdfsdf dsafsdfsdf dsafsdfsdf dsafsdfsdf dsafsdfsdfdsafsdfsdf dsafsdfsdf dsafsdfsdf</p>
+          </div>
         </div>
         
       </div>

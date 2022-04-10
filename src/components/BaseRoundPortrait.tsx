@@ -9,9 +9,13 @@ export default class BaseRoundPortrait extends React.Component<BaseRoundPortrait
     super(props);
   }
 
+  eventHandler = () => {
+    this.props.onClick(this.props);
+  }
+
   render() {
     return (  
-      <div className="round-portrait">
+      <div className="round-portrait" onClick={this.eventHandler}>
         <div className="topLabel">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
           <defs>

@@ -18,19 +18,21 @@ interface ScrollRelationProps {
     isEnable: boolean,
     number: number,
     styleHead: {
+      opacity: number,
       top: string,
     },
     styleW1: {
+      opacity: number,
       top: string,
-    },
+    }, 
     styleW2: {
+      opacity: number,
       top: string,
-    },
-    styleW3: {
-      top: string,
-    },
-    styleW4: {
-      top: string,
+    }
+  },
+  portraits: {
+    style: {
+      opacity: number
     }
   }
 }
@@ -41,7 +43,14 @@ interface AppState {
     title: string,
     randomQuote: string
   },
-  scroll: ScrollRelationProps
+  scroll: ScrollRelationProps,
+  popups: {
+    person: {
+      style: {
+        display: string
+      }
+    }
+  }
 }
 
 export {AppState, ScrollRelationProps};

@@ -32,13 +32,18 @@ class BlockPositions {
     weaponSlider: {
       number: number
     };
+    portraits: {
+      opacity: number
+    };
+    
     constructor(scroll: number) {
       this.position = scroll;
       this.mainClass = this.getMainClass(scroll);
       this.bgFilter = this.getBgFilter(scroll);
       this.headBlock = (20 - (scroll < 700 ? scroll * 0.024 : 19)) + '%';
-      this.history = this.getHistoryPosition(scroll)
-      this.weaponSlider = this.getWeaponSlider(scroll)
+      this.history = this.getHistoryPosition(scroll);
+      this.weaponSlider = this.getWeaponSlider(scroll);
+      this.portraits = this.getPortraitsStyle(scroll);
     };
     getScrollProps(): ScrollRelationProps {
       return {
@@ -51,7 +56,10 @@ class BlockPositions {
           },
           history: this.history
         },
-        weaponSlider: this.weaponSlider
+        weaponSlider: this.weaponSlider,
+        portraits: {
+          style: this.portraits
+        }
       }
     };
     getMainClass(scroll: number) {
@@ -103,10 +111,6 @@ class BlockPositions {
       if (scroll > 4000) {
         leftW1 = ((4000 - scroll)*0.1) + '%';
       }
-      let leftW2 = '100%';
-      if (scroll > 4000) {
-        leftW2 = (100-(scroll-4000)*0.1) + '%';
-      }
       let top = '1vh';
       if (scroll > 4800) {
         top = ((4800 - scroll) * 0.05) + 'vh';
@@ -128,6 +132,18 @@ class BlockPositions {
         }
       }
     };
+    getPortraitsStyle(scroll: number) {
+      let opacity = 0;
+      if (scroll > 4900) {
+        opacity = (scroll - 4900) * 0.002;
+      }
+      if (opacity > 1) {
+        opacity = 1;
+      }
+      return {
+        opacity: opacity
+      }
+    }
   }
 
 export default BlockPositions;

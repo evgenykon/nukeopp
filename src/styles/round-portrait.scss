@@ -28,4 +28,13 @@
     .circleTextBottom {
         font-size: 25px;font-family: 'Tahoma';font-weight: normal;
     }
+    &:hover {
+        box-shadow: 0px 0px 12px #640000;
+        transition-property: box-shadow;
+        transition-duration: 2s;
+        transition-timing-function: easy-out;
+        .middleImg {
+            filter: sepia(0);
+        }
+    }
 }
