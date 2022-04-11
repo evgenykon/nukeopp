@@ -36,6 +36,10 @@ class BlockPositions {
       opacity: number
     };
     portraitClassName: string;
+    chart1Style: {
+      display: string,
+      opacity: number
+    };
 
     constructor(scroll: number) {
       this.position = scroll;
@@ -46,6 +50,8 @@ class BlockPositions {
       this.weaponSlider = this.getWeaponSlider(scroll);
       this.portraits = this.getPortraitsStyle(scroll);
       this.portraitClassName = this.getPortraitsClass(scroll);
+      this.chart1Style = this.getChart1Style(scroll);
+      this.chart2Style = this.getChart2Style(scroll);
     };
     getScrollProps(): ScrollRelationProps {
       return {
@@ -62,6 +68,12 @@ class BlockPositions {
         portraits: {
           style: this.portraits,
           className: this.portraitClassName
+        },
+        chart1: {
+          style: this.chart1Style
+        },
+        chart2: {
+          style: this.chart2Style
         }
       }
     };
@@ -106,9 +118,6 @@ class BlockPositions {
       };
     };
     getWeaponSlider(scroll: number) {
-      /*if (scroll < 3200) {
-        top = ((1500 - (scroll - 1700)) + 'px');
-      }*/
       const opacity = (scroll - 1700) * 0.002;
       let leftW1 = '0%';
       if (scroll > 4000) {
@@ -142,12 +151,7 @@ class BlockPositions {
       } else if (scroll >= 5500 && scroll < 5700) {
         opacity = (5700 - scroll) * 0.01;
       }
-      if (opacity > 1) {
-        opacity = 1;
-      }
-      if (opacity < 0) {
-        opacity = 0;
-      }
+      opacity = opacity >= 0 ? (opacity <= 1 ? opacity : 1) : 0;
       return {
         opacity: opacity
       }
@@ -157,6 +161,40 @@ class BlockPositions {
         return 'items rotate';
       }
       return 'items';
+    }
+    getChart1Style(scroll: number) {
+      let display = 'none';
+      let opacity = 0;
+      const startPoint = 5800;
+      if (scroll > startPoint && scroll <= (startPoint + 700)) { // 6500
+        display = 'block'
+        opacity = (scroll - (startPoint + 300)) * 0.01; // 6300
+      } else if (scroll >= (startPoint + 200) && scroll < (startPoint + 1200)) { // 6500, 7000
+        display = 'block'
+        opacity = ((startPoint + 1200) - scroll) * 0.001;
+      }
+      opacity = opacity >= 0 ? (opacity <= 1 ? opacity : 1) : 0;
+      return {
+        display: display, 
+        opacity: opacity
+      };
+    }
+    getChart2Style(scroll: number) {
+      let display = 'none';
+      let opacity = 0;
+      const startPoint = 7000;
+      if (scroll > startPoint && scroll <= (startPoint + 700)) { 
+        display = 'block'
+        opacity = (scroll - (startPoint + 300)) * 0.01; 
+      } else if (scroll >= (startPoint + 200) && scroll < (startPoint + 1200)) { 
+        display = 'block'
+        opacity = ((startPoint + 1200) - scroll) * 0.001;
+      }
+      opacity = opacity >= 0 ? (opacity <= 1 ? opacity : 1) : 0;
+      return {
+        display: display, 
+        opacity: opacity
+      };
     }
   }
 

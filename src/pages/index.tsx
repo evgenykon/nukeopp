@@ -11,6 +11,9 @@ import BaseHistoryCard from '../components/BaseHistoryCard';
 import { useKeenSlider } from 'keen-slider/react'
 import BaseWeaponSlide from "../components/BaseWeaponSlide";
 import BaseRoundPortrait from "../components/BaseRoundPortrait";
+import BaseChartLine from "../components/BaseChartLine";
+import BaseChartArea from "../components/BaseChartArea";
+
 
 function getRandom(max: number){
   return Math.floor(Math.random() * Math.floor(max))
@@ -336,51 +339,49 @@ const IndexPage = ({data}) => {
             <p>dsafsdfsdf dsafsdfsdf dsafsdfsdf dsafsdfsdf dsafsdfsdfdsafsdfsdf dsafsdfsdf dsafsdfsdf</p>
           </div>
         </div>
-        
+        <div id="chart1" style={app.scroll.chart1.style}>
+          <div className="chart-head">
+            <h2>Показания Часов Судного дня за всю историю</h2>
+          </div>
+          <div className="chartArea">
+            <BaseChartLine data={[ {
+              id: "hours",
+              data: [
+                { x: "1965", y: "23:00" },
+                { x: "1975", y: "23:30" },
+                { x: "1985", y: "23:45" },
+                { x: "1995", y: "23:58" }
+              ]
+            } ]}></BaseChartLine>
+          </div>
+        </div>
+        <div id="chart2" style={app.scroll.chart2.style}>
+          <div className="chart-head">
+            <h2>Объем ядерного вооружения на планете</h2>
+          </div>
+          <div className="chartArea">
+            <BaseChartArea data={[ {
+    "year": "1965",
+    "USA": 95,
+    "USAColor": "hsl(270, 70%, 50%)",
+    "Russia": 128,
+    "RussiaColor": "hsl(17, 70%, 50%)",
+  },
+  {
+    "year": "2020",
+    "USA": 167,
+    "USAColor": "hsl(205, 70%, 50%)",
+    "Russia": 32,
+    "RussiaColor": "hsl(17, 70%, 50%)",
+  }, ]}></BaseChartArea>
+          </div>
+        </div>
       </div>
       
       <FlagsContainer flags={flags}/>  
       <div style={debug}>{app.scroll.position} </div>
     </main>
   ) 
-
-  /// <BaseHorisontalGallery slideNum={app.scroll.weaponSlider.number} />
-
-  /* @todo 1
-  История:
-    - открытие ядерного распада
-    - создание атомного оружия (США, СССР)
-    - первые испытания (США, СССР)
-    - Карибский кризис
-    - договор о разоружении
-    - выход из договора о разоружении 
-  Нужно сделать в виде вертикального таймлайна в центре с датами, по обеим сторонам фотографии, описание и комментарии
-  */
-
-  /* @todo 2
-  Вооружение на данный момент, существующее на планете
-  Несколько горизонтальных галлерей с карточками. 1 галлерея = 1 страна. На карточках любая доступная информация (и источник)
-  */
-
-  /* @todo 3 ? возможно бъединить со слайдерем
-  Оценка поражения выбранным типом оружия
-  Карта гугл, пользовтаель может указать эпицентр, отобразится зона поражения, заражения, ударной волны
-  */
-
-  /* @todo 4
-  Перечень лиц, имеющих доступ к активации оружия
-  Несколько горизонтальных галлерей с фотографиями, фамилиями и должностями
-  */
-
-  /* @todo 5 
-  Оценка уровня опасности наступления ядерной войны.
-  Плитка из блоков, содержащих скриншоты цитат с разных сайтов.
-  */
-
-  /* @todo 6 ? возможно ссылки на объединение
-  Советы как спастись в зоне заражения
-  Несколько статьей с указанием источников.
-  */
 }
 
 export default IndexPage

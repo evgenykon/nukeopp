@@ -35,6 +35,16 @@ interface ScrollRelationProps {
       opacity: number
     },
     className: string
+  },
+  chart1: {
+    style: {
+      display: string
+    }
+  },
+  chart2: {
+    style: {
+      display: string
+    }
   }
 }
 
