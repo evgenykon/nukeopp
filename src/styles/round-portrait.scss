@@ -7,6 +7,8 @@
     background-color: #F5E9BC;
     border: 10px solid #452716;
     position: relative;
+    transform: rotate3d(0, 1, 0, 0);
+    transition: opacity 1s;
     .circleTextTop {
         font-size: 40px;font-family: 'Tahoma';font-weight: bold;
     }
@@ -37,4 +39,21 @@
             filter: sepia(0);
         }
     }
+}
+#portraits {
+    .items {
+        &.rotate {
+            .round-portrait {
+                animation: round-portrait-animate 1s linear 1;
+                opacity: 0;
+                transition: opacity 1s;
+            }
+        }
+    }
+}
+
+@keyframes round-portrait-animate { 
+    100% {
+        transform: rotate3d(0, 1, 0, 90deg);
+    } 
 }

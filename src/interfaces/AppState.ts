@@ -33,7 +33,8 @@ interface ScrollRelationProps {
   portraits: {
     style: {
       opacity: number
-    }
+    },
+    className: string
   }
 }
 

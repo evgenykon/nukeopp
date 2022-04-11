@@ -114,7 +114,6 @@ const IndexPage = ({data}) => {
   });
 
   const changeLanguage = (code: string) => {
-  
     type langKeys = keyof typeof Dictionary;
     const langDictionaryCode = code as langKeys;
     setAppState({
@@ -311,21 +310,23 @@ const IndexPage = ({data}) => {
           </div>
         </div>
         <div id="portraits" style={app.scroll.portraits.style}>
-          <div id="portraits-head">
+          <div className="portraits-head">
             <h2>Лица, имеющие полномочия применять ядерное оружие</h2>
           </div>
-          {
-            data.killers.edges.map((item) => {
-              return <BaseRoundPortrait 
-                id={item.node.id} 
-                key={item.node.id}
-                title={item.node.imgData.name}
-                subTitle={item.node.imgData.subtitle}
-                img={item.node.imgData.image.childImageSharp.original.src}
-                onClick={onPortraitClick}
-              ></BaseRoundPortrait>
-            })
-          }
+          <div className={app.scroll.portraits.className}>
+            {
+              data.killers.edges.map((item) => {
+                return <BaseRoundPortrait 
+                  id={item.node.id} 
+                  key={item.node.id}
+                  title={item.node.imgData.name}
+                  subTitle={item.node.imgData.subtitle}
+                  img={item.node.imgData.image.childImageSharp.original.src}
+                  onClick={onPortraitClick}
+                ></BaseRoundPortrait>
+              })
+            }
+          </div>
         </div>
         <div id="personInfo" style={app.popups.person.style} onClick={onClickPopup}>
           <img src={data.paper.childImageSharp.fixed.src} />

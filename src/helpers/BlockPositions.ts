@@ -35,7 +35,8 @@ class BlockPositions {
     portraits: {
       opacity: number
     };
-    
+    portraitClassName: string;
+
     constructor(scroll: number) {
       this.position = scroll;
       this.mainClass = this.getMainClass(scroll);
@@ -44,6 +45,7 @@ class BlockPositions {
       this.history = this.getHistoryPosition(scroll);
       this.weaponSlider = this.getWeaponSlider(scroll);
       this.portraits = this.getPortraitsStyle(scroll);
+      this.portraitClassName = this.getPortraitsClass(scroll);
     };
     getScrollProps(): ScrollRelationProps {
       return {
@@ -58,7 +60,8 @@ class BlockPositions {
         },
         weaponSlider: this.weaponSlider,
         portraits: {
-          style: this.portraits
+          style: this.portraits,
+          className: this.portraitClassName
         }
       }
     };
@@ -134,15 +137,26 @@ class BlockPositions {
     };
     getPortraitsStyle(scroll: number) {
       let opacity = 0;
-      if (scroll > 4900) {
+      if (scroll > 4900 && scroll < 5500) {
         opacity = (scroll - 4900) * 0.002;
+      } else if (scroll >= 5500 && scroll < 5700) {
+        opacity = (5700 - scroll) * 0.01;
       }
       if (opacity > 1) {
         opacity = 1;
       }
+      if (opacity < 0) {
+        opacity = 0;
+      }
       return {
         opacity: opacity
       }
+    }
+    getPortraitsClass(scroll: number) {
+      if (scroll > 5500) {
+        return 'items rotate';
+      }
+      return 'items';
     }
   }
 
