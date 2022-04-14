@@ -99,7 +99,7 @@ query img {
 
 
 // markup
-const IndexPage = ({data}) => {  
+const IndexPage = ({data}) => {
   const [app, setAppState] = useState<AppState>({
     lang: 'ru',
     pageData: {
@@ -376,12 +376,14 @@ const IndexPage = ({data}) => {
   }, ]}></BaseChartArea>
           </div>
         </div>
+
+
       </div>
       
       <FlagsContainer flags={flags}/>  
       <div style={debug}>{app.scroll.position} </div>
     </main>
-  ) 
+  )
 }
 
 export default IndexPage
