@@ -12,12 +12,38 @@ import GeoSimulation from '../geosimulation/GeoSimulation';
 
 import 'ol/ol.css';
 import "../styles/map.scss"
+import { IMapPageControls } from '../interfaces/MapPageControls';
+import BaseMapTopPanel from '../components/BaseMapTopPanel';
+
 
 function MapPage() {
+
     const [map, setMap] = useState();
     const mapElement = useRef();
     const mapRef = useRef();
     mapRef.current = map;
+    const [controls, setControlsState] = useState<IMapPageControls>({
+        flagNewButton: true,
+        checkStr: 'useState',
+        // onClickNewButton: () => {
+        //     //console.log('onClickNewButton state', controls);
+        //     //controls.flagNewButton = false;
+        //     setControls({
+                
+        //     });
+        // }
+    });
+
+    const onClickNewButton = () => {
+        console.log('onClickNewButton bef', controls);
+        //controls.flagNewButton = false;
+        //console.log('onClickNewButton aft', controls);
+        setControlsState((state: IMapPageControls, props) => {
+            state.flagNewButton = false;
+            console.log('setControlsState', state);
+            return state;
+        });
+    }
 
     useEffect(() => {
 
@@ -36,12 +62,12 @@ function MapPage() {
             ],
             view: view,
             controls: [
-                new Zoom({
+                /*new Zoom({
                     delta: 3,
                 }),
                 new Rotate({
                     autoHide: false,
-                })
+                })*/
             ],
         });
 
@@ -51,7 +77,7 @@ function MapPage() {
         });
 
         console.log('MapPage.init');
-        geolocation.run(40, 40, 5000);
+        geolocation.run(56,37, 5000);
 
         /*const geolocation = new Geolocation({
             // enableHighAccuracy must be set to true to have the heading value.
@@ -68,7 +94,7 @@ function MapPage() {
             //el('altitudeAccuracy').innerText = geolocation.getAltitudeAccuracy() + ' [m]';
             //el('heading').innerText = geolocation.getHeading() + ' [rad]';
             //el('speed').innerText = geolocation.getSpeed() + ' [m/s]';
-            console.log('change', geolocation.position_);
+            //console.log('change', geolocation.position_);
         });
 
         const positionFeature = new Feature();
@@ -109,11 +135,20 @@ function MapPage() {
 
     }, []);
 
-  return (
-    <main>
-        <div style={{height:'100vh',width:'100%'}} ref={mapElement} className="map-container" />
-    </main>
-  );
+    // useEffect(() => {
+    //     const controls = new MapPageControls(true);
+    //     setControls(controls);
+    // });
+
+    return (
+        <main>
+            <div style={{height:'100vh',width:'100%'}} ref={mapElement} className="map-container" />
+            {controls.flagNewButton ? 'true' : 'false'}
+            <BaseMapTopPanel 
+                flagNewBtn={controls.flagNewButton} 
+                onClickNew={onClickNewButton}></BaseMapTopPanel>
+        </main>
+    );
 }
 
 export default MapPage;

@@ -175,6 +175,7 @@ import MovementSimulator from './MovementSimulator';
     * Clean up.
     */
    disposeInternal() {
+     clearInterval(this.timer);
      this.setTracking(false);
      super.disposeInternal();
    }
@@ -199,7 +200,7 @@ import MovementSimulator from './MovementSimulator';
     * @private
     */
    handleTrackingChanged_() {
-      console.log('handleTrackingChanged_');
+      //console.log('handleTrackingChanged_');
       const tracking = this.getTracking();
       if (tracking && this.watchId_ === undefined && this.simulatedPosition) {
         this.positionChange_(this.simulatedPosition);
@@ -207,7 +208,7 @@ import MovementSimulator from './MovementSimulator';
    }
 
    getSimPosition(success, error, options) {
-     console.log('getSimPosition');
+     //console.log('getSimPosition');
      //success(new SimGeolocation(11,22));
    }
  
@@ -216,7 +217,7 @@ import MovementSimulator from './MovementSimulator';
     * @param {GeolocationPosition} position position event.
     */
    positionChange_(position) {
-     console.log('positionChange_', position);
+     //console.log('positionChange_', position);
      const coords = position.coords;
      this.set(Property.ACCURACY, coords.accuracy);
      this.set(
