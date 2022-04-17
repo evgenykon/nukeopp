@@ -14,8 +14,7 @@ import 'ol/ol.css';
 import "../styles/map.scss"
 import { IMapPageControls, MapPageControls } from '../interfaces/MapPageControls';
 import BaseMapTopPanel from '../components/BaseMapTopPanel';
-import BaseMapDialog from '../components/BaseMapDialog';
-import BaseInputRow from '../components/BaseInputRow';
+import StartDialog from '../components/dialogs/StartDialog';
 
 
 function MapPage() {
@@ -30,17 +29,33 @@ function MapPage() {
     });
 
 
-    const clickNewBtn = () => {
-        console.log('clickNewBtn');
+    const clickNewSimulationBtn = () => {
         const changes = {
             flagNewButton: false,
             flagStartDialog: true,
             mainContainerClass: 'overlayed'
         };
         setControlsFlag({...controls, ...changes});
-        //setControlsFlag({...controls, flagStartDialog: true});
     };
 
+    const startDialogHandler = (payload) => {
+        console.log('startDialogHandler', payload);
+        const changes = {
+            flagNewButton: false,
+            flagStartDialog: false,
+            mainContainerClass: ''
+        };
+        setControlsFlag({...controls, ...changes});
+    }
+    const startDialogClose = () => {
+        console.log('startDialogClose');
+        const changes = {
+            flagNewButton: false,
+            flagStartDialog: false,
+            mainContainerClass: ''
+        };
+        setControlsFlag({...controls, ...changes});
+    }
 
     useEffect(() => {
 
@@ -74,7 +89,7 @@ function MapPage() {
         });
 
         console.log('MapPage.init');
-        geolocation.run(56,37, 5000);
+        geolocation.run(56, 37, 5000);
 
         /*const geolocation = new Geolocation({
             // enableHighAccuracy must be set to true to have the heading value.
@@ -123,62 +138,18 @@ function MapPage() {
         new VectorLayer({
             map: initialMap,
             source: new VectorSource({
-              features: [accuracyFeature, positionFeature],
+                features: [accuracyFeature, positionFeature],
             }),
-          });
+        });
 
 
         setMap(initialMap);
 
     }, []);
 
-    const startDialogHandler = () => {
-        console.log('startDialogHandler');
-    }
-    const startDialogClose = () => {
-        console.log('startDialogClose');
-    }
-
     let dialog = null;
     if (controls.flagStartDialog) {
-        dialog = <BaseMapDialog title='New nuclear explosion simulation' flagShowClose={true} onClose={startDialogClose}>
-        <BaseInputRow label='Location'>
-            <select name="location-select">
-                <option value="msk">Moscow</option>
-                <option value="pentagon">Pentagon</option>
-                <option value="london">London</option>
-            </select>
-        </BaseInputRow>
-        <BaseInputRow label='Time to escape'>
-            <select name="escape-time">
-                <option value="3">3 min</option>
-                <option value="5">5 min</option>
-                <option value="10">10 min</option>
-                <option value="random">Random (1-10)</option>
-            </select>
-        </BaseInputRow>
-        <BaseInputRow label='Survive time'>
-            <select name="survive-time">
-                <option value="3">3 min</option>
-                <option value="5">5 min</option>
-                <option value="10">10 min</option>
-                <option value="random">Random (1-10)</option>
-                <option value="unlimit">Unlimit</option>
-            </select>
-        </BaseInputRow>
-        <BaseInputRow label='Bunkers'>
-            <input type='checkbox' />
-        </BaseInputRow>
-        <BaseInputRow label='Auto services'>
-            <input type='checkbox' />
-        </BaseInputRow>
-        <div className='input-row' style={{paddingTop: '10px'}}>
-            <div className='input-label'></div>
-            <div className='input-control'>
-                <button type='button' onClick={startDialogHandler}>Start</button>
-            </div>
-        </div>
-    </BaseMapDialog>
+        dialog = <StartDialog onDialogClose={startDialogClose} onDialogSubmit={startDialogHandler}></StartDialog>
     }
 
     return (
@@ -187,7 +158,7 @@ function MapPage() {
                 <div style={{height:'100vh',width:'100%'}} ref={mapElement} className="map-container" />
                 <BaseMapTopPanel 
                     flagNewBtn={controls.flagNewButton} 
-                    onClickNew={clickNewBtn}></BaseMapTopPanel>
+                    onClickNew={clickNewSimulationBtn}></BaseMapTopPanel>
             </div>
             {dialog}
         </main>

@@ -152,7 +152,7 @@ import MovementSimulator from './MovementSimulator';
    run(startLat:number, startLong:number, refreshTimeout:number = 500) {
     try {
       if (!this.timer) {
-        this.simulatedPosition = new SimGeolocation(startLat,startLong,0,0);
+        this.simulatedPosition = new SimGeolocation(startLat, startLong, 0, 0);
         this.timer = setInterval(this.tick.bind(this), refreshTimeout);
       }
     } catch (e) {
