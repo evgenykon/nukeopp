@@ -12,8 +12,10 @@ import GeoSimulation from '../geosimulation/GeoSimulation';
 
 import 'ol/ol.css';
 import "../styles/map.scss"
-import { IMapPageControls } from '../interfaces/MapPageControls';
+import { IMapPageControls, MapPageControls } from '../interfaces/MapPageControls';
 import BaseMapTopPanel from '../components/BaseMapTopPanel';
+import BaseMapDialog from '../components/BaseMapDialog';
+import BaseInputRow from '../components/BaseInputRow';
 
 
 function MapPage() {
@@ -21,29 +23,24 @@ function MapPage() {
     const [map, setMap] = useState();
     const mapElement = useRef();
     const mapRef = useRef();
-    mapRef.current = map;
-    const [controls, setControlsState] = useState<IMapPageControls>({
+    const [controls, setControlsFlag] = useState<MapPageControls>({
         flagNewButton: true,
-        checkStr: 'useState',
-        // onClickNewButton: () => {
-        //     //console.log('onClickNewButton state', controls);
-        //     //controls.flagNewButton = false;
-        //     setControls({
-                
-        //     });
-        // }
+        flagStartDialog: false,
+        mainContainerClass: ''
     });
 
-    const onClickNewButton = () => {
-        console.log('onClickNewButton bef', controls);
-        //controls.flagNewButton = false;
-        //console.log('onClickNewButton aft', controls);
-        setControlsState((state: IMapPageControls, props) => {
-            state.flagNewButton = false;
-            console.log('setControlsState', state);
-            return state;
-        });
-    }
+
+    const clickNewBtn = () => {
+        console.log('clickNewBtn');
+        const changes = {
+            flagNewButton: false,
+            flagStartDialog: true,
+            mainContainerClass: 'overlayed'
+        };
+        setControlsFlag({...controls, ...changes});
+        //setControlsFlag({...controls, flagStartDialog: true});
+    };
+
 
     useEffect(() => {
 
@@ -135,18 +132,64 @@ function MapPage() {
 
     }, []);
 
-    // useEffect(() => {
-    //     const controls = new MapPageControls(true);
-    //     setControls(controls);
-    // });
+    const startDialogHandler = () => {
+        console.log('startDialogHandler');
+    }
+    const startDialogClose = () => {
+        console.log('startDialogClose');
+    }
+
+    let dialog = null;
+    if (controls.flagStartDialog) {
+        dialog = <BaseMapDialog title='New nuclear explosion simulation' flagShowClose={true} onClose={startDialogClose}>
+        <BaseInputRow label='Location'>
+            <select name="location-select">
+                <option value="msk">Moscow</option>
+                <option value="pentagon">Pentagon</option>
+                <option value="london">London</option>
+            </select>
+        </BaseInputRow>
+        <BaseInputRow label='Time to escape'>
+            <select name="escape-time">
+                <option value="3">3 min</option>
+                <option value="5">5 min</option>
+                <option value="10">10 min</option>
+                <option value="random">Random (1-10)</option>
+            </select>
+        </BaseInputRow>
+        <BaseInputRow label='Survive time'>
+            <select name="survive-time">
+                <option value="3">3 min</option>
+                <option value="5">5 min</option>
+                <option value="10">10 min</option>
+                <option value="random">Random (1-10)</option>
+                <option value="unlimit">Unlimit</option>
+            </select>
+        </BaseInputRow>
+        <BaseInputRow label='Bunkers'>
+            <input type='checkbox' />
+        </BaseInputRow>
+        <BaseInputRow label='Auto services'>
+            <input type='checkbox' />
+        </BaseInputRow>
+        <div className='input-row' style={{paddingTop: '10px'}}>
+            <div className='input-label'></div>
+            <div className='input-control'>
+                <button type='button' onClick={startDialogHandler}>Start</button>
+            </div>
+        </div>
+    </BaseMapDialog>
+    }
 
     return (
         <main>
-            <div style={{height:'100vh',width:'100%'}} ref={mapElement} className="map-container" />
-            {controls.flagNewButton ? 'true' : 'false'}
-            <BaseMapTopPanel 
-                flagNewBtn={controls.flagNewButton} 
-                onClickNew={onClickNewButton}></BaseMapTopPanel>
+            <div id="main-wrapper" className={controls.mainContainerClass}>
+                <div style={{height:'100vh',width:'100%'}} ref={mapElement} className="map-container" />
+                <BaseMapTopPanel 
+                    flagNewBtn={controls.flagNewButton} 
+                    onClickNew={clickNewBtn}></BaseMapTopPanel>
+            </div>
+            {dialog}
         </main>
     );
 }

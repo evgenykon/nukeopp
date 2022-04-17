@@ -2,15 +2,18 @@ import { MouseEventHandler } from "react";
 
 interface IMapPageControls {
     flagNewButton: boolean;
-    checkStr: string
+    flagStartDialog: boolean;
+    mainContainerClass: string;
 }
 
 class MapPageControls implements IMapPageControls {
     flagNewButton: boolean;
-    checkStr: string;
+    flagStartDialog: boolean;
+    mainContainerClass: string;
     constructor(flagNewButton:boolean) {
         this.flagNewButton = flagNewButton;
-        this.checkStr = 'contr';
+        this.flagStartDialog = false;
+        this.mainContainerClass = '';
     }
 }
 
