@@ -102,7 +102,7 @@ export default class StartDialog extends React.Component<StartDialogProps, {}> {
                 <div className='input-row' style={{paddingTop: '10px'}}>
                     <div className='input-label'></div>
                     <div className='input-control'>
-                        <button type='button' onClick={onSubmit}>Start</button>
+                        <button type='button' onClick={onSubmit}>Create simulation</button>
                     </div>
                 </div>
             </BaseMapDialog>

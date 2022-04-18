@@ -6,7 +6,7 @@ class SimGeolocationCoordinates implements GeolocationCoordinates {
   latitude: number;
   longitude: number;
   speed: number | null;
-  constructor(latitude, longitude, speed = 0, heading = 0) {
+  constructor(latitude:number, longitude:number, speed = 0, heading = 0) {
       this.accuracy = 0;
       this.altitude = null;
       this.altitudeAccuracy = null;

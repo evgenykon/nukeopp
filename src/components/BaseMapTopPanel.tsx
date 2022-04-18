@@ -7,7 +7,7 @@ export default class BaseMapTopPanel extends React.Component<BaseMapTopPanelProp
     render() {
         let newBtn = null;
         if (this.props.flagNewBtn) {
-            newBtn = <button className="btn" type="button" onClick={this.props.onClickNew}>New button</button>
+            newBtn = <button className="btn" type="button" onClick={this.props.onClickNew}>New simulation</button>
         }
         return (
             <div className="topPanel">

@@ -51,6 +51,10 @@ main {
             margin: 1px;
         }
     }
+    .map-container {
+        top: 3vh;
+        position: absolute;
+    }
 }
 .base-map-dialog {
     position: fixed;
@@ -126,12 +130,11 @@ main {
                     color: #fff;
                 }
                 button {
-                    padding: 10px 30px;
+                    padding: 7px 30px;
                     margin: 0 5px;
-                    background: linear-gradient(0deg, black, transparent);
                     border: 0 none;
                     box-shadow: 0 0 2px #fff;
-                    color: #fff;
+                    color: #000;
                     &:hover {
                         box-shadow: 0 0 4px #fff;
                     }
