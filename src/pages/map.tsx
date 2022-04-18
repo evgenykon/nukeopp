@@ -49,6 +49,9 @@ query sim {
               allowedStartPoints {
                 lg
                 lt
+              },
+              geojson {
+                areas
               }
             }
           }
