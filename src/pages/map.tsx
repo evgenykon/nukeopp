@@ -52,6 +52,7 @@ query sim {
               },
               geojson {
                 areas
+                safe
               }
             }
           }
