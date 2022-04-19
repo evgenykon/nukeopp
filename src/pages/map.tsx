@@ -27,6 +27,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import {unByKey} from 'ol/Observable';
 import {getVectorContext} from 'ol/render';
 import {easeOut} from 'ol/easing'; 
+import { EventsKey } from 'ol/events';
 
 
 export const query  = graphql`
@@ -92,7 +93,14 @@ function MapPage({data}) {
     const [tileLayer, setTileLayer] = useState(new TileLayer({
         source: new OSM({}),
     }));
-
+    const [flashSource, setFlashSource] = useState(new VectorSource({
+        wrapX: false,
+    }));
+    const [flashLayer, setFlashLayer] = useState(new VectorLayer({
+        source: flashSource,
+    }));
+    const [listenerKey, setListenerKey] = useState<EventsKey>();
+    
     const clickNewSimulationBtn = () => {
         const changes = {
             flagNewButton: false,
@@ -176,64 +184,54 @@ function MapPage({data}) {
         projection: 'EPSG:4326',
     });
 
-
-    const flash = (feature, duration) => {
-        const start = Date.now();
-        const flashGeom = feature.getGeometry().clone();
-        const listenerKey = tileLayer.on('postrender', animate);
-      
-        const animate = (event) => {
-          const frameState = event.frameState;
-          const elapsed = frameState.time - start;
-          if (elapsed >= duration) {
-            unByKey(listenerKey);
-            return;
-          }
-          const vectorContext = getVectorContext(event);
-          const elapsedRatio = elapsed / duration;
-          // radius will be 5 at start and 30 at end.
-          const radius = easeOut(elapsedRatio) * 25 + 5;
-          const opacity = easeOut(1 - elapsedRatio);
-      
-          const style = new Style({
-            image: new CircleStyle({
-              radius: radius,
-              stroke: new Stroke({
-                color: 'rgba(255, 0, 0, ' + opacity + ')',
-                width: 0.25 + opacity,
-              }),
-            }),
-          });
-      
-          vectorContext.setStyle(style);
-          vectorContext.drawGeometry(flashGeom);
-          // tell OpenLayers to continue postrender animation
-          map.render();
-        }
+    const animate = function(event, start, duration, flashGeom, map) {
+      const frameState = event.frameState;
+      const elapsed = frameState.time - start;
+      if (elapsed >= duration && listenerKey) {
+        unByKey(listenerKey);
+        return;
+      }
+      const vectorContext = getVectorContext(event);
+      const elapsedRatio = elapsed / duration;
+      // radius will be 5 at start and 30 at end.
+      const radius = easeOut(elapsedRatio) * 45 + 5;
+      const opacity = easeOut(1);
+  
+      const style = new Style({
+        image: new CircleStyle({
+          radius: radius,
+          stroke: new Stroke({
+            color: 'rgba(255, 0, 0, ' + opacity + ')',
+            width: 0.25 + opacity,
+          }),
+        }),
+      });
+  
+      vectorContext.setStyle(style);
+      vectorContext.drawGeometry(flashGeom);
+      // tell OpenLayers to continue postrender animation
+      map.render();
     }
 
-    
+    const flash = function(feature, duration, map) {
+        const start = Date.now();
+        const flashGeom = feature.getGeometry().clone();
+        const eventKey = flashLayer.on('postrender', (e) => animate(e, start, duration, flashGeom, map));
+        setListenerKey(eventKey);
+    }
 
-    const flashSource = new VectorSource({
-        wrapX: false,
-    });
-    const flashLayer = new VectorLayer({
-        source: flashSource,
-    });
-    const addRandomFeature = () => {
-        const x = Math.random() * 360 - 180;
-        const y = Math.random() * 170 - 85;
-        const geom = new Point(fromLonLat([x, y]));
+    const getFlashPoint = () => {
+        const x = Math.random();
+        const y = Math.random();
+        return new Point(fromLonLat([37 + x, 55 + y]));
+    }
+
+    const runFlash = function(flashSource) {
+        const geom = getFlashPoint();
         const feature = new Feature(geom);
         flashSource.addFeature(feature);
     }
-    flashSource.on('addfeature', function (e) {
-        flash(e.feature, 10000);
-    });
-      
-    window.setInterval(() => addRandomFeature(), 1000);
-
-
+    
     useEffect(() => {
         
         console.log('MapPage.init');
@@ -314,10 +312,17 @@ function MapPage({data}) {
             console.log('feature', names);
         });
 
+        flashSource.on('addfeature', function (e) {
+            console.log('addfeature', e);
+            flash(e.feature, 5000, initialMap);
+        });
 
         setMap(initialMap);
 
+        //runFlash(flashSource);
     }, []);
+
+    
 
     let dialog = null;
     if (controls.flagStartDialog) {
