@@ -4,7 +4,7 @@ import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import { graphql } from 'gatsby';
 import Feature from 'ol/Feature';
 import {Circle as CircleStyle, Fill, Icon, IconImage, Stroke, Style} from 'ol/style';
-import {OSM, Vector as VectorSource} from 'ol/source';
+import {OSM, Vector, Vector as VectorSource} from 'ol/source';
 import Zoom from 'ol/control/Zoom';
 import Rotate from 'ol/control/Rotate';
 import {fromLonLat} from 'ol/proj';
@@ -23,6 +23,10 @@ import { Coordinate } from 'ol/coordinate';
 import {createStringXY} from 'ol/coordinate';
 import {defaults as defaultControls} from 'ol/control';
 import {Select} from 'ol/interaction';
+import GeoJSON from 'ol/format/GeoJSON';
+import {unByKey} from 'ol/Observable';
+import {getVectorContext} from 'ol/render';
+import {easeOut} from 'ol/easing'; 
 
 
 export const query  = graphql`
@@ -52,7 +56,7 @@ query sim {
               },
               geojson {
                 areas
-                safe
+                safety
               }
             }
           }
@@ -84,8 +88,10 @@ function MapPage({data}) {
         features: [
             //accuracyFeature, positionFeature
         ],
-    }); 
-
+    });
+    const [tileLayer, setTileLayer] = useState(new TileLayer({
+        source: new OSM({}),
+    }));
 
     const clickNewSimulationBtn = () => {
         const changes = {
@@ -116,7 +122,9 @@ function MapPage({data}) {
             new SimGeolocationCoordinates(0,0) // @todo calculate start point
         ));
         locateView([target.center.lt, target.center.lg], 10);
-
+        console.log('startDialogHandler', target);
+        addAreasGeojson(target.geojson.areas);
+        addSafetyZonesGeojson(target.geojson.safety);
     }
     const startDialogClose = () => {
         console.log('startDialogClose');
@@ -132,11 +140,98 @@ function MapPage({data}) {
         map.getView().animate({zoom: zoom, center: fromLonLat(viewPosition)});
         setMap(map);
     }
+    const addAreasGeojson = (source: string) => {
+        const geoJsonSource = new Vector({
+            url: source,
+            format: new GeoJSON(),
+        });
+        const layer = new VectorLayer({
+            source: geoJsonSource,
+            minZoom: 8,
+            style: new Style({
+                stroke: new Stroke({color: '#000'}),
+            })
+        });
+        map.addLayer(layer);
+        setMap(map);
+    }
+    const addSafetyZonesGeojson = (source:string) => {
+        const geoJsonSource = new Vector({
+            url: source,
+            format: new GeoJSON(),
+        });
+        const layer = new VectorLayer({
+            source: geoJsonSource,
+            minZoom: 8,
+            style: new Style({
+                stroke: new Stroke({color: '#0cc500'}),
+            })
+        });
+        map.addLayer(layer);
+        setMap(map);
+    }
 
     const mousePositionControl = new MousePosition({
         coordinateFormat: createStringXY(4),
         projection: 'EPSG:4326',
     });
+
+
+    const flash = (feature, duration) => {
+        const start = Date.now();
+        const flashGeom = feature.getGeometry().clone();
+        const listenerKey = tileLayer.on('postrender', animate);
+      
+        const animate = (event) => {
+          const frameState = event.frameState;
+          const elapsed = frameState.time - start;
+          if (elapsed >= duration) {
+            unByKey(listenerKey);
+            return;
+          }
+          const vectorContext = getVectorContext(event);
+          const elapsedRatio = elapsed / duration;
+          // radius will be 5 at start and 30 at end.
+          const radius = easeOut(elapsedRatio) * 25 + 5;
+          const opacity = easeOut(1 - elapsedRatio);
+      
+          const style = new Style({
+            image: new CircleStyle({
+              radius: radius,
+              stroke: new Stroke({
+                color: 'rgba(255, 0, 0, ' + opacity + ')',
+                width: 0.25 + opacity,
+              }),
+            }),
+          });
+      
+          vectorContext.setStyle(style);
+          vectorContext.drawGeometry(flashGeom);
+          // tell OpenLayers to continue postrender animation
+          map.render();
+        }
+    }
+
+    
+
+    const flashSource = new VectorSource({
+        wrapX: false,
+    });
+    const flashLayer = new VectorLayer({
+        source: flashSource,
+    });
+    const addRandomFeature = () => {
+        const x = Math.random() * 360 - 180;
+        const y = Math.random() * 170 - 85;
+        const geom = new Point(fromLonLat([x, y]));
+        const feature = new Feature(geom);
+        flashSource.addFeature(feature);
+    }
+    flashSource.on('addfeature', function (e) {
+        flash(e.feature, 10000);
+    });
+      
+    window.setInterval(() => addRandomFeature(), 1000);
 
 
     useEffect(() => {
@@ -145,13 +240,13 @@ function MapPage({data}) {
         const initialMap = new Map({
             target: mapElement.current,
             layers: [
-                new TileLayer({
-                    source: new OSM({}),
-                })
+                tileLayer,
+                flashLayer
             ],
             view: new View(view),
             controls: defaultControls().extend([mousePositionControl]),
         });
+
 
         /* -- GEOLOCATION SIMULATION
         const geolocation = new GeoSimulation({
