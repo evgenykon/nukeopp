@@ -62,7 +62,7 @@ export default class StartDialog extends React.Component<StartDialogProps, {}> {
                     >
                         <option value="0">0 km</option>
                         <option value="1">1 km</option>
-                        <option value="5">5 km</option>
+                        <option value="3">3 km</option>
                         <option value="10">10 km</option>
                         <option value="random">Random</option>
                     </select>

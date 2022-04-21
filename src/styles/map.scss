@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300');
+
 
 body {
     width: 100%;
@@ -49,6 +51,114 @@ main {
         display: flex;
         .btn {
             margin: 1px;
+            border: 0 none;
+            padding: 3px 18px;
+            font-size: 11px;
+            color: #fff;
+            box-shadow: 0 0 4px #000;
+            background: linear-gradient(25deg, #767676, #8d8d8d);
+            &:hover {
+                background: linear-gradient(0deg, #767676, #8d8d8d);
+                box-shadow: 0 0 4px rgb(78, 78, 78);
+            }
+            &:active {
+                background: linear-gradient(0deg, #383838, #505050);
+                box-shadow: 0 0 4px rgb(78, 78, 78);
+            }
+        }
+        .telemetry {
+            width: 100%;
+            display: grid;
+            grid-template-rows: 100%;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            color: #fff;
+            text-shadow: 1px 0 3px #000;
+            grid-gap: 3px;
+            .btns {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+            .panel-slot {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                .label {
+                    font-size: 0.5rem;
+                    padding-right: 0.3rem;
+                }
+                .sensor {
+                    padding: 0 0.5rem;
+                }
+                .units {
+                    font-size: 0.5rem;
+                    align-self: center;
+                }
+            }
+            
+        }
+        .tweets {
+            position: fixed;
+            right: 0;
+            top: 3.3vh;
+            width: 15vw;
+            font-size: 11px;
+            box-sizing: border-box;
+            color: #fff;
+            font-family: "Roboto Condensed", sans-serif;
+            display: flex;
+            flex-direction: column;
+            .tweet-wrapper {
+                padding: 3px;
+                margin-bottom: 3px;
+                background: #303030da;
+                border-radius: 3px;
+                .tweet-header {
+                    font-weight: bold;
+                    font-size: 12px;
+                }
+                &.ligher {
+                    opacity: 0.8;
+                }
+            }
+        }
+        .help {
+            position: fixed;
+            bottom: 5vh;
+            left: 0;
+            width: 15vw;
+            height: 5vh;
+            .key {
+                padding: 3px 5px;
+                border: 1px solid #000;
+                margin: 1px;
+                font-size: 12px;
+                position: absolute;
+                background: linear-gradient(223deg, #00000012, #00000061);
+                .material-symbols-outlined {
+                    font-size: 15px;
+                }
+                &.top-left {
+                    left: 0;
+                    top: 0;
+                    padding: 6px;
+                }
+                &.top {
+                    left: 60px;
+                    top: 2.8vh;
+                }
+                &.left {
+                    left: 30px;
+                    top: 6vh;
+                }
+                &.right {
+                    left: 90px;
+                    top: 6vh;
+                }
+                &.bottom {
+                    left: 60px;
+                    top: 6vh;
+                }
+            }
         }
     }
     .map-container {

@@ -28,6 +28,8 @@ import {unByKey} from 'ol/Observable';
 import {getVectorContext} from 'ol/render';
 import {easeOut} from 'ol/easing'; 
 import { EventsKey } from 'ol/events';
+import { ITelemetryData, TelemetryData } from '../geosimulation/TelemetryData';
+import Calculations from '../helpers/Calculations';
 
 
 export const query  = graphql`
@@ -52,6 +54,7 @@ query sim {
                 lt
               }
               allowedStartPoints {
+                dist
                 lg
                 lt
               },
@@ -69,11 +72,11 @@ query sim {
 function MapPage({data}) {
 
     const [map, setMap] = useState();
-    const [view, setView] = useState({
+    const [view, setView] = useState(new View({
         center: fromLonLat([0,0]),
         zoom: 0,
         enableRotation: true
-    });
+    }));
     const [controls, setControlsFlag] = useState<MapPageControls>({
         flagNewButton: true,
         flagStartDialog: false,
@@ -100,6 +103,10 @@ function MapPage({data}) {
         source: flashSource,
     }));
     const [listenerKey, setListenerKey] = useState<EventsKey>();
+    const [telemetry, setTelemetry] = useState<ITelemetryData>({
+        isEnable: false,
+        sensors: null
+    });
     
     const clickNewSimulationBtn = () => {
         const changes = {
@@ -133,6 +140,10 @@ function MapPage({data}) {
         console.log('startDialogHandler', target);
         addAreasGeojson(target.geojson.areas);
         addSafetyZonesGeojson(target.geojson.safety);
+        showTelemetry();
+        startGeoposition(payload, target);
+        //startTimers();
+        
     }
     const startDialogClose = () => {
         console.log('startDialogClose');
@@ -221,9 +232,9 @@ function MapPage({data}) {
     }
 
     const getFlashPoint = () => {
-        const x = Math.random();
-        const y = Math.random();
-        return new Point(fromLonLat([37 + x, 55 + y]));
+        const x = Math.random() * 0.01;
+        const y = Math.random() * 0.01;
+        return new Point(fromLonLat([37.616 + x, 55.750 + y]));
     }
 
     const runFlash = function(flashSource) {
@@ -231,69 +242,95 @@ function MapPage({data}) {
         const feature = new Feature(geom);
         flashSource.addFeature(feature);
     }
-    
-    useEffect(() => {
-        
-        console.log('MapPage.init');
-        const initialMap = new Map({
-            target: mapElement.current,
-            layers: [
-                tileLayer,
-                flashLayer
-            ],
-            view: new View(view),
-            controls: defaultControls().extend([mousePositionControl]),
-        });
 
+    const startTimers = () => {
+        /*setTimeout(() => {runFlash(flashSource);},5000);*/
+    }
 
-        /* -- GEOLOCATION SIMULATION
+    const showTelemetry = () => {
+        setTelemetry(new TelemetryData())
+    }
+
+    const startGeoposition = (formData, payload) => {
+        console.log('startGeoposition formData', formData);
+        console.log('startGeoposition payload', payload);
+        let startPosition = null;
+        if (formData.distance !== 'random') {
+            const formDataDistance = parseInt(formData.distance);
+            const filteredPositions = payload.allowedStartPoints.filter(pos => pos.dist == formDataDistance);
+            if (filteredPositions.length > 0) {
+                startPosition = filteredPositions[Calculations.getRandomIntegerFromRange(0, filteredPositions.length-1)];
+            }
+        }
+        if (!startPosition) {
+            startPosition = payload.allowedStartPoints[Calculations.getRandomIntegerFromRange(0, payload.allowedStartPoints.length-1)];
+        }
+        console.log('startGeoposition filter', startPosition);
+
         const geolocation = new GeoSimulation({
             projection: view.getProjection(),
             tracking: true
         });
-        geolocation.run(56, 37, 5000);*/
+        geolocation.run(startPosition.lt, startPosition.lg, 5000);
 
-        //geolocation.on('change', function () {
+        geolocation.on('change', function () {
             //el('accuracy').innerText = geolocation.getAccuracy() + ' [m]';
             //el('altitude').innerText = geolocation.getAltitude() + ' [m]';
             //el('altitudeAccuracy').innerText = geolocation.getAltitudeAccuracy() + ' [m]';
             //el('heading').innerText = geolocation.getHeading() + ' [rad]';
             //el('speed').innerText = geolocation.getSpeed() + ' [m/s]';
             //console.log('change', geolocation.position_);
-        //});
+            console.log('speed/heading', geolocation.getSpeed(), geolocation.getHeading());
+        });
 
         // -- car
-        /*const positionFeature = new Feature();
+        const positionFeature = new Feature();
         positionFeature.setStyle(
             new Style({
                 image: new Icon(({
                     anchor: [0.5, 46],
                     anchorXUnits: 'fraction',
                     anchorYUnits: 'pixels',
-                    scale: 0.07,
-                    src: 'https://cdn-icons-png.flaticon.com/512/0/798.png'
+                    scale: 0.2,
+                    src: 'https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car_png.png'
                 }))
             })
-        );*/
+        );
 
-        /*const accuracyFeature = new Feature();
+        const accuracyFeature = new Feature();
         geolocation.on('change:accuracyGeometry', function () {
             accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
         });
 
         geolocation.on('change:position', function () {
             const coordinates = geolocation.getPosition();
-            positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
-            view.setCenter(coordinates);
-        });*/
-
-        
-
-        new VectorLayer({
-            map: initialMap,
-            source: new VectorSource(vectorSource),
+            if (coordinates) {
+                positionFeature.setGeometry(new Point(coordinates));
+                map.getView().animate({zoom: 16, center: coordinates});
+            }
         });
+        
+        new VectorLayer({
+            map: map,
+            source: new VectorSource({
+                features: [accuracyFeature, positionFeature]
+            }),
+        });
+    }
+    
+    useEffect(() => {
+        
+        console.log('MapPage.init');
 
+        const initialMap = new Map({
+            target: mapElement.current,
+            layers: [
+                tileLayer,
+                flashLayer
+            ],
+            view: view,
+            controls: defaultControls().extend([mousePositionControl]),
+        });
         const select = new Select({});
         initialMap.addInteraction(select);
         const selectedFeatures = select.getFeatures();
@@ -307,6 +344,7 @@ function MapPage({data}) {
               infoBox.innerHTML = 'None';
             }*/
             const names = selectedFeatures.getArray().map(function (feature) {
+                console.log('selected', feature);
                 return feature.get('ECO_NAME');
               })
             console.log('feature', names);
@@ -319,14 +357,12 @@ function MapPage({data}) {
 
         setMap(initialMap);
 
-        //runFlash(flashSource);
     }, []);
 
     
 
     let dialog = null;
     if (controls.flagStartDialog) {
-        console.log('data', data);
         dialog = <StartDialog onDialogClose={startDialogClose} onDialogSubmit={startDialogHandler}></StartDialog>
     }
 
@@ -336,7 +372,9 @@ function MapPage({data}) {
                 <div style={{height:'100vh',width:'100%'}} ref={mapElement} className="map-container" />
                 <BaseMapTopPanel 
                     flagNewBtn={controls.flagNewButton} 
-                    onClickNew={clickNewSimulationBtn}></BaseMapTopPanel>
+                    onClickNew={clickNewSimulationBtn}
+                    telemetry={telemetry}
+                ></BaseMapTopPanel>
             </div>
             {dialog}
         </main>
