@@ -142,8 +142,8 @@ function MapPage({data}) {
             [new SimGeolocationCoordinates(0,0),], // @todo calculate area
             new SimGeolocationCoordinates(0,0) // @todo calculate start point
         ));
-        locateView([target.center.lt, target.center.lg], 14);
-        console.log('startDialogHandler', target);
+        //locateView([target.center.lt, target.center.lg], 16);
+        //console.log('startDialogHandler', target);
         addAreasGeojson(target.geojson.areas);
         addSafetyZonesGeojson(target.geojson.safety);
         showTelemetry();
@@ -230,29 +230,6 @@ function MapPage({data}) {
       map.render();
     }
 
-    const onGeoPostRender = function(data:GeoSimulation) {
-        /*// use sampling period to get a smooth transition
-        let m = Date.now() - deltaMean * 1.5;
-        m = Math.max(m, previousM);
-        previousM = m;
-        // interpolate position along positions LineString
-        const c = positions.getCoordinateAtM(m, true);
-        if (c) {
-            view.setCenter(getCenterWithHeading(c, -c[2], view.getResolution()));
-            view.setRotation(-c[2]);
-            marker.setPosition(c);
-            map.render();
-        }*/
-        //map.getView()
-        console.log('onGeoPostRender', event, data.simulatedPosition?.coords);
-        if (data.simulatedPosition) {
-            //view.setCenter([data.simulatedPosition.coords.longitude, data.simulatedPosition.coords.latitude]);
-            //map.render();
-        }
-        
-        //
-    }
-
 
     const flash = function(feature, duration, map) {
         const start = Date.now();
@@ -275,24 +252,6 @@ function MapPage({data}) {
 
     const showTelemetry = () => {
         setTelemetry(new TelemetryData())
-    }
-
-    const setGeoMarker = function(targetMap) {
-        console.log('ADD/MOVE MARKER!!');
-
-        var marker = new Feature({
-            geometry: new Point(
-              fromLonLat([-74.006,40.7127])
-            ),  // Cordinates of New York's Town Hall
-        });
-        var vectorSource = new VectorSource({
-            features: [marker]
-          });
-
-        var markerVectorLayer = new VectorLayer({
-            source: vectorSource,
-        });
-        targetMap.addLayer(markerVectorLayer);
     }
 
 
@@ -323,16 +282,10 @@ function MapPage({data}) {
             tickTimeout: 100,
             pauseBeforeStart: 5000
         });
-        
-
-        /**/
-        
-
-        // const markerEl = document.getElementById('geo-marker');
-        //     if (markerEl && map) {
-                
-        //     }
-        
+        locateView([startPosition.lg, startPosition.lt], 16);
+        setTimeout(() => {
+            setPointOpacity({opacity: 1});
+        }, 5000);
 
         geoSim.on('change', function () {
             //el('accuracy').innerText = geolocation.getAccuracy() + ' [m]';
@@ -344,22 +297,6 @@ function MapPage({data}) {
             //console.log('speed/heading', geolocation.getSpeed(), geolocation.getHeading());
         });
 
-        
-
-        // -- car
-        // const positionFeature = new Feature();
-        // positionFeature.setStyle(
-        //     new Style({
-        //         image: new Icon(({
-        //             anchor: [0.5, 46],
-        //             anchorXUnits: 'fraction',
-        //             anchorYUnits: 'pixels',
-        //             scale: 0.2,
-        //             src: 'https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car_png.png'
-        //         }))
-        //     })
-        // );
-
         const accuracyFeature = new Feature();
         geoSim.on('change:accuracyGeometry', function () {
             accuracyFeature.setGeometry(geoSim.getAccuracyGeometry());
@@ -368,24 +305,13 @@ function MapPage({data}) {
         geoSim.on('change:position', function () {
             console.log('geoSim change:position');
             const coordinates = geoSim.getPosition();
-            //positionFeature.setGeometry(new Point(coordinates));
             map.getView().setCenter(coordinates);
-
-            setPointOpacity({opacity: 0.5});
-            //console.log('change:position', coordinates);
+            if (geoSim.getHeading() !== 0) {
+                map.getView().setRotation(geoSim.getHeading());
+            }
             
-           // setGeoMarker(coordinates);
-            
-            
-            // https://github.com/openlayers/openlayers/blob/8038a9fd124c08460dcb6016021268d21d102997/examples/geolocation-orientation.js#L97
-            //setGeolocation(geoSim);
+            setPointOpacity({opacity: 1});
         });
-
-        /*if (coordinates) {
-                positionFeature.setGeometry(new Point(coordinates));
-                map.getView().animate({zoom: 18, center: coordinates});
-            }*/
-
         
         setGeolocation(geoSim);
         new VectorLayer({
@@ -394,9 +320,6 @@ function MapPage({data}) {
                 features: [accuracyFeature,] //positionFeature]
             }),
         });
-
-
-        //tileLayer.on('postrender', (e) => onGeoPostRender(geoSim));
     }
     
     useEffect(() => {
@@ -447,14 +370,7 @@ function MapPage({data}) {
         // });
         // initialMap.addOverlay(markerOverlay);
 
-        setGeoMarker(initialMap);
-
         setMap(initialMap);
-
-        
-        //tileLayer.on('postrender', () => onPostRender());
-
-
 
     }, []);
 
@@ -471,7 +387,7 @@ function MapPage({data}) {
             <div id="main-wrapper" className={controls.mainContainerClass}>
                 <div style={{height:'100vh',width:'100%'}} ref={mapElement} className="map-container" />
                 <div id="geo-marker" style={pointOpacity}>
-                    <img src="https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car_png.png" alt="car" />
+                    <img src="https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car.svg" alt="car" />
                 </div>
                 <BaseMapTopPanel 
                     flagNewBtn={controls.flagNewButton} 
