@@ -1,9 +1,19 @@
+class MovementParameters {
+    speed: number;
+    direction: number;
+
+    constructor(speed:number, direction:number) {
+        this.speed = speed;
+        this.direction = direction;
+    }
+}
+
 class MovementSimulator {
 
     speed: number;
+    throttle: number;
     directionAngle: number;
 
-    flagReverse: boolean;
     flagGas: boolean;
     flagBrakes: boolean;
     damageLevel: number;
@@ -12,7 +22,7 @@ class MovementSimulator {
     constructor() {
         window.addEventListener("keydown", this.keyHandler.bind(this), false);
         this.speed = 0;
-        this.flagReverse = false;
+        this.throttle = 0;
         this.flagGas = false;
         this.flagBrakes = false;
         this.directionAngle = 0;
@@ -39,7 +49,7 @@ class MovementSimulator {
     }
 
     tick() {
-        if (this.directionAngle > 0) {
+        /*if (this.directionAngle > 0) {
             this.directionAngle--;
         } else if (this.directionAngle < 0) {
             this.directionAngle++;
@@ -49,8 +59,38 @@ class MovementSimulator {
         } else if (this.speed > 0) {
             this.speed--;
         }
+        this.flagGas = false;*/
+        if (this.flagGas) {
+            this.throttle++;
+            if (this.speed === 0) {
+                this.speed = 1;
+            }
+        } else if (this.throttle > 0) {
+            this.throttle--;
+        }
         this.flagGas = false;
+        this.checkGear();
+        
     }
+
+    checkGear() {
+        if (this.throttle > 10) {
+            this.speed++;
+            this.throttle = 1;
+        }
+        if (this.throttle <= 0 && this.speed > 0) {
+            this.speed--;
+            this.throttle = 10;
+        }
+        //console.log('movement.checkGear', this.speed, this.throttle);
+    }
+
+    getParameters(): MovementParameters {
+        return new MovementParameters(this.speed, this.directionAngle);
+    }
+
+
 }
 
+export {MovementParameters};
 export default MovementSimulator;

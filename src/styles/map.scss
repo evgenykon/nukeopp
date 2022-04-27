@@ -257,3 +257,13 @@ main {
         }
     }
 }
+#geo-marker {
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 10px);
+}

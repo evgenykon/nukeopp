@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Map, View } from 'ol';
+import ReactDOM from 'react-dom';
+import { Map, Overlay, View } from 'ol';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import { graphql } from 'gatsby';
 import Feature from 'ol/Feature';
 import {Circle as CircleStyle, Fill, Icon, IconImage, Stroke, Style} from 'ol/style';
 import {OSM, Vector, Vector as VectorSource} from 'ol/source';
+import Stamen from 'ol/source/Stamen';
+
 import Zoom from 'ol/control/Zoom';
 import Rotate from 'ol/control/Rotate';
-import {fromLonLat} from 'ol/proj';
+import {fromLonLat, Projection} from 'ol/proj';
 import Point from 'ol/geom/Point';
 import GeoSimulation from '../geosimulation/GeoSimulation';
 import MousePosition from 'ol/control/MousePosition';
@@ -30,6 +33,9 @@ import {easeOut} from 'ol/easing';
 import { EventsKey } from 'ol/events';
 import { ITelemetryData, TelemetryData } from '../geosimulation/TelemetryData';
 import Calculations from '../helpers/Calculations';
+import ImageLayer from 'ol/layer/Image';
+import Static from 'ol/source/ImageStatic';
+
 
 
 export const query  = graphql`
@@ -85,16 +91,16 @@ function MapPage({data}) {
     const mapElement = useRef();
     const mapRef = useRef();
     const [target, setTarget] = useState<StrategyTarget>();
-    const [geolocation, setGeolocation] = useState();
+    const [geolocation, setGeolocation] = useState<GeoSimulation>();
     const [accuracyFeature, setAccuracyFeature] = useState();
     const [positionFeature, setPositionFeature] = useState();
-    const [vectorSource, setVectorSource] = useState({
-        features: [
-            //accuracyFeature, positionFeature
-        ],
-    });
+    const [markerOverlay, setMarkerOverlay] = useState<Overlay>();
+    const [pointOpacity, setPointOpacity] = useState({opacity: 0});
+
     const [tileLayer, setTileLayer] = useState(new TileLayer({
-        source: new OSM({}),
+        source: new Stamen({
+            layer: 'watercolor',
+          }), //new OSM({}),
     }));
     const [flashSource, setFlashSource] = useState(new VectorSource({
         wrapX: false,
@@ -136,7 +142,7 @@ function MapPage({data}) {
             [new SimGeolocationCoordinates(0,0),], // @todo calculate area
             new SimGeolocationCoordinates(0,0) // @todo calculate start point
         ));
-        locateView([target.center.lt, target.center.lg], 10);
+        locateView([target.center.lt, target.center.lg], 14);
         console.log('startDialogHandler', target);
         addAreasGeojson(target.geojson.areas);
         addSafetyZonesGeojson(target.geojson.safety);
@@ -195,7 +201,7 @@ function MapPage({data}) {
         projection: 'EPSG:4326',
     });
 
-    const animate = function(event, start, duration, flashGeom, map) {
+    const onFlashPostrender = function(event, start, duration, flashGeom, map) {
       const frameState = event.frameState;
       const elapsed = frameState.time - start;
       if (elapsed >= duration && listenerKey) {
@@ -224,10 +230,34 @@ function MapPage({data}) {
       map.render();
     }
 
+    const onGeoPostRender = function(data:GeoSimulation) {
+        /*// use sampling period to get a smooth transition
+        let m = Date.now() - deltaMean * 1.5;
+        m = Math.max(m, previousM);
+        previousM = m;
+        // interpolate position along positions LineString
+        const c = positions.getCoordinateAtM(m, true);
+        if (c) {
+            view.setCenter(getCenterWithHeading(c, -c[2], view.getResolution()));
+            view.setRotation(-c[2]);
+            marker.setPosition(c);
+            map.render();
+        }*/
+        //map.getView()
+        console.log('onGeoPostRender', event, data.simulatedPosition?.coords);
+        if (data.simulatedPosition) {
+            //view.setCenter([data.simulatedPosition.coords.longitude, data.simulatedPosition.coords.latitude]);
+            //map.render();
+        }
+        
+        //
+    }
+
+
     const flash = function(feature, duration, map) {
         const start = Date.now();
         const flashGeom = feature.getGeometry().clone();
-        const eventKey = flashLayer.on('postrender', (e) => animate(e, start, duration, flashGeom, map));
+        const eventKey = flashLayer.on('postrender', (e) => onFlashPostrender(e, start, duration, flashGeom, map));
         setListenerKey(eventKey);
     }
 
@@ -243,13 +273,28 @@ function MapPage({data}) {
         flashSource.addFeature(feature);
     }
 
-    const startTimers = () => {
-        /*setTimeout(() => {runFlash(flashSource);},5000);*/
-    }
-
     const showTelemetry = () => {
         setTelemetry(new TelemetryData())
     }
+
+    const setGeoMarker = function(targetMap) {
+        console.log('ADD/MOVE MARKER!!');
+
+        var marker = new Feature({
+            geometry: new Point(
+              fromLonLat([-74.006,40.7127])
+            ),  // Cordinates of New York's Town Hall
+        });
+        var vectorSource = new VectorSource({
+            features: [marker]
+          });
+
+        var markerVectorLayer = new VectorLayer({
+            source: vectorSource,
+        });
+        targetMap.addLayer(markerVectorLayer);
+    }
+
 
     const startGeoposition = (formData, payload) => {
         console.log('startGeoposition formData', formData);
@@ -267,55 +312,91 @@ function MapPage({data}) {
         }
         console.log('startGeoposition filter', startPosition);
 
-        const geolocation = new GeoSimulation({
+        const geoSim = new GeoSimulation({
             projection: view.getProjection(),
-            tracking: true
+            tracking: true,
+            startPosition: {
+                long: startPosition.lg,
+                lat: startPosition.lt,
+                heading: 0 // @todo
+            },
+            tickTimeout: 100,
+            pauseBeforeStart: 5000
         });
-        geolocation.run(startPosition.lt, startPosition.lg, 5000);
+        
 
-        geolocation.on('change', function () {
+        /**/
+        
+
+        // const markerEl = document.getElementById('geo-marker');
+        //     if (markerEl && map) {
+                
+        //     }
+        
+
+        geoSim.on('change', function () {
             //el('accuracy').innerText = geolocation.getAccuracy() + ' [m]';
             //el('altitude').innerText = geolocation.getAltitude() + ' [m]';
             //el('altitudeAccuracy').innerText = geolocation.getAltitudeAccuracy() + ' [m]';
             //el('heading').innerText = geolocation.getHeading() + ' [rad]';
             //el('speed').innerText = geolocation.getSpeed() + ' [m/s]';
             //console.log('change', geolocation.position_);
-            console.log('speed/heading', geolocation.getSpeed(), geolocation.getHeading());
+            //console.log('speed/heading', geolocation.getSpeed(), geolocation.getHeading());
         });
+
+        
 
         // -- car
-        const positionFeature = new Feature();
-        positionFeature.setStyle(
-            new Style({
-                image: new Icon(({
-                    anchor: [0.5, 46],
-                    anchorXUnits: 'fraction',
-                    anchorYUnits: 'pixels',
-                    scale: 0.2,
-                    src: 'https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car_png.png'
-                }))
-            })
-        );
+        // const positionFeature = new Feature();
+        // positionFeature.setStyle(
+        //     new Style({
+        //         image: new Icon(({
+        //             anchor: [0.5, 46],
+        //             anchorXUnits: 'fraction',
+        //             anchorYUnits: 'pixels',
+        //             scale: 0.2,
+        //             src: 'https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car_png.png'
+        //         }))
+        //     })
+        // );
 
         const accuracyFeature = new Feature();
-        geolocation.on('change:accuracyGeometry', function () {
-            accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+        geoSim.on('change:accuracyGeometry', function () {
+            accuracyFeature.setGeometry(geoSim.getAccuracyGeometry());
         });
 
-        geolocation.on('change:position', function () {
-            const coordinates = geolocation.getPosition();
-            if (coordinates) {
-                positionFeature.setGeometry(new Point(coordinates));
-                map.getView().animate({zoom: 16, center: coordinates});
-            }
+        geoSim.on('change:position', function () {
+            console.log('geoSim change:position');
+            const coordinates = geoSim.getPosition();
+            //positionFeature.setGeometry(new Point(coordinates));
+            map.getView().setCenter(coordinates);
+
+            setPointOpacity({opacity: 0.5});
+            //console.log('change:position', coordinates);
+            
+           // setGeoMarker(coordinates);
+            
+            
+            // https://github.com/openlayers/openlayers/blob/8038a9fd124c08460dcb6016021268d21d102997/examples/geolocation-orientation.js#L97
+            //setGeolocation(geoSim);
         });
+
+        /*if (coordinates) {
+                positionFeature.setGeometry(new Point(coordinates));
+                map.getView().animate({zoom: 18, center: coordinates});
+            }*/
+
         
+        setGeolocation(geoSim);
         new VectorLayer({
             map: map,
             source: new VectorSource({
-                features: [accuracyFeature, positionFeature]
+                features: [accuracyFeature,] //positionFeature]
             }),
         });
+
+
+        //tileLayer.on('postrender', (e) => onGeoPostRender(geoSim));
     }
     
     useEffect(() => {
@@ -326,36 +407,54 @@ function MapPage({data}) {
             target: mapElement.current,
             layers: [
                 tileLayer,
+                new TileLayer({
+                    source: new Stamen({
+                      layer: 'terrain-labels',
+                    }),
+                }),
                 flashLayer
             ],
             view: view,
             controls: defaultControls().extend([mousePositionControl]),
         });
-        const select = new Select({});
-        initialMap.addInteraction(select);
-        const selectedFeatures = select.getFeatures();
-        selectedFeatures.on(['add', 'remove'], function () {
-            /*const names = selectedFeatures.getArray().map(function (feature) {
-              return feature.get('ECO_NAME');
-            });
-            if (names.length > 0) {
-              infoBox.innerHTML = names.join(', ');
-            } else {
-              infoBox.innerHTML = 'None';
-            }*/
-            const names = selectedFeatures.getArray().map(function (feature) {
-                console.log('selected', feature);
-                return feature.get('ECO_NAME');
-              })
-            console.log('feature', names);
-        });
 
-        flashSource.on('addfeature', function (e) {
-            console.log('addfeature', e);
-            flash(e.feature, 5000, initialMap);
-        });
+        // const select = new Select({});
+        // initialMap.addInteraction(select);
+        // const selectedFeatures = select.getFeatures();
+        // selectedFeatures.on(['add', 'remove'], function () {
+        //     const names = selectedFeatures.getArray().map(function (feature) {
+        //         console.log('selected', feature);
+        //         return feature.get('ECO_NAME');
+        //       })
+        //     console.log('feature', names);
+        // });
+
+        // flashSource.on('addfeature', function (e) {
+        //     console.log('addfeature', e);
+        //     flash(e.feature, 5000, initialMap);
+        // });
+
+        initialMap.render();
+
+        //console.log('add overlay');
+        //markerElement.current.src = 'https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car_png.png';
+        //setMarkerOverlay();
+        // const markerOverlay = new Overlay({
+        //     positioning: 'center-center',
+        //     position: [0,0],
+        //     element: ReactDOM.findDOMNode(document).querySelector('#geo-marker'),
+        //     stopEvent: false,
+        // });
+        // initialMap.addOverlay(markerOverlay);
+
+        setGeoMarker(initialMap);
 
         setMap(initialMap);
+
+        
+        //tileLayer.on('postrender', () => onPostRender());
+
+
 
     }, []);
 
@@ -366,10 +465,14 @@ function MapPage({data}) {
         dialog = <StartDialog onDialogClose={startDialogClose} onDialogSubmit={startDialogHandler}></StartDialog>
     }
 
+
     return (
         <main>
             <div id="main-wrapper" className={controls.mainContainerClass}>
                 <div style={{height:'100vh',width:'100%'}} ref={mapElement} className="map-container" />
+                <div id="geo-marker" style={pointOpacity}>
+                    <img src="https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car_png.png" alt="car" />
+                </div>
                 <BaseMapTopPanel 
                     flagNewBtn={controls.flagNewButton} 
                     onClickNew={clickNewSimulationBtn}
@@ -380,5 +483,7 @@ function MapPage({data}) {
         </main>
     );
 }
+
+
 
 export default MapPage;
