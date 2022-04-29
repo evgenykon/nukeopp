@@ -176,6 +176,7 @@ class GeoSimulation extends BaseObject implements IGeoSimulation {
     }
     this.handleTrackingChanged_();
     this.calculator = new GeoPositionCalculator(this.movement.getParameters(), this.simulatedPosition.coords);
+    // calculate next coords according to movement parameters
     const coordinates = this.calculator.getNextStepCoordinates()
     this.simulatedPosition = new SimGeolocation(coordinates.latitude, coordinates.longitude, coordinates.speed ?? 0, coordinates.heading ?? 0);
     this.positionChange_(this.simulatedPosition);
