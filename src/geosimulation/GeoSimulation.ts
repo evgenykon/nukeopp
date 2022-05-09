@@ -98,6 +98,7 @@ class GeoSimulation extends BaseObject implements IGeoSimulation {
   position_: Coordinate | null;
   transform_: TransformFunction;
   watchId_: number | undefined;
+  startPosition: Coordinate;
 
 
   /**
@@ -145,7 +146,10 @@ class GeoSimulation extends BaseObject implements IGeoSimulation {
 
     this.setTracking(options.tracking !== undefined ? options.tracking : false);
 
+
+    console.log('GeoSim start', options);
     if (options.startPosition !== undefined) {
+      console.log('GeoSim start pos', options.startPosition);
       this.simulatedPosition = new SimGeolocation(options.startPosition.lat, options.startPosition.long, 0, options.startPosition.heading);
     } else {
       this.simulatedPosition = new SimGeolocation(0, 0, 0, 0);

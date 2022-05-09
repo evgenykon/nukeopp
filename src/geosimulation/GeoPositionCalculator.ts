@@ -25,15 +25,14 @@ class GeoPositionCalculator {
         let position = this.current;
         const rotateKoef = 1;
         const distancePerSecond = this.movement.speed * this.speedKoef;
-        console.log('getNextStepCoordinates distancePerSecond', distancePerSecond);
+        //console.log('getNextStepCoordinates distancePerSecond', distancePerSecond);
         const heading = this.movement.direction * this.movement.speed * rotateKoef;
-        const deltaLong = distancePerSecond * Math.sin(this.toRadians_(90 - heading));
-        console.log('getNextStepCoordinates deltaLong', deltaLong);
-        const deltaLat = distancePerSecond * Math.cos(this.toRadians_(90 - heading));
+        const deltaLong = distancePerSecond * Math.sin(this.toRadians_(heading));
+        const deltaLat = distancePerSecond * Math.cos(this.toRadians_(heading));
         position.latitude += deltaLat;
         position.longitude += deltaLong;
         position.speed = this.movement.speed;
-        position.heading = heading;
+        position.heading = heading ? heading * -1 : 0;
         return position;
     }
 }

@@ -56,8 +56,8 @@ query sim {
                 lg
               }
               center {
-                lg
-                lt
+                long
+                lat
               }
               allowedStartPoints {
                 dist
@@ -142,7 +142,6 @@ function MapPage({data}) {
             [new SimGeolocationCoordinates(0,0),], // @todo calculate area
             new SimGeolocationCoordinates(0,0) // @todo calculate start point
         ));
-        //locateView([target.center.lt, target.center.lg], 16);
         //console.log('startDialogHandler', target);
         addAreasGeojson(target.geojson.areas);
         addSafetyZonesGeojson(target.geojson.safety);
@@ -285,7 +284,7 @@ function MapPage({data}) {
         locateView([startPosition.lg, startPosition.lt], 16);
         setTimeout(() => {
             setPointOpacity({opacity: 1});
-        }, 5000);
+        }, 5000)
 
         geoSim.on('change', function () {
             //el('accuracy').innerText = geolocation.getAccuracy() + ' [m]';
@@ -303,8 +302,8 @@ function MapPage({data}) {
         });
 
         geoSim.on('change:position', function () {
-            console.log('geoSim change:position');
             const coordinates = geoSim.getPosition();
+            console.log('geoSim change:position', coordinates);
             map.getView().setCenter(coordinates);
             if (geoSim.getHeading() !== 0) {
                 map.getView().setRotation(geoSim.getHeading());
