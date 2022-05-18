@@ -12,8 +12,8 @@ class GeoPositionCalculator {
         this.current = current;
     }
 
-    getHeading() {
-        return 0; // @todo old heading + new direction
+    get newHeading() {
+        return this.movement.direction + (this.current.heading ?? 0);
     }
 
     getNextStepCoordinates(): SimGeolocationCoordinates {
@@ -23,13 +23,13 @@ class GeoPositionCalculator {
         );
         const result = currentPoint.destinationPoint(
             this.movement.distancePerSecond,
-            this.movement.direction + (this.current.heading ?? 0)
+            this.newHeading
         );
         return new SimGeolocationCoordinates(
             result.lat,
             result.lon,
-            this.movement.distancePerHour,
-            this.getHeading()
+            this.movement.speed,
+            this.newHeading
         );
 
         // let position = this.current;
