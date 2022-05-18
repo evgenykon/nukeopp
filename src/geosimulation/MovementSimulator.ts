@@ -25,7 +25,7 @@ class MovementParameters {
     readonly coefs: GearCoefficients = new GearCoefficients();
     
     readonly maxThrottle:number = 7000; // max rotations per second
-    readonly oneDirectRotation = 0.03; // meters per direct rotation
+    readonly oneDirectRotation = 1.7; // meters per direct rotation
 
     constructor(direction:number = 0, gear:number = 0, throttle:number = 0, damage:number = 0) {
         this.direction = direction;
@@ -124,7 +124,7 @@ class MovementParameters {
      * Расстояние в км/час при текущей конфигурации
      */
     get speed(): number {
-        return this.distancePerSecond * 60 * 3.6;
+        return this.distancePerSecond * 3.6;
     }
 }
 
