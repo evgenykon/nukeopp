@@ -15,7 +15,7 @@ import SimGeolocation from "../geosimulation/SimGeolocation";
 
 
 //const center = fromLonLat([2.364, 48.82]);
-const initialGeolocation = new SimGeolocation(37.616, 55.750, 0, 0);
+const initialGeolocation = new SimGeolocation(55.750, 37.616, 0, 0);
 const initialCenter = [initialGeolocation.coords.longitude, initialGeolocation.coords.latitude];
 
 // Границы зоны 

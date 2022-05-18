@@ -1,9 +1,8 @@
 import { MovementParameters } from "./MovementSimulator";
 import SimGeolocationCoordinates from "./SimGeolocationCoordinates";
+import LatLon from '../helpers/Geodesy';
 
 class GeoPositionCalculator {
-
-    readonly speedKoef = 0.0001;
 
     movement: MovementParameters;
     current: SimGeolocationCoordinates;
@@ -13,27 +12,34 @@ class GeoPositionCalculator {
         this.current = current;
     }
 
-    toDegrees_ (angle: number): number {
-        return angle * (180 / Math.PI);
-    }
-
-    toRadians_ (angle: number): number {
-        return angle * (Math.PI / 180);
+    getHeading() {
+        return 0; // @todo old heading + new direction
     }
 
     getNextStepCoordinates(): SimGeolocationCoordinates {
-        let position = this.current;
-        const rotateKoef = 1;
-        const distancePerSecond = this.movement.speed * this.speedKoef;
-        //console.log('getNextStepCoordinates distancePerSecond', distancePerSecond);
-        const heading = this.movement.direction * this.movement.speed * rotateKoef;
-        const deltaLong = distancePerSecond * Math.sin(this.toRadians_(heading));
-        const deltaLat = distancePerSecond * Math.cos(this.toRadians_(heading));
-        position.latitude += deltaLat;
-        position.longitude += deltaLong;
-        position.speed = this.movement.speed;
-        position.heading = heading ? heading * -1 : 0;
-        return position;
+        const currentPoint = new LatLon(
+            this.current.latitude,
+            this.current.longitude
+        );
+        const result = currentPoint.destinationPoint(
+            this.movement.distancePerSecond,
+            this.movement.direction + (this.current.heading ?? 0)
+        );
+        return new SimGeolocationCoordinates(
+            result.lat,
+            result.lon,
+            this.movement.distancePerHour,
+            this.getHeading()
+        );
+
+        // let position = this.current;
+        // position.latitude += this.getDeltaLatitude();
+        // position.longitude += this.getDeltaLongitude();
+        // position.speed = this.movement.speed;
+        // position.heading = Calculations.toRadians(this.getHeading());
+        // return position;
+        // use geo bearing formula http://www.movable-type.co.uk/scripts/latlong.html
+        // https://www.npmjs.com/package/geodesy
     }
 }
 
