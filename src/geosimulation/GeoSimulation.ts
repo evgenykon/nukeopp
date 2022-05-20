@@ -171,10 +171,11 @@ class GeoSimulation extends BaseObject implements IGeoSimulation {
    */
   tick() {
     if (!this.simulatedPosition) {
+      console.log('No position');
       return;
     }
     this.movement.tick();
-    if (this.movement.speed <= 0) {
+    if (this.movement.movement.speed <= 0) {
       return;
     }
     this.handleTrackingChanged_();

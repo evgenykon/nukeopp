@@ -80,34 +80,32 @@ export default function TestMapView(): JSX.Element {
         const coords = e.map.getCoordinateFromPixel(e.pixel);
         const lonlat = toLonLat(coords);
         console.log('click coords:', {long_x: lonlat[0], lat_y: lonlat[1]}, view);
-        //setCenter(coords);
-        //setView({ center: coords, zoom: 16, rotation: view.rotation }); 
         flashRadius();
     }
     const onGeopositionChange = (e: BaseEvent) => {
-        console.log('geolocationsim change', e);
-        // Note the use of function instead of an arrow lambda which does not have this
-        /*const geoloc = e.target as OLGeoLoc;
-        setPos(new Point(geoloc.getPosition()));
-        setAccuracy(geoloc.getAccuracyGeometry());
-        this.context.map.getView().fit(geoloc.getAccuracyGeometry(), {
-            duration: 250,
-            maxZoom: 15,
-        });*/
+        const lat = e.target.position_[0];
+        const long = e.target.position_[1];
+        console.log('geolocationsim change', e.target.position_, );
+        
+        setCenter(fromLonLat([long, lat]));
+        setView({ center: fromLonLat([long, lat]), zoom: 16, rotation: view.rotation }); 
+        
     }
 
-
+/*noDefaultInteractions={true}
+maxZoom={16}
+                minZoom={15}*/
     return (
+        
         <React.Fragment>
             <RMapCustom
                 width={"100%"} height={"100vh"} 
-                maxZoom={16}
-                minZoom={15}
+                
                 /* extent={extent} */
                 initial={view} 
                 view={[view, setView]} 
                 noDefaultControls={true}
-                noDefaultInteractions={true}
+            
                 onClick={useCallback((e: MapBrowserEvent<UIEvent>) => onMapClick(e), [])}
                 onMoveEnd={useCallback((e) => onMapChange(e), [])}
             >

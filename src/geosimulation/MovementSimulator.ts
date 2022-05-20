@@ -39,7 +39,7 @@ class MovementParameters {
             this.throttle = this.maxThrottle;
             return;
         }
-        this.throttle += 10;
+        this.throttle += 2500;
     }
 
     decThrottle(value:number) {
@@ -75,22 +75,28 @@ class MovementParameters {
             this.incGear();
         }
         this.incThrottle();
+        console.log('D', this.gear, this.throttle);
     }
 
     onAutoRotation() {
-        this.decThrottle(10);
+        this.decThrottle(2000);
         if (this.throttle < 100 && this.gear > 0) {
             this.decGear();
             this.throttle = this.maxThrottle;
         }
+        if (this.gear <= 0) {
+            this.decThrottle(1000);
+        }
+       // console.log('A', this.gear, this.throttle);
     }
 
     onStop() {
-        this.decThrottle(100);
+        this.decThrottle(3000);
         if (this.throttle < 100 && this.gear > 0) {
             this.decGear();
             this.throttle = this.maxThrottle;
         }
+       // console.log('S', this.gear, this.throttle);
     }
 
     onReset() {
@@ -152,7 +158,7 @@ class MovementSimulator {
             this.flagGas = false;
             this.flagBrakes = true;
         } else if (event.code == 'ArrowUp') { // ArrowDown, ArrowRight, ArrowLeft, Escape
-            console.log('....up....')
+            //console.log('....up....')
             this.flagGas = true;
             this.flagBrakes = false;
         } else if (event.code == 'ArrowLeft') {
