@@ -25,21 +25,14 @@ class GeoPositionCalculator {
             this.movement.distancePerSecond,
             this.newHeading
         );
-        return new SimGeolocationCoordinates(
+        const coords = new SimGeolocationCoordinates(
             result.lat,
             result.lon,
             this.movement.speed,
             this.newHeading
         );
-
-        // let position = this.current;
-        // position.latitude += this.getDeltaLatitude();
-        // position.longitude += this.getDeltaLongitude();
-        // position.speed = this.movement.speed;
-        // position.heading = Calculations.toRadians(this.getHeading());
-        // return position;
-        // use geo bearing formula http://www.movable-type.co.uk/scripts/latlong.html
-        // https://www.npmjs.com/package/geodesy
+        coords.setMeta(this.movement);
+        return coords;
     }
 }
 

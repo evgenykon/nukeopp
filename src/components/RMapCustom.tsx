@@ -128,7 +128,6 @@ export default class RMapCustom extends RlayersBase<RMapCustomProps, Record<stri
             if (!prevProps || this.props[p] !== prevProps[p]) view['set' + m](this.props[p]);
         }
         if (this.props.view) {
-            console.log('RMapCustom.refresh', this.props.view);
             view.setCenter(this.props.view[0].center);
             view.setZoom(this.props.view[0].zoom);
             view.setRotation(this.props.view[0].rotation);

@@ -1,9 +1,8 @@
 class SimulationTimers {
+    
     tickTimeout: number;
     pauseBeforeStart: number;
-
     tickTimer: number | null;
-
     onTickCallback: Function;
 
     constructor(tickTimeout:number, pauseBeforeStart:number, onTickCallback:Function) {

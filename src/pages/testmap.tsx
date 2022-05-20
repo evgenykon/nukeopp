@@ -12,6 +12,7 @@ import { Fill, Style } from "ol/style";
 import RGeolocationSim from "../components/RGeolocationSim";
 import BaseEvent from "ol/events/Event";
 import SimGeolocation from "../geosimulation/SimGeolocation";
+import { MovementParameters } from "../geosimulation/MovementSimulator";
 
 
 //const center = fromLonLat([2.364, 48.82]);
@@ -48,6 +49,7 @@ export default function TestMapView(): JSX.Element {
     // ===== States =====
     const [center, setCenter] = React.useState(fromLonLat(initialCenter));
     const [view, setView] = React.useState<RViewCustom>({ center: center, zoom: 15, rotation: 0 });
+    const [movement, setMovement] = React.useState<MovementParameters>(new MovementParameters());
     const flashRef = React.useRef() as React.RefObject<RFeature>;
 
     // ===== On mount component =====
@@ -74,7 +76,7 @@ export default function TestMapView(): JSX.Element {
 
     // ===== Events ======
     const onMapChange = () => {
-        console.log('onMapChange');
+        //console.log('onMapChange');
     }
     const onMapClick = (e: MapBrowserEvent<UIEvent>) => {
         const coords = e.map.getCoordinateFromPixel(e.pixel);
@@ -85,11 +87,10 @@ export default function TestMapView(): JSX.Element {
     const onGeopositionChange = (e: BaseEvent) => {
         const lat = e.target.position_[0];
         const long = e.target.position_[1];
-        console.log('geolocationsim change', e.target.position_, );
-        
+        //console.log('geolocationsim change', e.target.position_, e.target.movement.movement);
         setCenter(fromLonLat([long, lat]));
         setView({ center: fromLonLat([long, lat]), zoom: 16, rotation: view.rotation }); 
-        
+        setMovement(e.target.movement.movement);
     }
 
 /*noDefaultInteractions={true}
@@ -155,6 +156,14 @@ maxZoom={16}
                     onChange={React.useCallback(e => onGeopositionChange(e), [])}
                 />
             </RMapCustom>
+            <div style={{position: 'absolute', width: '100%', top: 0, height: '30px', backgroundColor: 'rgb(54 54 54 / 80%)', 
+            display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr', color: '#fff', padding: '0.1rem', boxSizing: 'border-box'}}>
+                <div>Gea {movement.gear}</div>
+                <div>Trt {movement.throttle}</div>
+                <div>Spd {Math.round(movement.speed)}</div>
+                <div>Dmg {movement.damage}</div>
+                <div>Dir {movement.direction}</div>
+            </div>
         </React.Fragment>
     );
 }

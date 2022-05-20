@@ -1,3 +1,5 @@
+import { MovementParameters } from "./MovementSimulator";
+
 class SimGeolocationCoordinates implements GeolocationCoordinates {
   accuracy: number;
   altitude: number | null;
@@ -6,6 +8,7 @@ class SimGeolocationCoordinates implements GeolocationCoordinates {
   latitude: number;
   longitude: number;
   speed: number | null;
+  meta: MovementParameters | null;
 
   /**
    * @param latitude Y широта
@@ -21,6 +24,14 @@ class SimGeolocationCoordinates implements GeolocationCoordinates {
       this.latitude = latitude;
       this.longitude = longitude;
       this.speed = speed;
+      this.meta = null;
+  }
+
+  /**
+   * @param meta 
+   */
+  setMeta(meta: MovementParameters) {
+    this.meta = meta;
   }
 }
 

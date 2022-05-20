@@ -8,8 +8,8 @@ test("movingNorth", () => {
         new MovementParameters(0, 1, 7000),
         new SimGeolocationCoordinates(0.0, 0.0, 0, 0)
     );
-    expect(Math.round(calc.getNextStepCoordinates().latitude * 1000)).toBe(108);
-    expect(Math.round(calc.getNextStepCoordinates().longitude * 1000)).toBe(0);
+    expect(Math.round(calc.getNextStepCoordinates().latitude * 100000)).toBe(12);
+    expect(Math.round(calc.getNextStepCoordinates().longitude * 100000)).toBe(0);
 });
 
 test("movingSouth", () => {
@@ -17,8 +17,8 @@ test("movingSouth", () => {
         new MovementParameters(0, 1, 7000),
         new SimGeolocationCoordinates(0.0, 0.0, 0, 180)
     );
-    expect(Math.round(calc.getNextStepCoordinates().latitude * 1000)).toBe(-108);
-    expect(Math.round(calc.getNextStepCoordinates().longitude * 1000)).toBe(0);
+    expect(Math.round(calc.getNextStepCoordinates().latitude * 100000)).toBe(-12);
+    expect(Math.round(calc.getNextStepCoordinates().longitude * 100000)).toBe(0);
 });
 
 test("movingEast", () => {
@@ -26,8 +26,8 @@ test("movingEast", () => {
         new MovementParameters(0, 1, 7000),
         new SimGeolocationCoordinates(0.0, 0.0, 0, 90)
     );
-    expect(Math.round(calc.getNextStepCoordinates().latitude * 1000)).toBe(0);
-    expect(Math.round(calc.getNextStepCoordinates().longitude * 1000)).toBe(107);
+    expect(Math.round(calc.getNextStepCoordinates().latitude * 100000)).toBe(0);
+    expect(Math.round(calc.getNextStepCoordinates().longitude * 100000)).toBe(12);
 });
 
 test("movingWest", () => {
@@ -35,6 +35,6 @@ test("movingWest", () => {
         new MovementParameters(0, 1, 7000),
         new SimGeolocationCoordinates(0.0, 0.0, 0, 270)
     );
-    expect(Math.round(calc.getNextStepCoordinates().latitude * 1000)).toBe(-0);
-    expect(Math.round(calc.getNextStepCoordinates().longitude * 1000)).toBe(-107);
+    expect(Math.round(calc.getNextStepCoordinates().latitude * 100000)).toBe(-0);
+    expect(Math.round(calc.getNextStepCoordinates().longitude * 100000)).toBe(-12);
 });

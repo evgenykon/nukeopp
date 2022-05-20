@@ -11,11 +11,12 @@
  } from 'ol/proj.js';
  import {toRadians} from 'ol/math.js';
 import SimGeolocation from './SimGeolocation';
-import MovementSimulator from './MovementSimulator';
+import MovementSimulator, { MovementParameters } from './MovementSimulator';
 import GeoSimulationError from './GeoSimulationError';
 import { Coordinate } from 'ol/coordinate';
 import SimulationTimers from './SimulationTimers';
 import GeoPositionCalculator from './GeoPositionCalculator';
+import SimGeolocationCoordinates from './SimGeolocationCoordinates';
 
 
  /**
@@ -148,16 +149,25 @@ class GeoSimulation extends BaseObject implements IGeoSimulation {
 
     console.log('GeoSim start', options, options.startPosition.coords);
     if (options.startPosition !== undefined) {
-      this.simulatedPosition = new SimGeolocation(options.startPosition.coords.longitude, options.startPosition.coords.latitude, 0, options.startPosition.heading);
+      this.simulatedPosition = new SimGeolocation(
+        options.startPosition.coords.longitude, 
+        options.startPosition.coords.latitude, 
+        0, 
+        options.startPosition.heading,
+        new MovementParameters()
+      );
       
     } else {
-      this.simulatedPosition = new SimGeolocation(0, 0, 0, 0);
+      this.simulatedPosition = new SimGeolocation(0, 0, 0, 0, new MovementParameters());
     }
 
-    this.calculator = new GeoPositionCalculator(this.movement.getParameters(), this.simulatedPosition.coords);
+    this.calculator = new GeoPositionCalculator(
+      this.movement.getParameters(), 
+      this.simulatedPosition.coords
+    );
 
     this.timers = new SimulationTimers(
-      options.tickTimeout !== undefined ? options.tickTimeout : 1000,
+      options.tickTimeout !== undefined ? options.tickTimeout : 500,
       options.pauseBeforeStart !== undefined ? options.pauseBeforeStart : 0,
       () => {
         this.tick();
@@ -179,10 +189,18 @@ class GeoSimulation extends BaseObject implements IGeoSimulation {
       return;
     }
     this.handleTrackingChanged_();
-    this.calculator = new GeoPositionCalculator(this.movement.getParameters(), this.simulatedPosition.coords);
-    // calculate next coords according to movement parameters
+    this.calculator = new GeoPositionCalculator(
+      this.movement.getParameters(), 
+      this.simulatedPosition.coords
+    );
     const coordinates = this.calculator.getNextStepCoordinates()
-    this.simulatedPosition = new SimGeolocation(coordinates.latitude, coordinates.longitude, coordinates.speed ?? 0, coordinates.heading ?? 0);
+    this.simulatedPosition = new SimGeolocation(
+      coordinates.latitude, 
+      coordinates.longitude, 
+      coordinates.speed ?? 0, 
+      coordinates.heading ?? 0,
+      this.movement.getParameters()
+    );
     this.positionChange_(this.simulatedPosition);
   }
  

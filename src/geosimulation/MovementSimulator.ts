@@ -6,9 +6,9 @@ class GearCoefficients {
         1, // 1
         1.5, // 2
         2, // 3
-        2.5, // 4
-        3, // 5
-        3.5 // 6
+        3.5, // 4
+        4.5, // 5
+        5.5 // 6
     ];
     getForGear(gear: number) {
         return this.coefs[gear+1];
@@ -96,7 +96,6 @@ class MovementParameters {
             this.decGear();
             this.throttle = this.maxThrottle;
         }
-       // console.log('S', this.gear, this.throttle);
     }
 
     onReset() {
@@ -123,7 +122,7 @@ class MovementParameters {
      * Расстояние в метрах/c при текущей конфигурации (1 m/s = 3.6 km/h)
      */
     get distancePerSecond(): number {
-        return this.oneDirectRotation * this.throttle * this.coefs.getForGear(this.gear);
+        return this.oneDirectRotation * (this.coefs.getForGear(this.gear) + (this.throttle / 7000)) * 4;
     }
 
     /**
