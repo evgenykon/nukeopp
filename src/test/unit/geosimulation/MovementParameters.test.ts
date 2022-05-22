@@ -35,3 +35,51 @@ test("gear6", () => {
     expect(mp.speed).toBeGreaterThan(140);
     expect(mp.speed).toBeLessThan(200);
 });
+
+test("movingFastTryToRotateLeftTooMuch", () => {
+    let movement = new MovementParameters(-45, 6, 7000);
+    movement.rotateLeft();
+    expect(movement.direction).toBe(-45);
+});
+
+test("starting", () => {
+    let movement = new MovementParameters(0, 0, 0);
+    movement.onDriveOn();
+    expect(movement.throttle).toBe(2500);
+    expect(movement.gear).toBe(1);
+});
+
+test("switchNextGear", () => {
+    let movement = new MovementParameters(0, 5, 7000);
+    movement.onDriveOn();
+    expect(movement.throttle).toBe(90);
+    expect(movement.gear).toBe(6);
+});
+
+test("maxPowerNoGearSwitch", () => {
+    let movement = new MovementParameters(0, 6, 7000);
+    movement.onDriveOn();
+    expect(movement.throttle).toBe(7000);
+    expect(movement.gear).toBe(6);
+});
+
+test("switchPrevGear", () => {
+    let movement = new MovementParameters(0, 5, 100);
+    movement.onAutoRotation();
+    expect(movement.throttle).toBe(7000);
+    expect(movement.gear).toBe(4);
+});
+
+test("selfStopping", () => {
+    let movement = new MovementParameters(0, 1, 100);
+    movement.onAutoRotation();
+    expect(movement.throttle).toBe(0);
+    expect(movement.gear).toBe(0);
+});
+
+test("breaking", () => {
+    let movement = new MovementParameters(0, 3, 3000);
+    movement.onStop();
+    expect(movement.throttle).toBe(7000);
+    expect(movement.gear).toBe(2);
+});

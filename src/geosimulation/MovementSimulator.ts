@@ -10,6 +10,8 @@ class GearCoefficients {
         4.5, // 5
         5.5 // 6
     ];
+    readonly maxGear = 6;
+    readonly minGear = -1;
     getForGear(gear: number) {
         return this.coefs[gear+1];
     }
@@ -26,6 +28,13 @@ class MovementParameters {
     
     readonly maxThrottle:number = 7000; // max rotations per second
     readonly oneDirectRotation = 1.7; // meters per direct rotation
+    readonly minThrottleOnGear = 90;
+    readonly throttleStepOnDrive = 2500;
+    readonly autoRotationThrottleDecrementForward = 2000;
+    readonly autoRotationThrottleDecrementBackward = 1000;
+    readonly autoRotationThrottleDecrementStopping = 3000;
+
+    readonly maxRotationAngle = 45;
 
     constructor(direction:number = 0, gear:number = 0, throttle:number = 0, damage:number = 0) {
         this.direction = direction;
@@ -35,11 +44,11 @@ class MovementParameters {
     }
 
     incThrottle() {
+        this.throttle += this.throttleStepOnDrive;
         if (this.throttle >= this.maxThrottle) {
             this.throttle = this.maxThrottle;
             return;
         }
-        this.throttle += 2500;
     }
 
     decThrottle(value:number) {
@@ -51,16 +60,16 @@ class MovementParameters {
     }
 
     incGear() {
-        if (this.gear >= 6) {
-            this.gear = 6;
+        if (this.gear >= this.coefs.maxGear) {
+            this.gear = this.coefs.maxGear;
             return;
         }
         this.gear++;
     }
 
     decGear() {
-        if (this.gear <= -1) {
-            this.gear = -1;
+        if (this.gear <= this.coefs.minGear) {
+            this.gear = this.coefs.minGear;
             return;
         }
         this.gear--;
@@ -70,29 +79,33 @@ class MovementParameters {
         if (this.gear === 0) {
             this.incGear();
         }
-        if (this.throttle >= this.maxThrottle && this.gear > 0) {
-            this.throttle = 90;
+        if (this.throttle >= this.maxThrottle && this.gear > 0 && this.gear < this.coefs.maxGear) {
+            this.throttle = this.minThrottleOnGear;
             this.incGear();
+        } else {
+            this.incThrottle();
         }
-        this.incThrottle();
-        console.log('D', this.gear, this.throttle);
     }
 
     onAutoRotation() {
-        this.decThrottle(2000);
-        if (this.throttle < 100 && this.gear > 0) {
-            this.decGear();
-            this.throttle = this.maxThrottle;
+        this.decThrottle(this.autoRotationThrottleDecrementForward);
+        if (this.throttle < (this.minThrottleOnGear + 10)) {
+            if (this.gear > 1) {
+                this.decGear();
+                this.throttle = this.maxThrottle;
+            } else if (this.gear == 1) {
+                this.throttle = 0;
+                this.gear = 0;
+            }
         }
-        if (this.gear <= 0) {
-            this.decThrottle(1000);
+        if (this.gear < 0) {
+            this.decThrottle(this.autoRotationThrottleDecrementBackward);
         }
-       // console.log('A', this.gear, this.throttle);
     }
 
     onStop() {
-        this.decThrottle(3000);
-        if (this.throttle < 100 && this.gear > 0) {
+        this.decThrottle(this.autoRotationThrottleDecrementStopping);
+        if (this.throttle < this.minThrottleOnGear && this.gear > 0) {
             this.decGear();
             this.throttle = this.maxThrottle;
         }
@@ -106,15 +119,15 @@ class MovementParameters {
 
     rotateLeft() {
         this.direction--;
-        if (this.direction < -45) {
-            this.direction = -45;
+        if (this.direction < -this.maxRotationAngle) {
+            this.direction = -this.maxRotationAngle;
         }
     }
 
     rotateRight() {
         this.direction++;
-        if (this.direction > 45) {
-            this.direction = 45;
+        if (this.direction > this.maxRotationAngle) {
+            this.direction = this.maxRotationAngle;
         }
     }
 
@@ -122,7 +135,7 @@ class MovementParameters {
      * Расстояние в метрах/c при текущей конфигурации (1 m/s = 3.6 km/h)
      */
     get distancePerSecond(): number {
-        return this.oneDirectRotation * (this.coefs.getForGear(this.gear) + (this.throttle / 7000)) * 4;
+        return this.oneDirectRotation * (this.coefs.getForGear(this.gear) + (this.throttle / this.maxThrottle)) * 4;
     }
 
     /**
