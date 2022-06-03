@@ -167,7 +167,7 @@ class GeoSimulation extends BaseObject implements IGeoSimulation {
     );
 
     this.timers = new SimulationTimers(
-      options.tickTimeout !== undefined ? options.tickTimeout : 100,
+      options.tickTimeout !== undefined ? options.tickTimeout : 50,
       options.pauseBeforeStart !== undefined ? options.pauseBeforeStart : 0,
       () => {
         this.tick();
@@ -202,6 +202,7 @@ class GeoSimulation extends BaseObject implements IGeoSimulation {
       this.movement.getParameters()
     );
     this.positionChange_(this.simulatedPosition);
+    this.movement.afterMove();
   }
  
    /**

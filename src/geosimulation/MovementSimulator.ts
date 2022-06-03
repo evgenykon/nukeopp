@@ -1,14 +1,14 @@
 
 class GearCoefficients {
     readonly coefs = [
-        -1, // Reverse (-1)
+        1, // Reverse (-1)
         0, // N (0)
         1, // 1
-        1.5, // 2
-        2, // 3
-        3.5, // 4
-        4.5, // 5
-        5.5 // 6
+        1.2, // 2
+        1.4, // 3
+        1.7, // 4
+        2, // 5
+        2.5 // 6
     ];
     readonly maxGear = 6;
     readonly minGear = -1;
@@ -29,12 +29,12 @@ class MovementParameters {
     readonly maxThrottle:number = 7000; // max rotations per second
     readonly oneDirectRotation = 1.7; // meters per direct rotation
     readonly minThrottleOnGear = 90;
-    readonly throttleStepOnDrive = 2500;
-    readonly autoRotationThrottleDecrementForward = 2000;
-    readonly autoRotationThrottleDecrementBackward = 1000;
-    readonly autoRotationThrottleDecrementStopping = 3000;
+    readonly throttleStepOnDrive = 1000;
+    readonly autoRotationThrottleDecrementForward = 1000;
+    readonly autoRotationThrottleDecrementBackward = 500;
+    readonly throttleDecrementStopping = 3000;
 
-    readonly maxRotationAngle = 3;
+    readonly maxRotationAngle = 6;
 
     constructor(direction:number = 0, gear:number = 0, throttle:number = 0, damage:number = 0) {
         this.direction = direction;
@@ -89,13 +89,10 @@ class MovementParameters {
 
     onAutoRotation() {
         this.decThrottle(this.autoRotationThrottleDecrementForward);
-        if (this.throttle < (this.minThrottleOnGear + 10)) {
+        if (this.throttle < (this.minThrottleOnGear + 1000)) {
             if (this.gear > 1) {
                 this.decGear();
                 this.throttle = this.maxThrottle;
-            } else if (this.gear == 1) {
-                this.throttle = 0;
-                this.gear = 0;
             }
         }
         if (this.gear < 0) {
@@ -104,20 +101,22 @@ class MovementParameters {
     }
 
     restoreDirection() {
-        if (this.direction >= 2) {
-            this.direction = this.direction - 2;
-        } else if (this.direction <= -2) {
-            this.direction = this.direction + 2;
-        } else {
-            this.direction = 0;
+        if (this.direction > 0) {
+            this.direction--;
+        } else if (this.direction < 0) {
+            this.direction++;
         }
     }
 
     onStop() {
-        this.decThrottle(this.autoRotationThrottleDecrementStopping);
-        if (this.throttle < this.minThrottleOnGear && this.gear > 0) {
+        console.log('onStop', this.throttle, this.gear);
+        this.decThrottle(this.throttleDecrementStopping);
+        if (this.throttle < this.minThrottleOnGear && this.gear >= 1) {
             this.decGear();
             this.throttle = this.maxThrottle;
+        }
+        if (this.gear === 0) {
+            this.throttle = 0;
         }
     }
 
@@ -156,6 +155,13 @@ class MovementParameters {
     }
 }
 
+class KeyActive {
+    up: boolean = false;
+    down: boolean = false;
+    left: boolean = false;
+    right: boolean = false;
+}
+
 class MovementSimulator {
 
     movement:MovementParameters;
@@ -167,8 +173,11 @@ class MovementSimulator {
     flagRotateLeft: boolean;
     flagRotateRight: boolean;
 
+    keyActive: KeyActive = new KeyActive();
+
     constructor() {
-        window.addEventListener("keydown", this.keyHandler.bind(this), false);
+        window.addEventListener("keydown", this.keyHandlerPress.bind(this), false);
+        window.addEventListener("keyup", this.keyHandlerRelease.bind(this), false);
         this.flagGas = false;
         this.flagBrakes = false;
         this.damageLevel = 0;
@@ -178,43 +187,90 @@ class MovementSimulator {
         this.movement = new MovementParameters();
     }
 
-    keyHandler(event: KeyboardEvent) {
+    keyHandlerPress(event: KeyboardEvent) {
         if (event.code == 'ArrowDown') {
-            this.flagGas = false;
-            this.flagBrakes = true;
-        } else if (event.code == 'ArrowUp') { // ArrowDown, ArrowRight, ArrowLeft, Escape
-            this.flagGas = true;
-            this.flagBrakes = false;
+            this.keyActive.down = true;
+        } else if (event.code == 'ArrowUp') { 
+            this.keyActive.up = true;
         } else if (event.code == 'ArrowLeft') {
-            this.flagRotateLeft = true;
-            this.flagRotateRight = false;
+            this.keyActive.left = true;
+        } else if (event.code == 'ArrowRight') {
+            this.keyActive.right = true;
+        }
+    }
+
+    keyHandlerRelease(event: KeyboardEvent) {
+        if (event.code == 'ArrowDown') {
+            this.keyActive.down = false;
+            
+        } else if (event.code == 'ArrowUp') { 
+            this.keyActive.up = false;
+            
+        } else if (event.code == 'ArrowLeft') {
+            this.keyActive.left = false;
             
         } else if (event.code == 'ArrowRight') {
-            this.flagRotateRight = true;
-            this.flagRotateLeft = false;
+            this.keyActive.right = false;
+        }
+    }
+
+    setFlasgByKeys() {
+        if (this.keyActive.down) {
+            this.flagGas = false;
+            this.flagBrakes = true;
+            if (this.keyActive.left) {
+                this.movement.rotateLeft();
+            } else if (this.keyActive.right) {
+                this.movement.rotateRight();
+            }
+
+        } else if (this.keyActive.up) {
+            this.flagGas = true;
+            this.flagBrakes = false;
+            if (this.keyActive.left) {
+                this.movement.rotateLeft();
+            } else if (this.keyActive.right) {
+                this.movement.rotateRight();
+            }
+        } else {
+            this.flagGas = false;
+            this.flagBrakes = false;
+            if (this.keyActive.left) {
+                this.movement.rotateLeft();
+            } else if (this.keyActive.right) {
+                this.movement.rotateRight();
+            }
         }
     }
 
     tick() {
+        this.setFlasgByKeys();
+
         if (this.flagGas) {
             this.movement.onDriveOn();
+
         } else if (this.flagBrakes) {
             this.movement.onStop();
+            
         } else if (this.flagDamaged) {
             this.movement.onReset();
+
         } else {
             this.movement.onAutoRotation();
         }
         if (this.flagRotateLeft) {
             this.movement.rotateLeft();
+
         } else if (this.flagRotateRight) {
             this.movement.rotateRight();
-        } else {
-            //this.movement.restoreDirection();
+            
         }
-        this.flagGas = false;
-        this.flagRotateLeft = false;
-        this.flagRotateRight = false;
+    }
+
+    afterMove() {
+        if (this.movement.direction > 0 || this.movement.direction < 0) {
+            this.movement.restoreDirection();
+        }
     }
 
     getParameters(): MovementParameters {

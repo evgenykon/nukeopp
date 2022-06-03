@@ -93,9 +93,18 @@ export default function TestMapView(): JSX.Element {
         const position = e.target.simulatedPosition;
         const coords = fromLonLat([long, lat]);
         setCenter(coords);
-        setView({ center: coords, zoom: 16, rotation: toRadians(position.coords.heading) }); 
-        console.log('geolocationsim change', toRadians(position.coords.heading) / 2);
-        setMovement(e.target.movement.movement);
+        const movement = e.target.movement.movement;
+        let zoom = 17;
+        if (Math.round(movement.speed) > 10) {
+            zoom = 16;
+        } else if (Math.round(movement.speed) > 60) {
+            zoom = 15;
+        }
+
+        
+        setView({ center: coords, zoom: zoom, rotation: toRadians(-position.coords.heading) }); 
+        console.log('geolocationsim change', zoom);
+        setMovement(movement);
         setGeoSimCoords(e.target.calculator.current);
     }
 
