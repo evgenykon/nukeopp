@@ -17,35 +17,35 @@ test("gear2", () => {
 
 test("gear3", () => {
     let mp = new MovementParameters(0, 3, 7000);
-    expect(mp.speed).toBeGreaterThan(70);
+    expect(mp.speed).toBeGreaterThan(50);
     expect(mp.speed).toBeLessThan(100);
 });
 test("gear4", () => {
     let mp = new MovementParameters(0, 4, 7000);
-    expect(mp.speed).toBeGreaterThan(100);
+    expect(mp.speed).toBeGreaterThan(60);
     expect(mp.speed).toBeLessThan(120);
 });
 test("gear5", () => {
     let mp = new MovementParameters(0, 5, 7000);
-    expect(mp.speed).toBeGreaterThan(120);
+    expect(mp.speed).toBeGreaterThan(73);
     expect(mp.speed).toBeLessThan(140);
 });
 test("gear6", () => {
     let mp = new MovementParameters(0, 6, 7000);
-    expect(mp.speed).toBeGreaterThan(140);
+    expect(mp.speed).toBeGreaterThan(80);
     expect(mp.speed).toBeLessThan(200);
 });
 
 test("movingFastTryToRotateLeftTooMuch", () => {
     let movement = new MovementParameters(-20, 6, 7000);
     movement.rotateLeft();
-    expect(movement.direction).toBe(-20);
+    expect(movement.direction).toBe(-6);
 });
 
 test("starting", () => {
     let movement = new MovementParameters(0, 0, 0);
     movement.onDriveOn();
-    expect(movement.throttle).toBe(2500);
+    expect(movement.throttle).toBe(1000);
     expect(movement.gear).toBe(1);
 });
 
@@ -74,7 +74,7 @@ test("selfStopping", () => {
     let movement = new MovementParameters(0, 1, 100);
     movement.onAutoRotation();
     expect(movement.throttle).toBe(0);
-    expect(movement.gear).toBe(0);
+    expect(movement.gear).toBe(1);
 });
 
 test("breaking", () => {

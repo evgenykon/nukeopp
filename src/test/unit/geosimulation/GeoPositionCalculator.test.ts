@@ -51,7 +51,7 @@ test("movingFastFromMoscowToNorth", () => {
         new MovementParameters(0, 6, 7000),
         new SimGeolocationCoordinates(coords.Moscow.lat, coords.Moscow.long, 100, 0)
     );
-    expect(calc.getNextStepCoordinates().latitude).toBe(55.75380285436938);
+    expect(calc.getNextStepCoordinates().latitude).toBe(55.753619627437416);
     expect(calc.getNextStepCoordinates().longitude).toBe(37.61910754845215);
 });
 
@@ -60,8 +60,8 @@ test("movingFastFromMoscowToWest", () => {
         new MovementParameters(0, 6, 7000),
         new SimGeolocationCoordinates(coords.Moscow.lat, coords.Moscow.long, 100, 270)
     );
-    expect(calc.getNextStepCoordinates().latitude).toBe(55.75340586066057);
-    expect(calc.getNextStepCoordinates().longitude).toBe(37.61840360867159);
+    expect(calc.getNextStepCoordinates().latitude).toBe(55.75340586209198);
+    expect(calc.getNextStepCoordinates().longitude).toBe(37.61872850395492);
 });
 
 test("movingFastWestWithRotatingLeft", () => {
@@ -70,6 +70,6 @@ test("movingFastWestWithRotatingLeft", () => {
         new SimGeolocationCoordinates(coords.Moscow.lat, coords.Moscow.long, 100, 280)
     );
     calc.movement.rotateLeft();
-    expect(calc.getNextStepCoordinates().latitude).toBe(55.75340586066057);
-    expect(calc.getNextStepCoordinates().longitude).toBe(37.61840360867159);
+    expect(calc.getNextStepCoordinates().latitude).toBe(55.75342077357102);
+    expect(calc.getNextStepCoordinates().longitude).toBe(37.61872942714402);
 });

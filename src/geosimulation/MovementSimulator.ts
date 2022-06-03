@@ -57,6 +57,9 @@ class MovementParameters {
             return;
         }
         this.throttle -= value;
+        if (this.throttle < 0) {
+            this.throttle = 0;
+        }
     }
 
     incGear() {
