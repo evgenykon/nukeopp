@@ -147,11 +147,11 @@ class GeoSimulation extends BaseObject implements IGeoSimulation {
     this.setTracking(options.tracking !== undefined ? options.tracking : false);
 
 
-    console.log('GeoSim start', options, options.startPosition.coords);
+    console.log('GeoSimulation start', options, options.startPosition.coords);
     if (options.startPosition !== undefined) {
       this.simulatedPosition = new SimGeolocation(
-        options.startPosition.coords.longitude, 
         options.startPosition.coords.latitude, 
+        options.startPosition.coords.longitude, 
         0, 
         options.startPosition.heading,
         new MovementParameters()
@@ -167,7 +167,7 @@ class GeoSimulation extends BaseObject implements IGeoSimulation {
     );
 
     this.timers = new SimulationTimers(
-      options.tickTimeout !== undefined ? options.tickTimeout : 500,
+      options.tickTimeout !== undefined ? options.tickTimeout : 100,
       options.pauseBeforeStart !== undefined ? options.pauseBeforeStart : 0,
       () => {
         this.tick();

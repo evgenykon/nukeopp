@@ -12,8 +12,18 @@ class GeoPositionCalculator {
         this.current = current;
     }
 
+    /**
+     * Angle in degrees
+     */
     get newHeading() {
-        return this.movement.direction + (this.current.heading ?? 0);
+        let heading = this.movement.direction + (this.current.heading ?? 0);
+        if (heading < 0) {
+            heading = 360 + heading;
+        }
+        if (heading > 360) {
+            heading = heading - 360;
+        }
+        return heading;
     }
 
     getNextStepCoordinates(): SimGeolocationCoordinates {

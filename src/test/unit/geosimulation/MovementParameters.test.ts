@@ -37,9 +37,9 @@ test("gear6", () => {
 });
 
 test("movingFastTryToRotateLeftTooMuch", () => {
-    let movement = new MovementParameters(-45, 6, 7000);
+    let movement = new MovementParameters(-20, 6, 7000);
     movement.rotateLeft();
-    expect(movement.direction).toBe(-45);
+    expect(movement.direction).toBe(-20);
 });
 
 test("starting", () => {

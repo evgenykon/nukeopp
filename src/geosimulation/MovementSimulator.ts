@@ -34,7 +34,7 @@ class MovementParameters {
     readonly autoRotationThrottleDecrementBackward = 1000;
     readonly autoRotationThrottleDecrementStopping = 3000;
 
-    readonly maxRotationAngle = 45;
+    readonly maxRotationAngle = 3;
 
     constructor(direction:number = 0, gear:number = 0, throttle:number = 0, damage:number = 0) {
         this.direction = direction;
@@ -103,6 +103,16 @@ class MovementParameters {
         }
     }
 
+    restoreDirection() {
+        if (this.direction >= 2) {
+            this.direction = this.direction - 2;
+        } else if (this.direction <= -2) {
+            this.direction = this.direction + 2;
+        } else {
+            this.direction = 0;
+        }
+    }
+
     onStop() {
         this.decThrottle(this.autoRotationThrottleDecrementStopping);
         if (this.throttle < this.minThrottleOnGear && this.gear > 0) {
@@ -154,6 +164,8 @@ class MovementSimulator {
     flagBrakes: boolean;
     damageLevel: number;
     flagDamaged: boolean;
+    flagRotateLeft: boolean;
+    flagRotateRight: boolean;
 
     constructor() {
         window.addEventListener("keydown", this.keyHandler.bind(this), false);
@@ -161,25 +173,25 @@ class MovementSimulator {
         this.flagBrakes = false;
         this.damageLevel = 0;
         this.flagDamaged = false;
+        this.flagRotateLeft = false;
+        this.flagRotateRight = false;
         this.movement = new MovementParameters();
     }
 
     keyHandler(event: KeyboardEvent) {
         if (event.code == 'ArrowDown') {
-            console.log('....down....')
             this.flagGas = false;
             this.flagBrakes = true;
         } else if (event.code == 'ArrowUp') { // ArrowDown, ArrowRight, ArrowLeft, Escape
-            //console.log('....up....')
             this.flagGas = true;
             this.flagBrakes = false;
         } else if (event.code == 'ArrowLeft') {
-            this.movement.rotateLeft();
-            console.log('<<----', this.movement.direction);
+            this.flagRotateLeft = true;
+            this.flagRotateRight = false;
             
         } else if (event.code == 'ArrowRight') {
-            this.movement.rotateRight();
-            console.log('---->>', this.movement.direction);
+            this.flagRotateRight = true;
+            this.flagRotateLeft = false;
         }
     }
 
@@ -193,7 +205,16 @@ class MovementSimulator {
         } else {
             this.movement.onAutoRotation();
         }
+        if (this.flagRotateLeft) {
+            this.movement.rotateLeft();
+        } else if (this.flagRotateRight) {
+            this.movement.rotateRight();
+        } else {
+            //this.movement.restoreDirection();
+        }
         this.flagGas = false;
+        this.flagRotateLeft = false;
+        this.flagRotateRight = false;
     }
 
     getParameters(): MovementParameters {

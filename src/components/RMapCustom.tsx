@@ -74,7 +74,7 @@ export interface RMapCustomProps extends PropsWithChildren<unknown> {
     minZoom?: number;
     /** Maximum zoom level */
     maxZoom?: number;
-
+    /** Rotation in radians */
     rotation?: number;
 }
 

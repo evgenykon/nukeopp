@@ -13,10 +13,12 @@ import RGeolocationSim from "../components/RGeolocationSim";
 import BaseEvent from "ol/events/Event";
 import SimGeolocation from "../geosimulation/SimGeolocation";
 import { MovementParameters } from "../geosimulation/MovementSimulator";
+import { toRadians } from "ol/math";
+import SimGeolocationCoordinates from "../geosimulation/SimGeolocationCoordinates";
 
 
 //const center = fromLonLat([2.364, 48.82]);
-const initialGeolocation = new SimGeolocation(55.750, 37.616, 0, 0);
+const initialGeolocation = new SimGeolocation(55.750, 37.616, 0, 0, new MovementParameters());
 const initialCenter = [initialGeolocation.coords.longitude, initialGeolocation.coords.latitude];
 
 // Границы зоны 
@@ -50,6 +52,7 @@ export default function TestMapView(): JSX.Element {
     const [center, setCenter] = React.useState(fromLonLat(initialCenter));
     const [view, setView] = React.useState<RViewCustom>({ center: center, zoom: 15, rotation: 0 });
     const [movement, setMovement] = React.useState<MovementParameters>(new MovementParameters());
+    const [geoSimCoords, setGeoSimCoords] = React.useState<SimGeolocationCoordinates>(new SimGeolocationCoordinates(0,0,0,0));
     const flashRef = React.useRef() as React.RefObject<RFeature>;
 
     // ===== On mount component =====
@@ -85,17 +88,17 @@ export default function TestMapView(): JSX.Element {
         flashRadius();
     }
     const onGeopositionChange = (e: BaseEvent) => {
-        const lat = e.target.position_[0];
-        const long = e.target.position_[1];
-        //console.log('geolocationsim change', e.target.position_, e.target.movement.movement);
-        setCenter(fromLonLat([long, lat]));
-        setView({ center: fromLonLat([long, lat]), zoom: 16, rotation: view.rotation }); 
+        const lat = e.target.position_[1];
+        const long = e.target.position_[0];
+        const position = e.target.simulatedPosition;
+        const coords = fromLonLat([long, lat]);
+        setCenter(coords);
+        setView({ center: coords, zoom: 16, rotation: toRadians(position.coords.heading) }); 
+        console.log('geolocationsim change', toRadians(position.coords.heading) / 2);
         setMovement(e.target.movement.movement);
+        setGeoSimCoords(e.target.calculator.current);
     }
 
-/*noDefaultInteractions={true}
-maxZoom={16}
-                minZoom={15}*/
     return (
         
         <React.Fragment>
@@ -162,7 +165,7 @@ maxZoom={16}
                 <div>Trt {movement.throttle}</div>
                 <div>Spd {Math.round(movement.speed)}</div>
                 <div>Dmg {movement.damage}</div>
-                <div>Dir {movement.direction}</div>
+                <div>Dir {movement.direction} / {geoSimCoords.heading}</div>
             </div>
         </React.Fragment>
     );
