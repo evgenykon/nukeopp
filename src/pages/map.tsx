@@ -1,45 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
-import { Map, Overlay, View } from 'ol';
-import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import React,{ useCallback } from "react";
+
+import { fromLonLat, toLonLat } from "ol/proj";
+import "ol/ol.css";
+
+import { MapBrowserEvent, RFeature, RGeolocation, RLayerStamen, RLayerTile, RLayerVector, RMap, ROSM, ROverlay, RStyle } from "rlayers";
+import { boundingExtent } from "ol/extent";
+import { Circle, Point } from "ol/geom";
+import RMapCustom, { RViewCustom } from "../components/RMapCustom";
+import CircleStyle from "ol/style/Circle";
+import { Fill, Style } from "ol/style";
+import RGeolocationSim from "../components/RGeolocationSim";
+import BaseEvent from "ol/events/Event";
+import SimGeolocation from "../geosimulation/SimGeolocation";
+import { MovementParameters } from "../geosimulation/MovementSimulator";
+import { toRadians } from "ol/math";
+import SimGeolocationCoordinates from "../geosimulation/SimGeolocationCoordinates";
 import { graphql } from 'gatsby';
-import Feature from 'ol/Feature';
-import {Circle as CircleStyle, Fill, Icon, IconImage, Stroke, Style} from 'ol/style';
-import {OSM, Vector, Vector as VectorSource} from 'ol/source';
-import Stamen from 'ol/source/Stamen';
-
-import Zoom from 'ol/control/Zoom';
-import Rotate from 'ol/control/Rotate';
-import {fromLonLat, Projection} from 'ol/proj';
-import Point from 'ol/geom/Point';
-import GeoSimulation from '../geosimulation/GeoSimulation';
-import MousePosition from 'ol/control/MousePosition';
-
-import 'ol/ol.css';
-import "../styles/map.scss"
-import { IMapPageControls, MapPageControls } from '../interfaces/MapPageControls';
-import BaseMapTopPanel from '../components/BaseMapTopPanel';
-import StartDialog from '../components/dialogs/StartDialog';
-import {StrategyTarget} from '../interfaces/StrategyTarget';
-import SimGeolocationCoordinates from '../geosimulation/SimGeolocationCoordinates';
-import { Coordinate } from 'ol/coordinate';
-import {createStringXY} from 'ol/coordinate';
-import {defaults as defaultControls} from 'ol/control';
-import {Select} from 'ol/interaction';
-import GeoJSON from 'ol/format/GeoJSON';
-import {unByKey} from 'ol/Observable';
-import {getVectorContext} from 'ol/render';
-import {easeOut} from 'ol/easing'; 
-import { EventsKey } from 'ol/events';
-import { ITelemetryData, TelemetryData } from '../geosimulation/TelemetryData';
-import Calculations from '../helpers/Calculations';
-import ImageLayer from 'ol/layer/Image';
-import Static from 'ol/source/ImageStatic';
+import GeoJSON from "ol/format/GeoJSON";
+import GeoJsonGeometriesLookup from 'geojson-geometries-lookup';
+import axios from 'axios';
 
 
 
 export const query  = graphql`
-query sim {
+query 
+sim {
     targets: allMdx(
         filter: {frontmatter: {tag: {eq: "simulation"}}}
       ) {
@@ -52,17 +37,17 @@ query sim {
               targets {
                 bomb
                 delay
-                lt
-                lg
+                long
+                lat
               }
               center {
                 long
                 lat
               }
               allowedStartPoints {
-                dist
-                lg
-                lt
+                heading
+                lat
+                long
               },
               geojson {
                 areas
@@ -72,333 +57,207 @@ query sim {
           }
         }
     }
+    geo: allFile(filter: {name: {}, extension: {eq: "geojson"}}) {
+          edges {
+            node {
+              name
+              relativePath
+              childrenGeoJson {
+                features {
+                  type
+                  geometry {
+                    coordinates
+                    type
+                  }
+                }
+              }
+            }
+          }
+        }
 }
 `;
 
-function MapPage({data}) {
 
-    const [map, setMap] = useState();
-    const [view, setView] = useState(new View({
-        center: fromLonLat([0,0]),
-        zoom: 0,
-        enableRotation: true
-    }));
-    const [controls, setControlsFlag] = useState<MapPageControls>({
-        flagNewButton: true,
-        flagStartDialog: false,
-        mainContainerClass: ''
-    });
-    const mapElement = useRef();
-    const mapRef = useRef();
-    const [target, setTarget] = useState<StrategyTarget>();
-    const [geolocation, setGeolocation] = useState<GeoSimulation>();
-    const [accuracyFeature, setAccuracyFeature] = useState();
-    const [positionFeature, setPositionFeature] = useState();
-    const [markerOverlay, setMarkerOverlay] = useState<Overlay>();
-    const [pointOpacity, setPointOpacity] = useState({opacity: 0});
-
-    const [tileLayer, setTileLayer] = useState(new TileLayer({
-        source: new Stamen({
-            layer: 'watercolor',
-          }), //new OSM({}),
-    }));
-    const [flashSource, setFlashSource] = useState(new VectorSource({
-        wrapX: false,
-    }));
-    const [flashLayer, setFlashLayer] = useState(new VectorLayer({
-        source: flashSource,
-    }));
-    const [listenerKey, setListenerKey] = useState<EventsKey>();
-    const [telemetry, setTelemetry] = useState<ITelemetryData>({
-        isEnable: false,
-        sensors: null
-    });
-    
-    const clickNewSimulationBtn = () => {
-        const changes = {
-            flagNewButton: false,
-            flagStartDialog: true,
-            mainContainerClass: 'overlayed'
-        };
-        setControlsFlag({...controls, ...changes});
-    };
-
-    /**
-     * Старт симуляции
-     * @param payload 
-     */
-    const startDialogHandler = (payload) => {
-        const changes = {
-            flagNewButton: false,
-            flagStartDialog: false,
-            mainContainerClass: ''
-        };
-        setControlsFlag({...controls, ...changes});
-        const target = data.targets.edges.filter(item => item.node.frontmatter.code === payload.location)[0].node.frontmatter;
-        setTarget(new StrategyTarget(
-            target.code,
-            target.name,
-            new SimGeolocationCoordinates(target.center.lt, target.center.lg),
-            [new SimGeolocationCoordinates(0,0),], // @todo calculate area
-            new SimGeolocationCoordinates(0,0) // @todo calculate start point
-        ));
-        //console.log('startDialogHandler', target);
-        addAreasGeojson(target.geojson.areas);
-        addSafetyZonesGeojson(target.geojson.safety);
-        showTelemetry();
-        startGeoposition(payload, target);
-        //startTimers();
-        
-    }
-    const startDialogClose = () => {
-        console.log('startDialogClose');
-        const changes = {
-            flagNewButton: false,
-            flagStartDialog: false,
-            mainContainerClass: ''
-        };
-        setControlsFlag({...controls, ...changes});
-    }
-    const locateView = (viewPosition:Coordinate, zoom:number) => {
-        // [37, 56]; // Zelenograd
-        map.getView().animate({zoom: zoom, center: fromLonLat(viewPosition)});
-        setMap(map);
-    }
-    const addAreasGeojson = (source: string) => {
-        const geoJsonSource = new Vector({
-            url: source,
-            format: new GeoJSON(),
-        });
-        const layer = new VectorLayer({
-            source: geoJsonSource,
-            minZoom: 8,
-            style: new Style({
-                stroke: new Stroke({color: '#000'}),
-            })
-        });
-        map.addLayer(layer);
-        setMap(map);
-    }
-    const addSafetyZonesGeojson = (source:string) => {
-        const geoJsonSource = new Vector({
-            url: source,
-            format: new GeoJSON(),
-        });
-        const layer = new VectorLayer({
-            source: geoJsonSource,
-            minZoom: 8,
-            style: new Style({
-                stroke: new Stroke({color: '#0cc500'}),
-            })
-        });
-        map.addLayer(layer);
-        setMap(map);
-    }
-
-    const mousePositionControl = new MousePosition({
-        coordinateFormat: createStringXY(4),
-        projection: 'EPSG:4326',
-    });
-
-    const onFlashPostrender = function(event, start, duration, flashGeom, map) {
-      const frameState = event.frameState;
-      const elapsed = frameState.time - start;
-      if (elapsed >= duration && listenerKey) {
-        unByKey(listenerKey);
-        return;
-      }
-      const vectorContext = getVectorContext(event);
-      const elapsedRatio = elapsed / duration;
-      // radius will be 5 at start and 30 at end.
-      const radius = easeOut(elapsedRatio) * 45 + 5;
-      const opacity = easeOut(1);
-  
-      const style = new Style({
-        image: new CircleStyle({
-          radius: radius,
-          stroke: new Stroke({
-            color: 'rgba(255, 0, 0, ' + opacity + ')',
-            width: 0.25 + opacity,
-          }),
-        }),
-      });
-  
-      vectorContext.setStyle(style);
-      vectorContext.drawGeometry(flashGeom);
-      // tell OpenLayers to continue postrender animation
-      map.render();
-    }
+// Границы зоны 
+// const extent = boundingExtent([
+//     fromLonLat([37.250, 55.720]), // top left
+//     fromLonLat([38.000, 58.100]), // bottom right
+//   ]);
 
 
-    const flash = function(feature, duration, map) {
-        const start = Date.now();
-        const flashGeom = feature.getGeometry().clone();
-        const eventKey = flashLayer.on('postrender', (e) => onFlashPostrender(e, start, duration, flashGeom, map));
-        setListenerKey(eventKey);
-    }
 
-    const getFlashPoint = () => {
-        const x = Math.random() * 0.01;
-        const y = Math.random() * 0.01;
-        return new Point(fromLonLat([37.616 + x, 55.750 + y]));
-    }
+/*
+MAN: https://mmomtchev.github.io/rlayers/#/simple
+API: https://mmomtchev.github.io/rlayers/api/
 
-    const runFlash = function(flashSource) {
-        const geom = getFlashPoint();
-        const feature = new Feature(geom);
-        flashSource.addFeature(feature);
-    }
-
-    const showTelemetry = () => {
-        setTelemetry(new TelemetryData())
-    }
+TODO: 
+  1. Dialog
++ 2. Geopos + correct moving
++ 3. Geojson
++ 4. Watercolor tiles
++ 5. Circle animation + Flashes
+  6. GraphQL
++ 7. Set car icon
++ 8 Rotation
++ 9 Fix driving calculation
+  10 Flash 
+ 
+*/
 
 
-    const startGeoposition = (formData, payload) => {
-        console.log('startGeoposition formData', formData);
-        console.log('startGeoposition payload', payload);
-        let startPosition = null;
-        if (formData.distance !== 'random') {
-            const formDataDistance = parseInt(formData.distance);
-            const filteredPositions = payload.allowedStartPoints.filter(pos => pos.dist == formDataDistance);
-            if (filteredPositions.length > 0) {
-                startPosition = filteredPositions[Calculations.getRandomIntegerFromRange(0, filteredPositions.length-1)];
-            }
-        }
-        if (!startPosition) {
-            startPosition = payload.allowedStartPoints[Calculations.getRandomIntegerFromRange(0, payload.allowedStartPoints.length-1)];
-        }
-        console.log('startGeoposition filter', startPosition);
 
-        const geoSim = new GeoSimulation({
-            projection: view.getProjection(),
-            tracking: true,
-            startPosition: {
-                long: startPosition.lg,
-                lat: startPosition.lt,
-                heading: 0 // @todo
-            },
-            tickTimeout: 100,
-            pauseBeforeStart: 5000
-        });
-        locateView([startPosition.lg, startPosition.lt], 16);
-        setTimeout(() => {
-            setPointOpacity({opacity: 1});
-        }, 5000)
 
-        geoSim.on('change', function () {
-            //el('accuracy').innerText = geolocation.getAccuracy() + ' [m]';
-            //el('altitude').innerText = geolocation.getAltitude() + ' [m]';
-            //el('altitudeAccuracy').innerText = geolocation.getAltitudeAccuracy() + ' [m]';
-            //el('heading').innerText = geolocation.getHeading() + ' [rad]';
-            //el('speed').innerText = geolocation.getSpeed() + ' [m/s]';
-            //console.log('change', geolocation.position_);
-            //console.log('speed/heading', geolocation.getSpeed(), geolocation.getHeading());
-        });
+export default function TestMapView(gatsbyParams): JSX.Element {
+    const data = gatsbyParams.data.targets.edges[0].node.frontmatter;
+    const geo = gatsbyParams.data.geo.edges[1].node.childrenGeoJson;
+    const initialGeolocation = new SimGeolocation(
+        data.allowedStartPoints[0].lat, 
+        data.allowedStartPoints[0].long,
+        0, 
+        data.allowedStartPoints[0].heading, 
+        new MovementParameters()
+    );
+    const initialCenter = [initialGeolocation.coords.longitude, initialGeolocation.coords.latitude];
+    const lookup = new GeoJsonGeometriesLookup({type: 'FeatureCollection', features: geo[0].features});
+    //console.log('lookup', lookup);
 
-        const accuracyFeature = new Feature();
-        geoSim.on('change:accuracyGeometry', function () {
-            accuracyFeature.setGeometry(geoSim.getAccuracyGeometry());
-        });
+    // ===== States =====
+    const [center, setCenter] = React.useState(fromLonLat(initialCenter));
+    const [view, setView] = React.useState<RViewCustom>({ center: center, zoom: 15, rotation: 0 });
+    const [movement, setMovement] = React.useState<MovementParameters>(new MovementParameters());
+    const [geoSimCoords, setGeoSimCoords] = React.useState<SimGeolocationCoordinates>(new SimGeolocationCoordinates(0,0,0,0));
+    const flashRef = React.useRef() as React.RefObject<RFeature>;
 
-        geoSim.on('change:position', function () {
-            const coordinates = geoSim.getPosition();
-            console.log('geoSim change:position', coordinates);
-            map.getView().setCenter(coordinates);
-            if (geoSim.getHeading() !== 0) {
-                map.getView().setRotation(geoSim.getHeading());
-            }
+    // ===== On mount component =====
+    React.useEffect(() => {
+        console.log('onMount', geo);
             
-            setPointOpacity({opacity: 1});
-        });
-        
-        setGeolocation(geoSim);
-        new VectorLayer({
-            map: map,
-            source: new VectorSource({
-                features: [accuracyFeature,] //positionFeature]
-            }),
-        });
-    }
+        const center = fromLonLat([data.allowedStartPoints[0].long, data.allowedStartPoints[0].lat]);
+        setView({ center: center, zoom: 16, rotation: toRadians(-data.allowedStartPoints[0].heading) });
     
-    useEffect(() => {
-        
-        console.log('MapPage.init');
-
-        const initialMap = new Map({
-            target: mapElement.current,
-            layers: [
-                tileLayer,
-                new TileLayer({
-                    source: new Stamen({
-                      layer: 'terrain-labels',
-                    }),
-                }),
-                flashLayer
-            ],
-            view: view,
-            controls: defaultControls().extend([mousePositionControl]),
-        });
-
-        // const select = new Select({});
-        // initialMap.addInteraction(select);
-        // const selectedFeatures = select.getFeatures();
-        // selectedFeatures.on(['add', 'remove'], function () {
-        //     const names = selectedFeatures.getArray().map(function (feature) {
-        //         console.log('selected', feature);
-        //         return feature.get('ECO_NAME');
-        //       })
-        //     console.log('feature', names);
-        // });
-
-        // flashSource.on('addfeature', function (e) {
-        //     console.log('addfeature', e);
-        //     flash(e.feature, 5000, initialMap);
-        // });
-
-        initialMap.render();
-
-        //console.log('add overlay');
-        //markerElement.current.src = 'https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car_png.png';
-        //setMarkerOverlay();
-        // const markerOverlay = new Overlay({
-        //     positioning: 'center-center',
-        //     position: [0,0],
-        //     element: ReactDOM.findDOMNode(document).querySelector('#geo-marker'),
-        //     stopEvent: false,
-        // });
-        // initialMap.addOverlay(markerOverlay);
-
-        setMap(initialMap);
 
     }, []);
 
-    
+    // React.useEffect(() => {
+    //     console.log('geojson', geoJsonObj);
+    // }, [geoJsonObj]);
 
-    let dialog = null;
-    if (controls.flagStartDialog) {
-        dialog = <StartDialog onDialogClose={startDialogClose} onDialogSubmit={startDialogHandler}></StartDialog>
+    // ===== Methods ======
+
+    // Enlarge flash circle radius
+    const flashRadius = () => {
+        const radius = flashRef.current?.props.geometry.getRadius();
+        flashRef.current?.props.geometry.setRadius(radius + 10);
     }
 
+    // ===== Events ======
+    const onMapChange = () => {
+        //console.log('onMapChange');
+    }
+    const onMapClick = (e: MapBrowserEvent<UIEvent>) => {
+        const coords = e.map.getCoordinateFromPixel(e.pixel);
+        const lonlat = toLonLat(coords);
+        console.log('click coords:', {long_x: lonlat[0], lat_y: lonlat[1]}, view);
+        flashRadius();
+    }
+    const onGeopositionChange = (e: BaseEvent) => {
+        const lat = e.target.position_[1];
+        const long = e.target.position_[0];
+        const position = e.target.simulatedPosition;
+        const coords = fromLonLat([long, lat]);
+        setCenter(coords);
+        const movement = e.target.movement.movement;
+        let zoom = 17;
+        setView({ center: coords, zoom: zoom, rotation: toRadians(-position.coords.heading) }); 
+        setMovement(movement);
+        setGeoSimCoords(e.target.calculator.current);
+        
+        const collisionPoint = {type: "Point", coordinates: [long, lat]};
+        if (lookup.hasContainers(collisionPoint)) {
+            window.dispatchEvent(new Event('collision'));
+        }
+    }
+
+    const loadGeoJson = async (url: string) => {
+        return await axios.get(url);
+    }
 
     return (
-        <main>
-            <div id="main-wrapper" className={controls.mainContainerClass}>
-                <div style={{height:'100vh',width:'100%'}} ref={mapElement} className="map-container" />
-                <div id="geo-marker" style={pointOpacity}>
-                    <img src="https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car.svg" alt="car" />
-                </div>
-                <BaseMapTopPanel 
-                    flagNewBtn={controls.flagNewButton} 
-                    onClickNew={clickNewSimulationBtn}
-                    telemetry={telemetry}
-                ></BaseMapTopPanel>
+        
+        <React.Fragment>
+            <RMapCustom
+                width={"100%"} height={"100vh"} 
+                
+                /* extent={extent} */
+                initial={view} 
+                view={[view, setView]} 
+                noDefaultControls={true}
+            
+                onClick={useCallback((e: MapBrowserEvent<UIEvent>) => onMapClick(e), [])}
+                onMoveEnd={useCallback((e) => onMapChange(e), [])}
+            >
+                {/* -- Basic map layer --*/}
+                <RLayerTile properties={{label: "Watercolor",}} url="https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg" />
+                <RLayerStamen layer="terrain-labels" />
+
+                {/* -- Car icon --*/}
+                <RLayerVector zIndex={10}>
+                    <RFeature geometry={new Point(center)}>
+                        <ROverlay className="no-interaction">
+                            <img
+                            src="https://raw.githubusercontent.com/eygen-ff/nukeopp/master/src/images/car_png.png"
+                            style={{
+                                position: "relative",
+                                top: -24,
+                                left: -24,
+                                userSelect: "none",
+                                pointerEvents: "none",
+                            }}
+                            width={48}
+                            height={48}
+                            alt="animated icon"
+                            />
+                        </ROverlay>
+                    </RFeature>
+                </RLayerVector>
+
+
+                {/* Flash circle */ }
+                <RLayerVector zIndex={10}>
+                    <RFeature
+                        ref={flashRef}
+                        geometry={new Circle(center, 100)} 
+                        style={new Style({
+                            fill: new Fill({
+                                color: 'rgba(255, 100, 50, 0.7)'
+                            })
+                        })}
+                    />
+                </RLayerVector>
+
+                {/* GeoJSON */}
+                <RLayerVector zIndex={5} format={new GeoJSON({ featureProjection: "EPSG:3857" })} url="/geojson/moscow-areas.geojson">
+                <RStyle.RStyle>
+                    <RStyle.RFill color="rgba(0,0,0,0.5)" />
+                </RStyle.RStyle>
+                </RLayerVector>
+
+                <RGeolocationSim
+                    tracking={true}
+                    trackingOptions={{ enableHighAccuracy: true }}
+                    startPosition={initialGeolocation}
+                    onChange={React.useCallback(e => onGeopositionChange(e), [])}
+                />
+
+            </RMapCustom>
+            <div style={{position: 'absolute', width: '100%', top: 0, height: '30px', backgroundColor: 'rgb(54 54 54 / 80%)', 
+            display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr', color: '#fff', padding: '0.1rem', boxSizing: 'border-box'}}>
+                <div>Gea {movement.gear}</div>
+                <div>Trt {movement.throttle}</div>
+                <div>Spd {Math.round(movement.speed)}</div>
+                <div>Dmg {movement.damage}</div>
+                <div>Dir {movement.direction} / {geoSimCoords.heading}</div>
             </div>
-            {dialog}
-        </main>
+        </React.Fragment>
     );
 }
-
-
-
-export default MapPage;

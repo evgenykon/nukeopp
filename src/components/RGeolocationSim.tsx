@@ -21,7 +21,7 @@ export interface RGeolocationSimProps {
      * @default viewProjection */
     projection?: string;
 
-    startPosition: SimGeolocation;
+    startPosition?: SimGeolocation;
 
     /** Called on every change */
     onChange?: (this: RGeolocationSim, e: BaseEvent) => void;
@@ -41,6 +41,7 @@ export default class RGeolocationSim extends RlayersBase<RGeolocationSimProps, R
         super(props, context);
         if (!this?.context?.map) throw new Error('A Geolocation must be part of a map');
         const projection = props.projection ?? this.context.map.getView().getProjection();
+        //console.log('RGeolocationSim', props);
         this.ol = new GeoSimulation({...props, projection});
     }
 }

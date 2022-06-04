@@ -14,6 +14,12 @@ import BaseRoundPortrait from "../components/BaseRoundPortrait";
 import BaseChartLine from "../components/BaseChartLine";
 import BaseChartArea from "../components/BaseChartArea";
 
+/** 
+ * @todo rewrite to
+ * https://www.npmjs.com/package/react-scroll-parallax 
+ * https://react-scroll-parallax.damnthat.tv/docs/usage/
+ * */
+
 
 function getRandom(max: number){
   return Math.floor(Math.random() * Math.floor(max))

@@ -3,12 +3,12 @@ class GearCoefficients {
     readonly coefs = [
         1, // Reverse (-1)
         0, // N (0)
-        1, // 1
-        1.2, // 2
-        1.4, // 3
-        1.7, // 4
-        2, // 5
-        2.5 // 6
+        0.2, // 1
+        0.4, // 2
+        0.6, // 3
+        0.8, // 4
+        1, // 5
+        1.5 // 6
     ];
     readonly maxGear = 6;
     readonly minGear = -1;
@@ -112,7 +112,7 @@ class MovementParameters {
     }
 
     onStop() {
-        console.log('onStop', this.throttle, this.gear);
+        //console.log('onStop', this.throttle, this.gear);
         this.decThrottle(this.throttleDecrementStopping);
         if (this.throttle < this.minThrottleOnGear && this.gear >= 1) {
             this.decGear();
@@ -127,6 +127,12 @@ class MovementParameters {
         this.throttle = 0;
         this.gear = 0;
         this.direction = 0;
+    }
+
+    onDamage() {
+        this.gear = 1;
+        this.throttle = 200;
+        this.damage++;
     }
 
     rotateLeft() {
@@ -154,7 +160,7 @@ class MovementParameters {
      * Расстояние в км/час при текущей конфигурации
      */
     get speed(): number {
-        return this.distancePerSecond * 3.6;
+        return this.distancePerSecond * 10;
     }
 }
 
@@ -181,6 +187,7 @@ class MovementSimulator {
     constructor() {
         window.addEventListener("keydown", this.keyHandlerPress.bind(this), false);
         window.addEventListener("keyup", this.keyHandlerRelease.bind(this), false);
+        window.addEventListener('collision', this.collisionHandler.bind(this), false);
         this.flagGas = false;
         this.flagBrakes = false;
         this.damageLevel = 0;
@@ -215,6 +222,12 @@ class MovementSimulator {
         } else if (event.code == 'ArrowRight') {
             this.keyActive.right = false;
         }
+    }
+
+    collisionHandler() {
+        this.flagGas = false;
+        this.flagBrakes = false;
+        this.movement.onDamage();
     }
 
     setFlasgByKeys() {

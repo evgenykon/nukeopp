@@ -6,6 +6,7 @@ class SimGeolocation implements GeolocationPosition {
     timestamp: number;
     meta: MovementParameters;
     constructor(lat:number, long:number, speed:number, heading:number, meta:MovementParameters) {
+      //console.log('SimGeolocation', lat, long, heading);
       this.coords = new SimGeolocationCoordinates(lat, long, speed, heading);
       this.meta = meta;
       this.timestamp = 0;
