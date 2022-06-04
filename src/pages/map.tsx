@@ -1,9 +1,13 @@
 import React,{ useCallback } from "react";
+import "../styles/map.scss"
 
 import { fromLonLat, toLonLat } from "ol/proj";
 import "ol/ol.css";
 
 import { MapBrowserEvent, RFeature, RGeolocation, RLayerStamen, RLayerTile, RLayerVector, RMap, ROSM, ROverlay, RStyle } from "rlayers";
+import { RLayerTileWebGL, ROSMWebGL, RControl } from "rlayers";
+
+
 import { boundingExtent } from "ol/extent";
 import { Circle, Point } from "ol/geom";
 import RMapCustom, { RViewCustom } from "../components/RMapCustom";
@@ -18,8 +22,6 @@ import SimGeolocationCoordinates from "../geosimulation/SimGeolocationCoordinate
 import { graphql } from 'gatsby';
 import GeoJSON from "ol/format/GeoJSON";
 import GeoJsonGeometriesLookup from 'geojson-geometries-lookup';
-import axios from 'axios';
-
 
 
 export const query  = graphql`
@@ -96,11 +98,14 @@ TODO:
 + 3. Geojson
 + 4. Watercolor tiles
 + 5. Circle animation + Flashes
-  6. GraphQL
++ 6. GraphQL
 + 7. Set car icon
-+ 8 Rotation
-+ 9 Fix driving calculation
++ 8. Rotation
++ 9. Fix driving calculation
   10 Flash 
++ 11 Collisions
+  12 Full area map
+  13 Rescue zones
  
 */
 
@@ -110,6 +115,7 @@ TODO:
 export default function TestMapView(gatsbyParams): JSX.Element {
     const data = gatsbyParams.data.targets.edges[0].node.frontmatter;
     const geo = gatsbyParams.data.geo.edges[1].node.childrenGeoJson;
+    const targetCenter = fromLonLat([data.targets[0].long, data.targets[0].lat]);
     const initialGeolocation = new SimGeolocation(
         data.allowedStartPoints[0].lat, 
         data.allowedStartPoints[0].long,
@@ -119,28 +125,23 @@ export default function TestMapView(gatsbyParams): JSX.Element {
     );
     const initialCenter = [initialGeolocation.coords.longitude, initialGeolocation.coords.latitude];
     const lookup = new GeoJsonGeometriesLookup({type: 'FeatureCollection', features: geo[0].features});
-    //console.log('lookup', lookup);
 
     // ===== States =====
     const [center, setCenter] = React.useState(fromLonLat(initialCenter));
-    const [view, setView] = React.useState<RViewCustom>({ center: center, zoom: 15, rotation: 0 });
+    const [view, setView] = React.useState<RViewCustom>({ center: center, zoom: 16, rotation: 0 });
     const [movement, setMovement] = React.useState<MovementParameters>(new MovementParameters());
     const [geoSimCoords, setGeoSimCoords] = React.useState<SimGeolocationCoordinates>(new SimGeolocationCoordinates(0,0,0,0));
     const flashRef = React.useRef() as React.RefObject<RFeature>;
 
     // ===== On mount component =====
     React.useEffect(() => {
-        console.log('onMount', geo);
+        console.log('onMount', data);
             
         const center = fromLonLat([data.allowedStartPoints[0].long, data.allowedStartPoints[0].lat]);
         setView({ center: center, zoom: 16, rotation: toRadians(-data.allowedStartPoints[0].heading) });
     
-
     }, []);
 
-    // React.useEffect(() => {
-    //     console.log('geojson', geoJsonObj);
-    // }, [geoJsonObj]);
 
     // ===== Methods ======
 
@@ -178,10 +179,6 @@ export default function TestMapView(gatsbyParams): JSX.Element {
         }
     }
 
-    const loadGeoJson = async (url: string) => {
-        return await axios.get(url);
-    }
-
     return (
         
         <React.Fragment>
@@ -197,8 +194,14 @@ export default function TestMapView(gatsbyParams): JSX.Element {
                 onMoveEnd={useCallback((e) => onMapChange(e), [])}
             >
                 {/* -- Basic map layer --*/}
+                {/*
                 <RLayerTile properties={{label: "Watercolor",}} url="https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg" />
-                <RLayerStamen layer="terrain-labels" />
+    <RLayerStamen layer="terrain-labels" />*/}
+    
+    <ROSMWebGL properties={{ label: "OSM" }} />
+          {/*<RLayerTileWebGL properties={{ label: "OpenTopo" }} url="https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png"  />*/}
+
+<RLayerTileWebGL properties={{ label: "OpenStreetMaps" }} url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"  />
 
                 {/* -- Car icon --*/}
                 <RLayerVector zIndex={10}>
@@ -226,7 +229,7 @@ export default function TestMapView(gatsbyParams): JSX.Element {
                 <RLayerVector zIndex={10}>
                     <RFeature
                         ref={flashRef}
-                        geometry={new Circle(center, 100)} 
+                        geometry={new Circle(targetCenter, 100)} 
                         style={new Style({
                             fill: new Fill({
                                 color: 'rgba(255, 100, 50, 0.7)'
@@ -238,7 +241,7 @@ export default function TestMapView(gatsbyParams): JSX.Element {
                 {/* GeoJSON */}
                 <RLayerVector zIndex={5} format={new GeoJSON({ featureProjection: "EPSG:3857" })} url="/geojson/moscow-areas.geojson">
                 <RStyle.RStyle>
-                    <RStyle.RFill color="rgba(0,0,0,0.5)" />
+                    <RStyle.RFill color="rgba(0,0,0,0.3)" />
                 </RStyle.RStyle>
                 </RLayerVector>
 

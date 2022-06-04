@@ -3,12 +3,12 @@ class GearCoefficients {
     readonly coefs = [
         1, // Reverse (-1)
         0, // N (0)
-        0.2, // 1
-        0.4, // 2
-        0.6, // 3
-        0.8, // 4
-        1, // 5
-        1.5 // 6
+        0.1, // 1
+        0.6, // 2
+        1.2, // 3
+        1.8, // 4
+        2, // 5
+        2.2 // 6
     ];
     readonly maxGear = 6;
     readonly minGear = -1;
@@ -29,7 +29,7 @@ class MovementParameters {
     readonly maxThrottle:number = 7000; // max rotations per second
     readonly oneDirectRotation = 1.7; // meters per direct rotation
     readonly minThrottleOnGear = 90;
-    readonly throttleStepOnDrive = 1000;
+    readonly throttleStepOnDrive = 200;
     readonly autoRotationThrottleDecrementForward = 1000;
     readonly autoRotationThrottleDecrementBackward = 500;
     readonly throttleDecrementStopping = 3000;
@@ -153,7 +153,7 @@ class MovementParameters {
      * Расстояние в метрах/c при текущей конфигурации (1 m/s = 3.6 km/h)
      */
     get distancePerSecond(): number {
-        return this.oneDirectRotation * (this.coefs.getForGear(this.gear) + (this.throttle / this.maxThrottle)) * 4;
+        return this.oneDirectRotation * (this.coefs.getForGear(this.gear) + (this.throttle / this.maxThrottle)) ;
     }
 
     /**

@@ -220,7 +220,7 @@ const IndexPage = ({data}) => {
   }
 
   return (
-    <main className={app.scroll.class}>
+    <main id="indexpage" className={app.scroll.class}>
       <img className="bg"  src={data.bg.childImageSharp.fluid.originalImg} placeholder="blurred" alt=" " style={app.scroll.style.bgFilter} />
       <div className="content">
         <div className='title' style={app.scroll.style.headBlock}>
