@@ -22,6 +22,7 @@ import SimGeolocationCoordinates from "../geosimulation/SimGeolocationCoordinate
 import { graphql } from 'gatsby';
 import GeoJSON from "ol/format/GeoJSON";
 import GeoJsonGeometriesLookup from 'geojson-geometries-lookup';
+import ExplosionLayer from "../components/ExplosionLayer";
 
 
 export const query  = graphql`
@@ -131,7 +132,7 @@ export default function TestMapView(gatsbyParams): JSX.Element {
     const [view, setView] = React.useState<RViewCustom>({ center: center, zoom: 16, rotation: 0 });
     const [movement, setMovement] = React.useState<MovementParameters>(new MovementParameters());
     const [geoSimCoords, setGeoSimCoords] = React.useState<SimGeolocationCoordinates>(new SimGeolocationCoordinates(0,0,0,0));
-    const flashRef = React.useRef() as React.RefObject<RFeature>;
+    //const flashRef = React.useRef() as React.RefObject<RFeature>;
 
     // ===== On mount component =====
     React.useEffect(() => {
@@ -139,6 +140,8 @@ export default function TestMapView(gatsbyParams): JSX.Element {
             
         const center = fromLonLat([data.allowedStartPoints[0].long, data.allowedStartPoints[0].lat]);
         setView({ center: center, zoom: 16, rotation: toRadians(-data.allowedStartPoints[0].heading) });
+
+        window.dispatchEvent(new Event('explode'));
     
     }, []);
 
@@ -146,10 +149,10 @@ export default function TestMapView(gatsbyParams): JSX.Element {
     // ===== Methods ======
 
     // Enlarge flash circle radius
-    const flashRadius = () => {
-        const radius = flashRef.current?.props.geometry.getRadius();
-        flashRef.current?.props.geometry.setRadius(radius + 10);
-    }
+    // const flashRadius = () => {
+    //     const radius = flashRef.current?.props.geometry.getRadius();
+    //     flashRef.current?.props.geometry.setRadius(radius + 10);
+    // }
 
     // ===== Events ======
     const onMapChange = () => {
@@ -159,7 +162,7 @@ export default function TestMapView(gatsbyParams): JSX.Element {
         const coords = e.map.getCoordinateFromPixel(e.pixel);
         const lonlat = toLonLat(coords);
         console.log('click coords:', {long_x: lonlat[0], lat_y: lonlat[1]}, view);
-        flashRadius();
+        //flashRadius();
     }
     const onGeopositionChange = (e: BaseEvent) => {
         const lat = e.target.position_[1];
@@ -177,6 +180,14 @@ export default function TestMapView(gatsbyParams): JSX.Element {
         if (lookup.hasContainers(collisionPoint)) {
             window.dispatchEvent(new Event('collision'));
         }
+    }
+
+    const onShockWaveSizeChanged = () => {
+
+    }
+
+    const onFireBallSizeChanged = () => {
+
     }
 
     return (
@@ -224,19 +235,7 @@ export default function TestMapView(gatsbyParams): JSX.Element {
                     </RFeature>
                 </RLayerVector>
 
-
-                {/* Flash circle */ }
-                <RLayerVector zIndex={10}>
-                    <RFeature
-                        ref={flashRef}
-                        geometry={new Circle(targetCenter, 100)} 
-                        style={new Style({
-                            fill: new Fill({
-                                color: 'rgba(255, 100, 50, 0.7)'
-                            })
-                        })}
-                    />
-                </RLayerVector>
+                <ExplosionLayer targetCenter={targetCenter} onShockWaveSizeChanged={onShockWaveSizeChanged} onFireBallSizeChanged={onFireBallSizeChanged} />
 
                 {/* GeoJSON */}
                 <RLayerVector zIndex={5} format={new GeoJSON({ featureProjection: "EPSG:3857" })} url="/geojson/moscow-areas.geojson">
