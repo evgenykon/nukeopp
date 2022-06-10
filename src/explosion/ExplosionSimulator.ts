@@ -22,24 +22,25 @@ class ExplosionSimulator {
         this.params.fireballSize = 1;
         this.timer = setInterval(() => {
             this.tick();
-        }, 100);
+        }, 1000);
     }
 
     tick() {
         if (this.params.shockWaveSize > 0) {
-            this.params.shockWaveSize += 150;
+            this.params.shockWaveSize += 1500;
         }
-        if (this.params.fireballSize > 0) {
-            this.params.fireballSize += 10;
+        if (this.params.fireballSize > 0 && this.params.fireballSize < 1000) {
+            this.params.fireballSize += 1000;
+        } else if (this.params.fireballSize >= 1000 && this.params.fireballSize < 10000) {
+            this.params.fireballSize += 500;
+        } else if (this.params.fireballSize >= 10000) {
+            this.params.fireballSize += 100;
         }
-        if (this.params.shockWaveSize > 10000) {
+        if (this.params.shockWaveSize > 100000) {
             this.params.shockWaveSize = 0;
         }
-        if (this.params.fireballSize > 1000) {
-            this.params.fireballSize = 0;
-        }
         this.onTick(this.params);
-        if (this.params.shockWaveSize === 0 && this.params.fireballSize === 0) {
+        if (this.params.shockWaveSize === 0) {
             clearInterval(this.timer);
         }
     }

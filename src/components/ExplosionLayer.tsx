@@ -18,7 +18,7 @@ function ExplosionLayer(props:ExplosionLayerProps) {
     const targetCenter = props.targetCenter;
 
     const onExplosionSimulatorTick = (explosionData:ExplosionParams) => {
-        console.log('onExplosionSimulatorTick', explosionData);
+       // console.log('onExplosionSimulatorTick', explosionData);
         setExplosion(explosionData);
         setShockWaveGeometry(new Circle(targetCenter, explosionData.shockWaveSize));
     }
@@ -28,10 +28,6 @@ function ExplosionLayer(props:ExplosionLayerProps) {
     const [explosionSimulator, setExplosionSimulator] = React.useState(new ExplosionSimulator(onExplosionSimulatorTick));
     const [explosion, setExplosion] = React.useState(new ExplosionParams);
     const [shockWaveGeometry, setShockWaveGeometry] = React.useState(new Circle(targetCenter, 0));
-
-    React.useEffect(() => {
-        console.log('explosion', explosion);
-    }, [explosion]);
 
     return (
         <RLayerVector zIndex={10}>

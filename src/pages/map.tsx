@@ -141,7 +141,10 @@ export default function TestMapView(gatsbyParams): JSX.Element {
         const center = fromLonLat([data.allowedStartPoints[0].long, data.allowedStartPoints[0].lat]);
         setView({ center: center, zoom: 16, rotation: toRadians(-data.allowedStartPoints[0].heading) });
 
-        window.dispatchEvent(new Event('explode'));
+        setTimeout(() => {
+          window.dispatchEvent(new Event('explode'));
+        }, 10000);
+        
     
     }, []);
 
