@@ -7,6 +7,12 @@
     "explore": "gridsome explore"
   },
   "dependencies": {
-    "gridsome": "^0.7.0"
+    "@gridsome/source-filesystem": "^0.6.2",
+    "@gridsome/transformer-remark": "^0.6.4",
+    "@gridsome/vue-remark": "^0.2.6",
+    "buefy": "^0.9.22",
+    "gridsome": "^0.7.0",
+    "leaflet": "^1.9.2",
+    "vue2-leaflet": "^2.7.1"
   }
 }

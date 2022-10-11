@@ -5,6 +5,25 @@
 // To restart press CTRL + C in terminal and run `gridsome develop`
 
 module.exports = {
-  siteName: 'Gridsome',
-  plugins: []
+  siteName: 'Nuclear Opposition',
+  siteUrl: 'https://evgenykon.github.io/',
+  plugins: [
+    {
+      use: '@gridsome/source-filesystem',
+      options: {
+        path: 'docs/**/*.md',
+        typeName: 'Docs',
+        refs: {
+          tags: {
+            typeName: 'Tag',
+            create: true,
+          },
+          categories: {
+            typeName: 'Category',
+            create: true,
+          },
+        },
+      },
+    },
+  ],
 }
