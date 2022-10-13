@@ -4,15 +4,19 @@
   "scripts": {
     "build": "gridsome build",
     "develop": "gridsome develop",
-    "explore": "gridsome explore"
+    "explore": "gridsome explore",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@gridsome/source-filesystem": "^0.6.2",
     "@gridsome/transformer-remark": "^0.6.4",
     "@gridsome/vue-remark": "^0.2.6",
+    "boxicons": "^2.1.4",
     "buefy": "^0.9.22",
+    "gh-pages": "^4.0.0",
     "gridsome": "^0.7.0",
     "leaflet": "^1.9.2",
+    "vue-mermaid-string": "^2.2.6",
     "vue2-leaflet": "^2.7.1"
   }
 }
