@@ -9,7 +9,7 @@
 
             <b-navbar-item tag="router-link" :to="{ path: '/targets' }"><box-icon name='map-pin'></box-icon>&nbsp; War targets</b-navbar-item>
             <b-navbar-item tag="router-link" :to="{ path: '/scenarios' }"><box-icon name='detail'></box-icon>&nbsp; War scenarios</b-navbar-item>
-            <b-navbar-item tag="router-link" :to="{ path: '/weapon' }"><box-icon name='user-detail' type='solid' ></box-icon>&nbsp; Who owns the weapon</b-navbar-item>
+            <!-- b-navbar-item tag="router-link" :to="{ path: '/weapon' }"><box-icon type='solid' name='user-rectangle'></box-icon>&nbsp; Who owns the weapon</b-navbar-item -->
         
             <b-navbar-item tag="router-link" :to="{ path: '/safety-models' }"><box-icon name='globe'></box-icon>&nbsp; Global Safety models</b-navbar-item>
             <b-navbar-dropdown label="How we can survive">
@@ -31,8 +31,11 @@
 
 
 <script>
-import 'boxicons';
+//import 'boxicons';
 export default {
+    data() {
+        return {}
+    }
 }
 </script>
 

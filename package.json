@@ -5,6 +5,7 @@
     "build": "gridsome build",
     "develop": "gridsome develop",
     "explore": "gridsome explore",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
@@ -15,7 +16,7 @@
     "buefy": "^0.9.22",
     "gh-pages": "^4.0.0",
     "gridsome": "^0.7.0",
-    "leaflet": "^1.9.2",
+    "v-network-graph": "^0.6.10",
     "vue-mermaid-string": "^2.2.6",
     "vue2-leaflet": "^2.7.1"
   }
