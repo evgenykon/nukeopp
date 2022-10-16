@@ -7,9 +7,7 @@ title: First aid - Nuclear Opposition
     <div class="content mt-4">
       <h3>First aid</h3>
 
-      <div class="box">
-        Collecting information
-      </div>
+      <ContentWarning />
     </div>
 </div>
 </template>

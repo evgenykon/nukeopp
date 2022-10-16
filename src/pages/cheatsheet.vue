@@ -7,9 +7,7 @@ title: Cheatsheet - Nuclear Opposition
     <div class="content mt-4">
       <h3>Cheatsheet</h3>
 
-      <div class="box">
-        Collecting information
-      </div>
+      <ContentWarning />
     </div>
 </div>
 </template>

@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ContentWarning: typeof import('./src/components/ContentWarning.vue')['default']
     GLink: typeof import('./src/components/GLink.vue')['default']
     Headbar: typeof import('./src/components/Headbar.vue')['default']
     NavbarItem: typeof import('./src/components/NavbarItem.vue')['default']
