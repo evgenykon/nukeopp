@@ -11,12 +11,16 @@
     "node": "^14.18 || >= 16.0.0"
   },
   "devDependencies": {
+    "@iconify/json": "^2.1.122",
+    "@islands/icons": "^0.8.0",
     "iles": "^0.8.4",
     "typescript": "^4.5",
+    "unplugin-icons": "^0.14.11",
     "vite": "3.0.9",
     "vue-tsc": "^0.38"
   },
   "dependencies": {
-    "buefy": "^0.9.22"
+    "buefy": "^0.9.22",
+    "v-network-graph": "^0.6.10"
   }
 }

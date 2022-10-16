@@ -9,8 +9,11 @@ title: Nuclear Opposition
         
         <Quote />
 
-        Project amount of content
-        <progress class="progress" value="15" max="100">15%</progress>
+        <div class="notification is-warning">
+          <progress class="progress mb-2" value="15" max="100">15%</progress>
+          Project in the process of filling with content. <a href="#">Roadmap</a>
+        </div>
+        
         <h4>General Important Information</h4>
         <ol>
           <li>Last information update was at <strong class="tag">October 11, 2022</strong>. At this moment we are on the brink of nuclear war.</li>

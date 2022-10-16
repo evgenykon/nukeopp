@@ -1,3 +1,7 @@
+<page>
+title: Who owns the weapon - Nuclear Opposition
+</page>
+    
 <template>
 <div class="container">
     <div class="content mt-4">

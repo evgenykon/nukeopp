@@ -1,3 +1,7 @@
+<page>
+title: Alarm Case - Nuclear Opposition
+</page>
+
 <template>
 <div class="container">
     <div class="content mt-4">

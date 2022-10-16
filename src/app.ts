@@ -2,4 +2,6 @@ import { defineApp } from 'iles'
 
 import 'buefy/dist/buefy.css'
 
-export default defineApp({})
+import "v-network-graph/lib/style.css"
+
+export default defineApp({});
