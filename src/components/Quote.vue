@@ -23,6 +23,8 @@ export default defineComponent({
     created () {
         if (typeof window !== "undefined") {
             window.addEventListener('scroll', this.handleScroll);
+        } else {
+            this.scroll = Math.floor(Math.random() * 1000);
         }
     },
     destroyed () {

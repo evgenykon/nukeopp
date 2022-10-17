@@ -10,9 +10,11 @@ declare module '@vue/runtime-core' {
     ContentWarning: typeof import('./src/components/ContentWarning.vue')['default']
     GLink: typeof import('./src/components/GLink.vue')['default']
     Headbar: typeof import('./src/components/Headbar.vue')['default']
+    MessageBox: typeof import('./src/components/MessageBox.vue')['default']
     NavbarItem: typeof import('./src/components/NavbarItem.vue')['default']
     Quote: typeof import('./src/components/Quote.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    WeaponOwner: typeof import('./src/components/weapon/WeaponOwner.vue')['default']
   }
 }
