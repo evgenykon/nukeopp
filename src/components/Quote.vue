@@ -13,24 +13,14 @@ export default defineComponent({
         }
     },
     methods: {
-        handleScroll() {
-            this.scroll = window.scrollY;
+        handleScroll(e) {
+            if (e.path[1]) {
+                this.scroll = e.path[1].scrollY;
+            }
         }
     },
     mounted() {
         this.startBgPosition = Math.floor(Math.random() * 98);
-    },
-    created () {
-        if (typeof window !== "undefined") {
-            window.addEventListener('scroll', this.handleScroll);
-        } else {
-            this.scroll = Math.floor(Math.random() * 1000);
-        }
-    },
-    destroyed () {
-        if (typeof window !== "undefined") {
-            window.removeEventListener('scroll', this.handleScroll);
-        }
     },
     computed: {
         randomQuote()  {

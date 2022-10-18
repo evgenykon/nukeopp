@@ -1,7 +1,8 @@
 import { defineConfig } from 'iles'
 
 export default defineConfig({
-    modules: [
-        '@islands/icons',
-      ],
+  siteUrl: 'https://subtle-elf-215f75.netlify.app',
+  modules: [
+    '@islands/icons',
+  ]
 })

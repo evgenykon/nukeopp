@@ -38,9 +38,9 @@
                 <a class="navbar-item">
                     <CifUs/>&nbsp;English
                 </a>
-                <a class="navbar-item">
+                <!-- a class="navbar-item">
                     <CifRu/>&nbsp;Russian
-                </a>
+                </a -->
                 </div>
             </div>
 

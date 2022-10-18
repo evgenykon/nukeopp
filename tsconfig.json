@@ -16,6 +16,10 @@
       "~/*": ["src/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "checkJs": true,
+  },
+  "include": [
+    "vue.config.js"
+  ]
 }
