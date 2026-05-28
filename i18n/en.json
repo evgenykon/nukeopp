@@ -1,1 +1,37 @@
-{}
+{
+  "app": {
+    "title": "Nuclear Opposition"
+  },
+  "nav": {
+    "warTargets": "War Targets",
+    "warScenarios": "War Scenarios",
+    "weaponOwners": "Weapon Owners",
+    "safetyModels": "Safety Models",
+    "survival": "Survival",
+    "survival_threat": "In Case of Threat",
+    "survival_firstAid": "First Aid",
+    "survival_cheatsheet": "Survival Cheatsheet",
+    "survival_prepare": "How to Prepare"
+  },
+  "pages": {
+    "warTargets": "War Targets",
+    "warScenarios": "War Scenarios",
+    "weaponOwners": "Weapon Owners",
+    "safetyModels": "Safety Models",
+    "survival_threat": "In Case of Threat",
+    "survival_firstAid": "First Aid",
+    "survival_cheatsheet": "Survival Cheatsheet",
+    "survival_prepare": "How to Prepare",
+    "wip": "Page under development."
+  },
+  "home": {
+    "purpose": "The purpose of the project",
+    "purposeText": "Human history has reached a line beyond which history itself may not survive. The nuclear threat is not a ghost from Cold War textbooks — it is a reality that grows and mutates right now.\n\nMy project is a personal manifesto against collective madness. I refuse to remain a passive observer when the future of my loved ones, my country, and all human civilization is at stake. We have created a force that surpasses our collective reason and entrusted it to the ambitions of a few.\n\nThis site is an attempt to bring sanity back to public discourse. If we stay silent today, tomorrow there may be no one left to speak. Nuclear weapons are the greatest existential challenge of our time. Let this project be your call to action: to learn, to remember, and to resist the destruction of our common home.",
+"generalInfo": "Nuclear threat: a macroscopic view of the global crisis",
+"generalInfoText": "Today, humanity is closer to nuclear catastrophe than ever before in its history. The problem that many thought was left behind in the 20th century has returned in a new, even more unpredictable and dangerous form.\n\n⏳ Doomsday Clock: On the brink of midnight\nThe Doomsday Clock project by the Bulletin of the Atomic Scientists — «{link}» — visually demonstrates the world's proximity to global catastrophe. The clock hands stand at 90 seconds to midnight — the closest and most dangerous value in the project's history since 1947, surpassing even the darkest moments of the Cold War.\n\n🌐 Global arsenal in numbers\nNine states in the world possess nuclear weapons. The total global arsenal amounts to about 12,000 nuclear warheads. More than 90% of this deadly stockpile belongs to two superpowers — Russia and the United States. Thousands of missiles are on high alert, meaning they can be launched within minutes of an order.\n\n💥 Anatomy of catastrophe: What happens when a bomb explodes?\nThe use of even a small portion of the modern nuclear arsenal would trigger a cascade of irreversible consequences for the entire planet:\n• Instant destruction: Thermal radiation and shockwaves would wipe megacities off the face of the earth within dozens of kilometers.\n• Firestorm: Temperatures at the epicenter would exceed the surface temperature of the Sun, turning all life to ash.\n• Radiation contamination: Deadly fallout would be carried by wind for thousands of kilometers, poisoning water, soil, and air for decades.\n• Nuclear winter: Tons of soot from burning cities would rise into the stratosphere and block sunlight. Global cooling would destroy agriculture and condemn billions of survivors to starvation.\n\n⚠️ Why is the threat growing right now?\n1. Diplomatic collapse: Most key arms control and non-proliferation treaties are either terminated or frozen.\n2. Arsenal modernization: Nuclear powers are actively developing new types of weapons — for example, hypersonic missiles that are nearly impossible to intercept.\n3. The error factor: Under extreme geopolitical tension, the risk of fatal technical errors, false warnings from detection systems, or cyberattacks increases manifold.\n\n«Nuclear weapons are not a tool of warfare. They are a tool for instant and final suicide of humanity.»",
+    "clockLink": "Doomsday Clock",
+    "newsTitle": "What you should know",
+    "nextQuote": "another quote",
+    "source": "source"
+  }
+}

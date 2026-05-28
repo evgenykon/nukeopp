@@ -1,4 +1,4 @@
-# Life Game — Project Guide
+# Nuclear Opposition — Project Guide
 
 ## Rules
 

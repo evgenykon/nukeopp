@@ -1,5 +1,5 @@
 services:
-  life:
+  nuke:
     build:
       context: .
       dockerfile: Dockerfile.dev
