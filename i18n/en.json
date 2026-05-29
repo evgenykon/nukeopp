@@ -24,6 +24,14 @@
     "survival_prepare": "How to Prepare",
     "wip": "Page under development."
   },
+  "targets": {
+    "subtitle": "Unfortunately, the lists of military targets I gathered over some time searching the internet cannot be published openly — doing so would directly violate several laws of my country. Even though the sources are open and accessible, publication itself carries criminal liability. So instead of precise targets, I offer you a map of major cities of nuclear powers. Hardly anyone would doubt that they would become targets to one degree or another in the event of a nuclear war. Of course, there are many cities, so it made sense to apply a filter that removes less likely targets. What this filter is — let's just say it is subjective and based on my personal conjectures.",
+    "reasonTitle": "Why know the targets?",
+    "reasonText": "In the event of a nuclear war, knowing likely targets is not idle curiosity — it is key to survival. Knowing which cities and regions are under threat allows you to evacuate in time, choose a safe direction, and avoid impact zones. Authorities often downplay real risks to prevent panic, but an informed person can make their own decisions.\n\nIf you live near the points shown on the map, you should take it upon yourself to research specific military installations in your area and plan your evacuation routes based on that information. Study the map, plan routes, agree on meeting points with your loved ones. Your life may depend on knowing where to run.",
+    "coordinates": "Coordinates",
+    "date": "Data date",
+    "clickHint": "Click on a marker to see details"
+  },
   "home": {
     "purpose": "The purpose of the project",
     "purposeText": "Human history has reached a line beyond which history itself may not survive. The nuclear threat is not a ghost from Cold War textbooks — it is a reality that grows and mutates right now.\n\nMy project is a personal manifesto against collective madness. I refuse to remain a passive observer when the future of my loved ones, my country, and all human civilization is at stake. We have created a force that surpasses our collective reason and entrusted it to the ambitions of a few.\n\nThis site is an attempt to bring sanity back to public discourse. If we stay silent today, tomorrow there may be no one left to speak. Nuclear weapons are the greatest existential challenge of our time. Let this project be your call to action: to learn, to remember, and to resist the destruction of our common home.",

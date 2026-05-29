@@ -18,6 +18,7 @@
     "@tailwindcss/vite": "^4.3.0",
     "@vueuse/nuxt": "^14.3.0",
     "effus-ui": "^0.1.1",
+    "maplibre-gl": "^5.24.0",
     "motion-v": "^2.2.1",
     "nuxt": "^4.4.4",
     "tailwind-merge": "^3.6.0",
