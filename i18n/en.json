@@ -24,6 +24,23 @@
     "survival_prepare": "How to Prepare",
     "wip": "Page under development."
   },
+  "scenarios": {
+    "subtitle": "Select a conflict and scenario to read a detailed analysis of the escalation process, participants, damage assessment, and survival prospects.",
+    "conflicts": "Conflicts",
+    "scenarios": "Scenarios",
+    "pickConflict": "Select a conflict from the left column",
+    "pickScenario": "Select a scenario from the list",
+    "description": "Scenario description",
+    "participants": "Participants",
+    "damage": "Infrastructure damage",
+    "casualties": "Estimated casualties",
+    "planetary": "Planetary impact",
+    "survival": "Survival probability",
+    "probability": "Estimated probability",
+    "probSource": "Source of probability estimate",
+    "harbingers": "Early warning signs",
+    "source": "Source"
+  },
   "targets": {
     "subtitle": "Unfortunately, the lists of military targets I gathered over some time searching the internet cannot be published openly — doing so would directly violate several laws of my country. Even though the sources are open and accessible, publication itself carries criminal liability. So instead of precise targets, I offer you a map of major cities of nuclear powers. Hardly anyone would doubt that they would become targets to one degree or another in the event of a nuclear war. Of course, there are many cities, so it made sense to apply a filter that removes less likely targets. What this filter is — let's just say it is subjective and based on my personal conjectures.",
     "reasonTitle": "Why know the targets?",
