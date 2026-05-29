@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @import "effus-ui/theme";
+
+@theme {
+  --font-serif: "IBM Plex Serif", serif;
+}

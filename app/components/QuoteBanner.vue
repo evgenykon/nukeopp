@@ -99,8 +99,8 @@ function nextQuote() {
             'animate-glitch': glitch,
           }"
         >
-          <p class="text-lg italic leading-relaxed text-orange-200">"{{ quote.text }}"</p>
-          <p class="mt-3 text-sm font-medium text-orange-400">— {{ quote.author }}</p>
+          <p class="font-serif text-lg leading-relaxed text-orange-200">"{{ quote.text }}"</p>
+          <p class="font-serif mt-3 text-sm font-medium text-orange-400">— {{ quote.author }}</p>
         </div>
       </Transition>
     </div>
