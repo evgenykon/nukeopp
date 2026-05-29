@@ -32,6 +32,8 @@ function pickScenario(s: Scenario) {
       <p class="mt-1 text-sm text-muted-foreground">{{ t("scenarios.subtitle") }}</p>
     </div>
 
+    <LegalDisclaimer page="scenarios" />
+
     <div class="scenarios-layout">
       <!-- Column 1: Conflicts -->
       <div class="scenarios-col">

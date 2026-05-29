@@ -40,13 +40,13 @@ onClickOutside(survivalRef, closeSurvival)
         v-for="item in [
           { to: '/war-targets', label: t('nav.warTargets') },
           { to: '/war-scenarios', label: t('nav.warScenarios') },
-          { to: '/weapon-owners', label: t('nav.weaponOwners') },
+          { to: '/weapons', label: t('nav.weapons') },
           { to: '/safety-models', label: t('nav.safetyModels') },
         ]"
         :key="item.to"
         :to="item.to"
         class="rounded px-3 py-1.5 transition-colors"
-        :class="isActive(item.to) ? 'text-orange-500' : 'text-muted-foreground hover:bg-accent hover:text-foreground'"
+        :class="isActive(item.to) ? 'text-orange-500' : 'text-muted-foreground hover:bg-orange-500/10 hover:text-orange-500'"
       >
         {{ item.label }}
       </NuxtLink>
@@ -54,7 +54,7 @@ onClickOutside(survivalRef, closeSurvival)
       <div ref="survivalRef" class="relative">
         <button
           class="flex items-center gap-1 rounded px-3 py-1.5 transition-colors"
-          :class="isSurvivalActive() ? 'text-orange-500' : 'text-muted-foreground hover:bg-accent hover:text-foreground'"
+          :class="isSurvivalActive() ? 'text-orange-500' : 'text-muted-foreground hover:bg-orange-500/10 hover:text-orange-500'"
           @click="toggleSurvival"
         >
           {{ t("nav.survival") }}
@@ -77,7 +77,7 @@ onClickOutside(survivalRef, closeSurvival)
             :key="sub.to"
             :to="sub.to"
             class="block px-3 py-1.5 text-xs transition-colors"
-            :class="isActive(sub.to) ? 'text-orange-500' : 'hover:bg-accent'"
+            :class="isActive(sub.to) ? 'text-orange-500' : 'hover:bg-orange-500/10 hover:text-orange-500'"
             @click="closeSurvival"
           >
             {{ sub.label }}

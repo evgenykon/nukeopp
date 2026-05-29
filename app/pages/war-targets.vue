@@ -46,6 +46,8 @@ function onClose() {
       </p>
     </div>
 
+    <LegalDisclaimer page="targets" />
+
     <!-- Why know targets -->
     <div class="rounded-lg border border-border bg-card px-5 py-4">
       <h2 class="mb-2 text-sm font-bold uppercase tracking-wider text-orange-400">{{ t("targets.reasonTitle") }}</h2>

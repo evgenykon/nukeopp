@@ -5,7 +5,7 @@
   "nav": {
     "warTargets": "War Targets",
     "warScenarios": "War Scenarios",
-    "weaponOwners": "Weapon Owners",
+    "weapons": "Weapons",
     "safetyModels": "Safety Models",
     "survival": "Survival",
     "survival_threat": "In Case of Threat",
@@ -16,7 +16,7 @@
   "pages": {
     "warTargets": "War Targets",
     "warScenarios": "War Scenarios",
-    "weaponOwners": "Weapon Owners",
+    "weapons": "Weapons",
     "safetyModels": "Safety Models",
     "survival_threat": "In Case of Threat",
     "survival_firstAid": "First Aid",
@@ -41,6 +41,34 @@
     "harbingers": "Early warning signs",
     "source": "Source"
   },
+  "weapons": {
+    "subtitle": "Nuclear delivery systems and warheads by country. Each system includes technical specifications, modernization history, and estimated inventory.",
+    "countries": "Countries",
+    "weapons": "Weapons",
+    "pickCountry": "Select a country from the left column",
+    "pickWeapon": "Select a weapon from the list",
+    "versions": "Alternative names / versions",
+    "description": "Description",
+    "upgrades": "Modernization history",
+    "specs": "Technical characteristics",
+    "history": "Development history",
+    "designers": "Designers",
+    "inventory": "In service",
+    "tests": "Tests",
+    "warheads": "Warheads in arsenal",
+    "source": "Source"
+  },
+  "safetyModels": {
+    "subtitle": "Theoretical models for achieving sustainable global security without reliance on nuclear weapons. Each model proposes a different path — political, legal, technological, or social.",
+    "models": "Models",
+    "description": "Description",
+    "authors": "Idea author",
+    "guarantors": "Guarantors",
+    "requirements": "What is required",
+    "breachProbability": "Probability of breach by country",
+    "pickModel": "Select a model from the list",
+    "source": "Source"
+  },
   "targets": {
     "subtitle": "Unfortunately, the lists of military targets I gathered over some time searching the internet cannot be published openly — doing so would directly violate several laws of my country. Even though the sources are open and accessible, publication itself carries criminal liability. So instead of precise targets, I offer you a map of major cities of nuclear powers. Hardly anyone would doubt that they would become targets to one degree or another in the event of a nuclear war. Of course, there are many cities, so it made sense to apply a filter that removes less likely targets. What this filter is — let's just say it is subjective and based on my personal conjectures.",
     "reasonTitle": "Why know the targets?",
@@ -48,6 +76,10 @@
     "coordinates": "Coordinates",
     "date": "Data date",
     "clickHint": "Click on a marker to see details"
+  },
+  "disclaimers": {
+    "targets": "Disclaimer: The information on this page is compiled from publicly available open sources. All coordinates are approximate and do not represent precise targeting data. This content is presented for informational and educational purposes only.",
+    "scenarios": "Disclaimer: The scenarios described on this page are hypothetical constructs based on open-source analysis. They are not predictions, projections, or assessments of any state's or organization's capabilities or intentions."
   },
   "home": {
     "purpose": "The purpose of the project",
