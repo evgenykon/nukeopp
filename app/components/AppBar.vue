@@ -69,7 +69,6 @@ onClickOutside(survivalRef, closeSurvival)
         >
           <NuxtLink
             v-for="sub in [
-              { to: '/survival/threat', label: t('nav.survival_threat') },
               { to: '/survival/first-aid', label: t('nav.survival_firstAid') },
               { to: '/survival/cheatsheet', label: t('nav.survival_cheatsheet') },
               { to: '/survival/prepare', label: t('nav.survival_prepare') },

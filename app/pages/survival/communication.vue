@@ -49,6 +49,16 @@ function md(text: string | undefined): string {
       </div>
 
       <div class="rounded-lg border border-border bg-card p-5">
+        <h2 class="mb-3 text-sm font-bold">{{ $t("communication.buildTitle") }}</h2>
+        <p class="text-sm leading-relaxed text-muted-foreground" v-html="md($t('communication.buildText'))" />
+      </div>
+
+      <div class="rounded-lg border border-border bg-card p-5">
+        <h2 class="mb-3 text-sm font-bold">{{ $t("communication.phoneTitle") }}</h2>
+        <p class="text-sm leading-relaxed text-muted-foreground" v-html="md($t('communication.phoneText'))" />
+      </div>
+
+      <div class="rounded-lg border border-border bg-card p-5">
         <h2 class="mb-3 text-sm font-bold">{{ $t("communication.nonRadioTitle") }}</h2>
         <p class="text-sm leading-relaxed text-muted-foreground" v-html="md($t('communication.nonRadioText'))" />
       </div>

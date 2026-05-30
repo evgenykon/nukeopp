@@ -2,7 +2,6 @@
 const { t } = useI18n()
 
 const sections = [
-  { to: "/survival/threat", key: "threat" },
   { to: "/survival/first-aid", key: "firstAid" },
   { to: "/survival/cheatsheet", key: "cheatsheet" },
   { to: "/survival/prepare", key: "prepare" },
