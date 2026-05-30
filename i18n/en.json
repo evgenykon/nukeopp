@@ -36,13 +36,14 @@
     "casualties": "Estimated casualties",
     "planetary": "Planetary impact",
     "survival": "Survival probability",
+    "survivalActions": "Actions for survival",
     "probability": "Estimated probability",
     "probSource": "Source of probability estimate",
     "harbingers": "Early warning signs",
     "source": "Source"
   },
   "weapons": {
-    "subtitle": "Nuclear delivery systems and warheads by country. Each system includes technical specifications, modernization history, and estimated inventory.",
+    "subtitle": "Major strategic nuclear delivery systems by country. Warhead counts reflect estimated stockpile on listed systems only — total national arsenals are larger.",
     "countries": "Countries",
     "weapons": "Weapons",
     "pickCountry": "Select a country from the left column",

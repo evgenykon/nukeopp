@@ -9,6 +9,9 @@ const selectedWeapon = ref<Weapon | null>(null)
 const scrolledTo = ref(false)
 
 const maxWarheads = computed(() => Math.max(...countries.map((c) => c.warheads)))
+const maxWeaponWarheads = computed(() =>
+  selectedCountry.value ? Math.max(...selectedCountry.value.weapons.map((w) => w.warheads)) : 1
+)
 
 function pickCountry(c: Country) {
   selectedCountry.value = c
@@ -82,7 +85,17 @@ function pickWeapon(w: Weapon) {
             "
             @click="pickWeapon(w)"
           >
-            {{ w.name[locale] ?? w.name.en }}
+            <div class="flex items-center justify-between">
+              <span>{{ w.name[locale] ?? w.name.en }}</span>
+              <span class="text-xs text-muted-foreground">{{ w.warheads.toLocaleString() }}</span>
+            </div>
+            <div class="mt-1 h-1 w-full overflow-hidden rounded-full bg-border">
+              <div
+                class="h-full rounded-full transition-all duration-300"
+                :class="selectedWeapon?.id === w.id ? 'bg-orange-500/70' : 'bg-muted-foreground/20'"
+                :style="{ width: (w.warheads / maxWeaponWarheads) * 100 + '%' }"
+              />
+            </div>
           </button>
         </div>
       </div>

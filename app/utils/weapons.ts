@@ -10,6 +10,7 @@ export interface Weapon {
   description: Record<string, string>
   upgrades: Record<string, string>
   specs: SpecEntry[]
+  warheads: number
   history: Record<string, string>
   designers: Record<string, string>
   inventory: Record<string, string>
@@ -61,6 +62,7 @@ export const countries: Country[] = [
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel", ru: "трёхступенчатый твердотопливный" } },
           { label: { en: "Accuracy", ru: "Точность" }, value: { en: "~150–250 m CEP", ru: "~150–250 м КВО" } },
         ],
+        warheads: 550,
         history: {
           en: "The Topol-M entered service in 1997 as a silo-based system, with the mobile version following in 2000. The RS-24 Yars was first tested in 2007 and entered service in 2010. The system was developed in response to NATO expansion and the US missile defense program in Europe.",
           ru: "Тополь-М поступил на вооружение в 1997 году в шахтном варианте, мобильная версия — в 2000 году. РС-24 Ярс впервые испытан в 2007 году и принят на вооружение в 2010 году. Система разрабатывалась в ответ на расширение НАТО и программу ПРО США в Европе.",
@@ -107,6 +109,7 @@ export const countries: Country[] = [
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel", ru: "трёхступенчатый твердотопливный" } },
           { label: { en: "Accuracy", ru: "Точность" }, value: { en: "~250–350 m CEP", ru: "~250–350 м КВО" } },
         ],
+        warheads: 250,
         history: {
           en: "Development began in the 1990s after cancellation of the earlier solid-fuel SLBM program. First test launch in 2004, but early tests suffered multiple failures. Officially accepted into service in 2013 after a troubled testing phase. Now deployed on all Borei and Borei-A class submarines.",
           ru: "Разработка началась в 1990-х годах после отмены предыдущей программы твердотопливных БРПЛ. Первый пуск в 2004 году, но ранние испытания сопровождались многочисленными неудачами. Официально принята на вооружение в 2013 году после сложного этапа испытаний. Развёрнута на всех подводных лодках классов «Борей» и «Борей-А».",
@@ -152,6 +155,7 @@ export const countries: Country[] = [
           { label: { en: "Guidance", ru: "Наведение" }, value: { en: "inertial with GLONASS", ru: "инерциальное с ГЛОНАСС" } },
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "liquid fuel (two-stage)", ru: "жидкостный (двухступенчатый)" } },
         ],
+        warheads: 50,
         history: {
           en: "Development began in the 2000s as a replacement for the Soviet-era R-36M2. First test launch was conducted in April 2022 from Plesetsk Cosmodrome. The missile was officially put on combat duty in September 2023. Deployment has been slower than initially planned due to technical challenges and production constraints.",
           ru: "Разработка началась в 2000-х годах как замена советской Р-36М2. Первый испытательный пуск проведён в апреле 2022 года с космодрома Плесецк. Ракета официально заступила на боевое дежурство в сентябре 2023 года. Развёртывание идёт медленнее запланированного из-за технических сложностей и производственных ограничений.",
@@ -169,6 +173,75 @@ export const countries: Country[] = [
           ru: "Первый лётный тест в апреле 2022 года (успешный). Запланированы дополнительные испытания, но некоторые, по сообщениям, имели проблемы. Полная боевая готовность ожидается к 2025–2026 году.",
         },
         source: "https://en.wikipedia.org/wiki/RS-28_Sarmat",
+      },
+      {
+        id: "r-36m2-voevoda",
+        name: { en: "R-36M2 Voevoda (SS-18 Satan)", ru: "Р-36М2 Воевода (SS-18 Сатана)" },
+        versions: { en: "R-36M2 Voevoda (NATO: SS-18 Mod 5 Satan). Related: Dnepr space launcher (converted). Replaced by RS-28 Sarmat.", ru: "Р-36М2 «Воевода» (НАТО: SS-18 Mod 5 Satan). Родственная: ракета-носитель «Днепр» (конверсия). Заменяется на РС-28 «Сармат»." },
+        description: {
+          en: "The R-36M2 is the world's heaviest ICBM, capable of carrying 10 independently targetable reentry vehicles (MIRV) with a yield of up to 750 kt each. Developed by the Yuzhnoye Design Bureau (Ukraine) during the Soviet era, it has been in service since 1975 with multiple upgrades. The missile is silo-based and hardened against nuclear attack.\n\nKnown in the West as 'Satan', it was designed specifically to destroy heavily fortified command bunkers and missile silos. Its counterforce capability and massive throw-weight make it a unique element of Russia's strategic triad. Despite its age, the R-36M2 remains in service through a life-extension program.",
+          ru: "Р-36М2 — самая тяжёлая МБР в мире, способная нести 10 боеголовок индивидуального наведения (РГЧ) мощностью до 750 кт каждая. Разработана КБ «Южное» (Украина) в советское время, на вооружении с 1975 года с многочисленными модернизациями. Ракета шахтного базирования, защищена от ядерного удара.\n\nИзвестна на Западе как «Сатана», была спроектирована специально для уничтожения укреплённых командных бункеров и шахт ракет. Её контрсиловой потенциал и огромная забрасываемая масса делают её уникальным элементом стратегической триады России. Несмотря на возраст, Р-36М2 остаётся на вооружении благодаря программе продления срока службы."
+        },
+        upgrades: { en: "The missile has undergone multiple upgrades since its introduction. The R-36MUTTH (Mod 4) and R-36M2 (Mod 5) versions improved accuracy and countermeasure penetration. Current life-extension program keeps the missile operational until the Sarmat is fully deployed.", ru: "Ракета прошла множество модернизаций с момента принятия на вооружение. Версии Р-36МУТТХ (Mod 4) и Р-36М2 (Mod 5) улучшили точность и преодоление ПРО. Текущая программа продления срока службы поддерживает ракету в боеготовности до полного развёртывания Сармата." },
+        specs: [
+          { label: { en: "Range", ru: "Дальность" }, value: { en: "11,000–16,000 km", ru: "11 000–16 000 км" } },
+          { label: { en: "Warheads", ru: "Боеголовки" }, value: { en: "10 MIRV × 500–750 kt", ru: "10 × 500–750 кт РГЧ" } },
+          { label: { en: "Length", ru: "Длина" }, value: { en: "34.3 m", ru: "34,3 м" } },
+          { label: { en: "Diameter", ru: "Диаметр" }, value: { en: "3.0 m", ru: "3,0 м" } },
+          { label: { en: "Launch weight", ru: "Стартовая масса" }, value: { en: "211 t", ru: "211 т" } },
+          { label: { en: "Guidance", ru: "Наведение" }, value: { en: "Inertial with star-sensor correction", ru: "Инерциальное с коррекцией по звёздам" } },
+          { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "Two-stage liquid fuel", ru: "Двухступенчатый жидкостный" } },
+          { label: { en: "Accuracy", ru: "Точность" }, value: { en: "~220 m CEP", ru: "~220 м КВО" } },
+        ],
+        warheads: 460,
+        history: { en: "Developed in the 1970s by Yuzhnoye Design Bureau (Dnipro, Ukraine) under chief designer Vladimir Utkin. First deployed in 1975. At its peak, over 300 R-36 missiles were deployed. Under the START treaties, numbers were reduced, and the R-36M2 became the sole remaining variant. The missile remains controversial due to its first-strike capability and the collapse of the Ukrainian manufacturer.", ru: "Разработана в 1970-х годах КБ «Южное» (Днепр, Украина) под руководством Владимира Уткина. Впервые развёрнута в 1975 году. На пике было развёрнуто более 300 ракет Р-36. По договорам СНВ количество было сокращено, и Р-36М2 осталась единственным вариантом. Ракета остаётся спорной из-за её контрсилового потенциала и коллапса украинского производителя." },
+        designers: { en: "Yuzhnoye Design Bureau (Vladimir Utkin). Production: Yuzhmash (Dnipro), later maintenance transferred to Russian enterprises.", ru: "КБ «Южное» (Владимир Уткин). Производство: «Южмаш» (Днепр), позднее обслуживание передано российским предприятиям." },
+        inventory: { en: "~46 missiles deployed, carrying approximately 460 warheads (10 each). Gradually being replaced by RS-28 Sarmat.", ru: "~46 развёрнутых ракет, несущих примерно 460 боеголовок (по 10 каждая). Постепенно заменяются РС-28 «Сармат»." },
+        tests: { en: "Hundreds of test launches since the 1970s. The missile has one of the highest reliability records of any ICBM, with over 90% success rate.", ru: "Сотни испытательных пусков с 1970-х годов. Ракета имеет один из самых высоких показателей надёжности среди всех МБР — более 90% успешных пусков." },
+        source: "https://en.wikipedia.org/wiki/R-36_(missile)",
+      },
+      {
+        id: "kh-102-tu-bombers",
+        name: { en: "Kh-55/Kh-102 ALCM (Tu-95/Tu-160)", ru: "Х-55/Х-102 КРВБ (Ту-95/Ту-160)" },
+        versions: { en: "Kh-55 (AS-15 Kent, nuclear). Kh-555 (conventional upgrade). Kh-102 (new nuclear cruise missile, stealth). Launched from Tu-95MS Bear-H, Tu-160 Blackjack bombers.", ru: "Х-55 (AS-15 Kent, ядерная). Х-555 (конвенциональная модернизация). Х-102 (новая ядерная крылатая ракета, малозаметная). Пуск с Ту-95МС «Медведь», Ту-160 «Белый лебедь»." },
+        description: {
+          en: "Air-launched cruise missiles (ALCM) form the air-breathing leg of Russia's nuclear triad. The Kh-55, developed in the 1970s–80s, is a subsonic cruise missile with a nuclear warhead and terrain-following guidance. The modernized Kh-102 features stealth technology, extended range, and improved accuracy.\n\nRussia operates approximately 60 Tu-95MS and 16 Tu-160 strategic bombers, each capable of carrying 6–12 cruise missiles. In a nuclear war scenario, these bombers would disperse to alternate airfields and launch salvoes of ALCMs from stand-off ranges, penetrating NATO air defenses through saturation.",
+          ru: "Крылатые ракеты воздушного базирования (КРВБ) образуют воздушную ногу ядерной триады России. Х-55, разработанная в 1970–80-х годах, — дозвуковая крылатая ракета с ядерной боеголовкой и рельефометрическим наведением. Модернизированная Х-102 имеет технологии малозаметности, увеличенную дальность и улучшенную точность.\n\nРоссия эксплуатирует примерно 60 Ту-95МС и 16 Ту-160, каждый способен нести 6–12 крылатых ракет. В сценарии ядерной войны эти бомбардировщики рассредоточились бы по запасным аэродромам и выпустили залпы КРВБ с дистанции, прорывая ПВО НАТО массированием."
+        },
+        upgrades: { en: "The Kh-55 entered service in 1981. The Kh-555 conventional variant appeared in the 2000s, used extensively in Syria. The Kh-102 entered production in the 2010s with stealth coating, improved guidance (GLONASS), and longer range (up to 5,000 km). Tu-160M modernization program includes new engines and avionics.", ru: "Х-55 принята на вооружение в 1981 году. Конвенциональная Х-555 появилась в 2000-х, активно применялась в Сирии. Х-102 поступила в производство в 2010-х с малозаметным покрытием, улучшенным наведением (ГЛОНАСС) и увеличенной дальностью (до 5 000 км). Программа модернизации Ту-160М включает новые двигатели и авионику." },
+        specs: [
+          { label: { en: "Range", ru: "Дальность" }, value: { en: "Kh-55: 2,500 km. Kh-102: 4,000–5,000 km", ru: "Х-55: 2 500 км. Х-102: 4 000–5 000 км" } },
+          { label: { en: "Warhead", ru: "Боеголовка" }, value: { en: "200–300 kt nuclear (Kh-55/102)", ru: "200–300 кт ядерная (Х-55/102)" } },
+          { label: { en: "Speed", ru: "Скорость" }, value: { en: "Mach 0.6–0.8 (subsonic)", ru: "0,6–0,8 Маха (дозвуковая)" } },
+          { label: { en: "Guidance", ru: "Наведение" }, value: { en: "Inertial + terrain contour matching (TERCOM) + GLONASS", ru: "Инерциальное + эталонная карта местности (TERCOM) + ГЛОНАСС" } },
+          { label: { en: "Platform", ru: "Носитель" }, value: { en: "Tu-95MS (6–8 missiles), Tu-160 (12 missiles)", ru: "Ту-95МС (6–8 ракет), Ту-160 (12 ракет)" } },
+          { label: { en: "Total bombers", ru: "Всего бомбардировщиков" }, value: { en: "~60 Tu-95MS + ~16 Tu-160", ru: "~60 Ту-95МС + ~16 Ту-160" } },
+        ],
+        warheads: 500,
+        history: { en: "Developed by Raduga Design Bureau in the 1970s. The Kh-55 was a direct response to the US AGM-86 ALCM. First deployed in 1981 on Tu-95MS bombers. The Kh-102 is a post-Soviet development, first tested in the 2000s. The systems have seen combat use in Syria and Ukraine with conventional warheads.", ru: "Разработана МКБ «Радуга» в 1970-х годах. Х-55 была прямым ответом на американскую AGM-86 ALCM. Впервые развёрнута в 1981 году на Ту-95МС. Х-102 — постсоветская разработка, впервые испытана в 2000-х. Системы применялись в Сирии и Украине с обычными боеголовками." },
+        designers: { en: "MKB Raduga (Dubna), Tupolev Design Bureau (bombers). Production at Kazan Aircraft Plant.", ru: "МКБ «Радуга» (Дубна), КБ Туполева (самолёты-носители). Производство на Казанском авиационном заводе." },
+        inventory: { en: "~500 Kh-55/Kh-102 cruise missiles in the nuclear stockpile, carried by ~76 strategic bombers.", ru: "~500 крылатых ракет Х-55/Х-102 в ядерном арсенале, носители — ~76 стратегических бомбардировщиков." },
+        tests: { en: "Extensive testing program since the 1970s. The Kh-102 was successfully tested multiple times, including during Russian military exercises and from Tu-160M modernized bombers.", ru: "Обширная программа испытаний с 1970-х годов. Х-102 успешно испытана многократно, включая российские военные учения и стрельбы с модернизированных Ту-160М." },
+        source: "https://en.wikipedia.org/wiki/Kh-55",
+      },
+      {
+        id: "russia-other",
+        name: { en: "Other nuclear systems (tactical, reserve, retired)", ru: "Прочие ядерные системы (тактические, резерв, утилизация)" },
+        versions: { en: "Includes tactical nuclear weapons, reserve warheads, retired systems awaiting dismantlement, and weapons in the life-extension pipeline.", ru: "Включает тактическое ядерное оружие, резервные боеголовки, снятые с вооружения системы, ожидающие утилизации, и оружие в программах продления срока службы." },
+        description: {
+          en: "Russia possesses the world's largest stockpile of tactical nuclear weapons, estimated at 1,000–2,000 warheads. These include nuclear artillery shells, torpedoes, depth charges, air-defense missiles, and short-range ballistic missiles (Iskander-M). Additionally, reserve warheads from retired systems (SS-19, SS-25 Topol, naval systems) await dismantlement or storage. The uncertainty around tactical nuclear weapon numbers is significant, as Russia does not declare them under any treaty.",
+          ru: "Россия обладает крупнейшим в мире арсеналом тактического ядерного оружия — по оценкам, 1 000–2 000 боеголовок. Включает ядерные артиллерийские снаряды, торпеды, глубинные бомбы, зенитные ракеты и ракеты малой дальности (Искандер-М). Кроме того, резервные боеголовки снятых с вооружения систем (SS-19, SS-25 Тополь, морские системы) ожидают утилизации или хранения. Неопределённость в оценках тактического ядерного оружия значительна, поскольку Россия не декларирует их по каким-либо договорам.",
+        },
+        upgrades: { en: "Not applicable — this category aggregates multiple systems across different eras.", ru: "Не применимо — эта категория объединяет множество систем разных эпох." },
+        specs: [
+          { label: { en: "Coverage", ru: "Охват" }, value: { en: "Tactical nuclear weapons (~1,500–2,000), reserve/retired strategic warheads (~1,000–1,500), naval tactical weapons (~500)", ru: "Тактическое ядерное оружие (~1 500–2 000), резервные/снятые стратегические боеголовки (~1 000–1 500), морское тактическое оружие (~500)" } },
+        ],
+        warheads: 3780,
+        history: { en: "Same — aggregates multiple systems.", ru: "То же — объединяет множество систем." },
+        designers: { en: "Various design bureaus and laboratories across different historical periods.", ru: "Различные КБ и лаборатории разных исторических периодов." },
+        inventory: { en: "Estimated ~3,800 warheads across all non-strategic and reserve systems.", ru: "По оценкам ~3 800 боеголовок на всех нестратегических и резервных системах." },
+        tests: { en: "Not applicable — aggregate category.", ru: "Не применимо — сводная категория." },
+        source: "https://www.sipri.org",
       },
     ],
   },
@@ -208,6 +281,7 @@ export const countries: Country[] = [
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel", ru: "трёхступенчатый твердотопливный" } },
           { label: { en: "Accuracy", ru: "Точность" }, value: { en: "~120 m CEP", ru: "~120 м КВО" } },
         ],
+        warheads: 800,
         history: {
           en: "Minuteman III entered service in 1970, replacing earlier Minuteman and Titan missiles. Originally over 1,000 were deployed, reduced to 400 under arms control treaties. The missile has undergone multiple life extension programs. The US Air Force plans to replace it with the LGM-35 Sentinel (GBSD) starting in the late 2020s.",
           ru: "Minuteman III поступил на вооружение в 1970 году, заменив более ранние ракеты Minuteman и Titan. Первоначально было развёрнуто более 1 000 ракет, сокращено до 400 по договорам о контроле над вооружениями. Ракета прошла множество программ продления срока службы. ВВС США планируют заменить её на LGM-35 Sentinel (GBSD) начиная с конца 2020-х годов.",
@@ -254,6 +328,7 @@ export const countries: Country[] = [
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel", ru: "трёхступенчатый твердотопливный" } },
           { label: { en: "Accuracy", ru: "Точность" }, value: { en: "~100 m CEP", ru: "~100 м КВО" } },
         ],
+        warheads: 1150,
         history: {
           en: "First deployed in 1990 on Ohio-class submarines. Over 180 successful test launches since 1989 — the longest record of success for any large ballistic missile. The missile has been selected for the UK's Dreadnought-class and the US Columbia-class submarine programs.",
           ru: "Впервые развёрнута в 1990 году на подводных лодках класса «Огайо». Более 180 успешных испытательных пусков с 1989 года — самый продолжительный рекорд успешных пусков среди крупных баллистических ракет. Ракета выбрана для британских подводных лодок класса «Дредноут» и американских класса «Колумбия».",
@@ -298,6 +373,7 @@ export const countries: Country[] = [
           { label: { en: "Delivery", ru: "Доставка" }, value: { en: "tactical aircraft (F-16, F-35, B-2, B-21, Tornado, etc.)", ru: "тактические самолёты (F-16, F-35, B-2, B-21, Tornado и др.)" } },
           { label: { en: "Penetration", ru: "Проникновение" }, value: { en: "B61-11 can penetrate up to 6 m of reinforced concrete", ru: "B61-11 может проникать до 6 м железобетона" } },
         ],
+        warheads: 230,
         history: {
           en: "Entered service in 1968 during the Cold War. The B61 has undergone multiple modifications (mods 0 through 13). The B61-12 program began in 2010 and entered production in 2021. The B61-13 variant was announced in 2023 as a higher-yield strategic option. B61 bombs are also stored at NATO bases in Europe under nuclear sharing arrangements.",
           ru: "Поступила на вооружение в 1968 году во время Холодной войны. B61 прошла множество модификаций (с 0 по 13). Программа B61-12 началась в 2010 году и вступила в производство в 2021 году. Вариант B61-13 был анонсирован в 2023 году как стратегический вариант повышенной мощности. Бомбы B61 также хранятся на базах НАТО в Европе в рамках соглашений о ядерном обмене.",
@@ -315,6 +391,73 @@ export const countries: Country[] = [
           ru: "Конструкция B61 была тщательно испытана во время Холодной войны, включая полномасштабные испытания на Невадском испытательном полигоне. B61-12 прошла неядерные лётные испытания на полигоне Tonopah и в Сандии.",
         },
         source: "https://en.wikipedia.org/wiki/B61_nuclear_bomb",
+      },
+      {
+        id: "b83-thermonuclear-bomb",
+        name: { en: "B83 Thermonuclear Bomb", ru: "B83 термоядерная бомба" },
+        versions: { en: "B83 (Mod 0, Mod 1). B83-1 is the current variant. Only megaton-yield gravity bomb in US service (since B53 retirement).", ru: "B83 (Mod 0, Mod 1). B83-1 — текущий вариант. Единственная мегатонной мощности гравитационная бомба на вооружении США (после снятия B53)." },
+        description: {
+          en: "The B83 is the highest-yield nuclear weapon in the US active stockpile, with a maximum yield of 1.2 Mt. It is a variable-yield thermonuclear gravity bomb designed for high-speed, low-altitude delivery by strategic bombers (B-2 Spirit, B-52H, B-1B). The weapon is hardened against ballistic missile defense interception through its laydown delivery capability.\n\nOriginally developed during the Cold War for destroying heavily fortified underground targets and large-area targets, the B83 is now considered a 'hedge' weapon — maintained in the stockpile but not deployed on aircraft in peacetime. Its retirement has been proposed by multiple administrations but delayed each time.",
+          ru: "B83 — самое мощное ядерное оружие в активном арсенале США с максимальной мощностью 1,2 Мт. Это термоядерная гравитационная бомба переменной мощности, предназначенная для скоростного сбрасывания с малых высот стратегическими бомбардировщиками (B-2 Spirit, B-52H, B-1B). Бомба защищена от перехвата ПРО благодаря способности сбрасывания с торможением.\n\nПервоначально разработана во время Холодной войны для уничтожения сильно укреплённых подземных целей и крупных площадных целей. Сейчас B83 считается «резервным» оружием — хранится в арсенале, но не развёрнута на самолётах в мирное время. Её снятие с вооружения предлагалось несколькими администрациями, но каждый раз откладывалось."
+        },
+        upgrades: { en: "The B83 has remained largely unmodified since its introduction. The B83-1 variant (1983+) incorporated improved safety features. Plans to retire the B83 and replace it with the B61-12 were announced but the B83 remains in the stockpile due to its unique high-yield capability.", ru: "B83 остаётся в основном неизменной с момента принятия на вооружение. Вариант B83-1 (1983+) включил улучшенные функции безопасности. Планы снять B83 с вооружения и заменить B61-12 были объявлены, но B83 остаётся в арсенале благодаря уникальной возможности высокой мощности." },
+        specs: [
+          { label: { en: "Yield", ru: "Мощность" }, value: { en: "Variable, up to 1.2 Mt (megaton-class)", ru: "Переменная, до 1,2 Мт (мегатонного класса)" } },
+          { label: { en: "Weight", ru: "Вес" }, value: { en: "~1,100 kg", ru: "~1 100 кг" } },
+          { label: { en: "Length", ru: "Длина" }, value: { en: "3.67 m", ru: "3,67 м" } },
+          { label: { en: "Diameter", ru: "Диаметр" }, value: { en: "46 cm", ru: "46 см" } },
+          { label: { en: "Delivery", ru: "Доставка" }, value: { en: "B-2 Spirit, B-52H, B-1B strategic bombers", ru: "Стратегические бомбардировщики B-2, B-52H, B-1B" } },
+          { label: { en: "Type", ru: "Тип" }, value: { en: "Thermonuclear gravity bomb", ru: "Термоядерная гравитационная бомба" } },
+        ],
+        warheads: 400,
+        history: { en: "Developed by Lawrence Livermore National Laboratory in the late 1970s as a replacement for the B28 and B43. Entered service in 1983. The B83 was produced in limited numbers (~650), of which approximately 400 remain in the stockpile. The weapon has never been used in combat. Its primary role shifted from frontline deployment to strategic reserve after the Cold War.", ru: "Разработана Ливерморской национальной лабораторией в конце 1970-х годов для замены B28 и B43. Поступила на вооружение в 1983 году. B83 выпускалась ограниченной серией (~650), из которых примерно 400 остаются в арсенале. Оружие никогда не применялось в бою. После Холодной войны его основная роль сместилась с боевого развёртывания на стратегический резерв." },
+        designers: { en: "Lawrence Livermore National Laboratory (LLNL). Production at the Pantex Plant (Amarillo, Texas).", ru: "Ливерморская национальная лаборатория (LLNL). Производство на заводе Pantex (Амарилло, Техас)." },
+        inventory: { en: "Approximately 400 bombs in the US reserve stockpile. Not currently deployed on aircraft in peacetime, but available for upload if needed.", ru: "Примерно 400 бомб в резервном арсенале США. В настоящее время не развёрнуты на самолётах в мирное время, но доступны для загрузки при необходимости." },
+        tests: { en: "Full-yield underground nuclear test at the Nevada Test Site in 1983. The design was validated before the comprehensive test ban. Subsequent non-nuclear tests conducted at Sandia to verify safety and control systems.", ru: "Полномасштабное подземное ядерное испытание на Невадском полигоне в 1983 году. Конструкция была проверена до введения всеобъемлющего запрета испытаний. Последующие неядерные испытания проводились в Сандии для проверки систем безопасности и управления." },
+        source: "https://en.wikipedia.org/wiki/B83_nuclear_bomb",
+      },
+      {
+        id: "agm-86b-alcm",
+        name: { en: "AGM-86B ALCM (B-52H)", ru: "AGM-86B КРВБ (B-52H)" },
+        versions: { en: "AGM-86B (nuclear ALCM). AGM-86C CALCM (conventional). AGM-86D (penetrator variant). Launched from B-52H Stratofortress.", ru: "AGM-86B (ядерная КРВБ). AGM-86C CALCM (конвенциональная). AGM-86D (проникающий вариант). Пуск с B-52H Stratofortress." },
+        description: {
+          en: "The AGM-86B Air-Launched Cruise Missile is the primary stand-off nuclear weapon of the US Air Force, carried exclusively by B-52H bombers. The missile is subsonic, terrain-following, and carries a W80-1 thermonuclear warhead. Each B-52H can carry up to 20 missiles (6 on external pylons + 8 in the bomb bay on a rotary launcher, plus 6 more in a second bay).\n\nIn a nuclear conflict scenario, B-52H bombers would launch ALCM salvos from stand-off ranges outside enemy airspace, saturating air defenses with hundreds of missiles approaching from different vectors simultaneously. This 'tube-launched' capability makes the B-52+ALCM combination a critical element of the US air-breathing deterrent.",
+          ru: "AGM-86B — основное ядерное оружие дистанционного запуска ВВС США, носимое исключительно бомбардировщиками B-52H. Ракета дозвуковая, рельефометрическая, несёт термоядерную боеголовку W80-1. Каждый B-52H может нести до 20 ракет (6 на внешних пилонах + 8 в бомбоотсеке на вращающейся пусковой установке + ещё 6 во втором отсеке).\n\nВ сценарии ядерного конфликта бомбардировщики B-52H запускали бы залпы КРВБ с дистанции за пределами вражеского воздушного пространства, насыщая ПВО сотнями ракет, приближающихся с разных направлений одновременно. Эта способность делает комбинацию B-52+ALCM критическим элементом воздушного сдерживания США."
+        },
+        upgrades: { en: "The AGM-86B entered service in 1982. The conventional AGM-86C was used in combat (Iraq 1991, 2003, Balkans 1999). The nuclear variant remains in the stockpile with life-extension programs. The AGM-86 is scheduled for replacement by the Long-Range Stand-Off (LRSO) weapon in the 2030s.", ru: "AGM-86B поступила на вооружение в 1982 году. Конвенциональная AGM-86C применялась в бою (Ирак 1991, 2003, Балканы 1999). Ядерный вариант остаётся в арсенале с программами продления срока службы. AGM-86 планируется к замене оружием большой дальности (LRSO) в 2030-х годах." },
+        specs: [
+          { label: { en: "Range", ru: "Дальность" }, value: { en: "2,400 km", ru: "2 400 км" } },
+          { label: { en: "Warhead", ru: "Боеголовка" }, value: { en: "W80-1 thermonuclear 5–150 kt (variable)", ru: "W80-1 термоядерная 5–150 кт (переменная)" } },
+          { label: { en: "Speed", ru: "Скорость" }, value: { en: "Mach 0.73 (subsonic)", ru: "0,73 Маха (дозвуковая)" } },
+          { label: { en: "Guidance", ru: "Наведение" }, value: { en: "Inertial + TERCOM terrain matching", ru: "Инерциальное + эталонная карта TERCOM" } },
+          { label: { en: "Platform", ru: "Носитель" }, value: { en: "B-52H (up to 20 missiles per bomber)", ru: "B-52H (до 20 ракет на бомбардировщик)" } },
+          { label: { en: "Total bombers", ru: "Всего бомбардировщиков" }, value: { en: "~46 B-52H nuclear-capable", ru: "~46 B-52H, способных нести ядерное оружие" } },
+        ],
+        warheads: 400,
+        history: { en: "Developed by Boeing in the 1970s as an air-breathing counterpart to submarine and land-based missiles. Entered service in 1982. At its peak, over 1,700 ALCMs were stockpiled. Arms control treaties reduced numbers significantly. The AGM-86B has been a key element of US-Soviet/Russian arms control negotiations (START, New START).", ru: "Разработана Boeing в 1970-х годах как воздушный аналог подводных и наземных ракет. Поступила на вооружение в 1982 году. На пике в арсенале было более 1 700 КРВБ. Договоры о контроле над вооружениями значительно сократили количество. AGM-86B была ключевым элементом советско-американских / российско-американских переговоров (СНВ, СНВ-3)." },
+        designers: { en: "Boeing Defense, Space & Security. W80 warhead: Los Alamos National Laboratory.", ru: "Boeing Defense, Space & Security. Боеголовка W80: Лос-Аламосская национальная лаборатория." },
+        inventory: { en: "~400 AGM-86B missiles with nuclear warheads in the active stockpile, carried by ~46 B-52H bombers.", ru: "~400 ракет AGM-86B с ядерными боеголовками в активном арсенале, носители — ~46 бомбардировщиков B-52H." },
+        tests: { en: "Extensive flight test program in the 1980s, including launch from B-52H over the Pacific. Operational testing continues with the B-52 fleet. The W80 warhead was tested at the Nevada Test Site before the moratorium.", ru: "Обширная программа лётных испытаний в 1980-х годах, включая пуски с B-52H над Тихим океаном. Эксплуатационные испытания продолжаются с флотом B-52. Боеголовка W80 была испытана на Невадском полигоне до введения моратория." },
+        source: "https://en.wikipedia.org/wiki/AGM-86_ALCM",
+      },
+      {
+        id: "usa-other",
+        name: { en: "Other nuclear systems (tactical, reserve, retired)", ru: "Прочие ядерные системы (тактические, резерв, утилизация)" },
+        versions: { en: "Includes tactical nuclear weapons, reserve warheads, retired systems awaiting dismantlement, and weapons in the life-extension pipeline.", ru: "Включает тактическое ядерное оружие, резервные боеголовки, снятые с вооружения системы, ожидающие утилизации, и оружие в программах продления срока службы." },
+        description: {
+          en: "The US non-strategic and reserve stockpile includes approximately 200 tactical B61 bombs deployed at NATO bases in Europe, reserve warheads from retired systems (Advanced Cruise Missile, nuclear Tomahawk, B53 bomb), and warheads in the inactive reserve. The US has significantly reduced its non-strategic nuclear arsenal since the Cold War, but retains a hedge of reserve warheads that could be uploaded to delivery systems if needed.",
+          ru: "Нестратегический и резервный арсенал США включает примерно 200 тактических бомб B61, развёрнутых на базах НАТО в Европе, резервные боеголовки снятых с вооружения систем (Advanced Cruise Missile, ядерный Tomahawk, бомба B53) и боеголовки неактивного резерва. США значительно сократили нестратегический ядерный арсенал после Холодной войны, но сохраняют резерв боеголовок, которые могут быть загружены на носители при необходимости.",
+        },
+        upgrades: { en: "Not applicable — this category aggregates multiple systems across different eras.", ru: "Не применимо — эта категория объединяет множество систем разных эпох." },
+        specs: [
+          { label: { en: "Coverage", ru: "Охват" }, value: { en: "Tactical B61s deployed in Europe (~100), reserve warheads (~1,000), retired awaiting dismantlement (~900)", ru: "Тактические B61 в Европе (~100), резервные боеголовки (~1 000), снятые в ожидании утилизации (~900)" } },
+        ],
+        warheads: 2044,
+        history: { en: "Same — aggregates multiple systems.", ru: "То же — объединяет множество систем." },
+        designers: { en: "Various design bureaus and laboratories across different historical periods.", ru: "Различные КБ и лаборатории разных исторических периодов." },
+        inventory: { en: "Estimated ~2,000 warheads across all non-strategic and reserve systems.", ru: "По оценкам ~2 000 боеголовок на всех нестратегических и резервных системах." },
+        tests: { en: "Not applicable — aggregate category.", ru: "Не применимо — сводная категория." },
+        source: "https://www.sipri.org",
       },
     ],
   },
@@ -354,6 +497,7 @@ export const countries: Country[] = [
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel", ru: "трёхступенчатый твердотопливный" } },
           { label: { en: "Accuracy", ru: "Точность" }, value: { en: "~100–200 m CEP", ru: "~100–200 м КВО" } },
         ],
+        warheads: 200,
         history: {
           en: "Development of the DF-41 began in the 1980s, with first test flights reported in 2012. The missile entered service around 2017. Deployment accelerated significantly in the early 2020s, with multiple silo fields under construction in Gansu and Inner Mongolia.",
           ru: "Разработка DF-41 началась в 1980-х годах, первые испытательные полёты зафиксированы в 2012 году. Ракета поступила на вооружение примерно в 2017 году. Развёртывание значительно ускорилось в начале 2020-х годов: в Ганьсу и Внутренней Монголии строятся новые шахтные поля.",
@@ -399,6 +543,7 @@ export const countries: Country[] = [
           { label: { en: "Guidance", ru: "Наведение" }, value: { en: "inertial with BeiDou", ru: "инерциальное с BeiDou" } },
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel", ru: "трёхступенчатый твердотопливный" } },
         ],
+        warheads: 100,
         history: {
           en: "The DF-31 program began in the 1980s and faced significant technical challenges, including a failed test in 1995. The original DF-31 entered service in 2006. The DF-31A extended-range variant followed, and the DF-31AG was unveiled at the 2017 National Day parade. The AG variant is now the primary mobile ICBM in Chinese service.",
           ru: "Программа DF-31 началась в 1980-х годах и столкнулась со значительными техническими трудностями, включая неудачный тест в 1995 году. Оригинальный DF-31 поступил на вооружение в 2006 году. Вариант DF-31A увеличенной дальности последовал за ним, а DF-31AG был представлен на параде в 2017 году. Вариант AG теперь является основной мобильной МБР Китая.",
@@ -444,6 +589,7 @@ export const countries: Country[] = [
           { label: { en: "Guidance", ru: "Наведение" }, value: { en: "inertial with BeiDou", ru: "инерциальное с BeiDou" } },
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel", ru: "трёхступенчатый твердотопливный" } },
         ],
+        warheads: 36,
         history: {
           en: "Development of the JL-2 began in the 1990s to provide China with a sea-based nuclear capability. Initial testing faced difficulties, with some reports of failed tests. The missile achieved initial operational capability around 2015 on Jin-class submarines. China continues to expand its SSBN fleet with improved Type 094 submarines.",
           ru: "Разработка JL-2 началась в 1990-х годах для создания морского компонента ядерной триады Китая. Первоначальные испытания столкнулись с трудностями, были сообщения о неудачных пусках. Ракета достигла начальной боеготовности примерно в 2015 году на подводных лодках класса «Цзинь». Китай продолжает расширять флот ПЛАРБ с улучшенными подводными лодками типа 094.",
@@ -461,6 +607,25 @@ export const countries: Country[] = [
           ru: "Многочисленные испытательные пуски с подводных лодок класса «Цзинь» и, возможно, с подводных испытательных платформ. Проведена масштабная кампания испытаний перед объявлением начальной боеготовности.",
         },
         source: "https://en.wikipedia.org/wiki/JL-2",
+      },
+      {
+        id: "china-other",
+        name: { en: "Other nuclear systems (tactical, reserve, retired)", ru: "Прочие ядерные системы (тактические, резерв, утилизация)" },
+        versions: { en: "Includes tactical nuclear weapons, reserve warheads, retired systems awaiting dismantlement, and weapons in the life-extension pipeline.", ru: "Включает тактическое ядерное оружие, резервные боеголовки, снятые с вооружения системы, ожидающие утилизации, и оружие в программах продления срока службы." },
+        description: {
+          en: "China's remaining nuclear warheads are on older systems not listed here: the DF-5 silo-based ICBM (~20 missiles, 20 warheads), DF-26 intermediate-range ballistic missiles, DF-21 anti-ship ballistic missiles, and H-6 bomber-delivered bombs. China is also believed to be developing new systems and expanding its silo-based ICBM fields, which will increase its warhead count significantly.",
+          ru: "Остальные ядерные боеголовки Китая приходятся на не перечисленные здесь системы: шахтную МБР DF-5 (~20 ракет, 20 боеголовок), баллистические ракеты средней дальности DF-26, противокорабельные DF-21 и авиабомбы с бомбардировщиков H-6. Китай также разрабатывает новые системы и расширяет поля шахтных МБР, что значительно увеличит количество боеголовок.",
+        },
+        upgrades: { en: "Not applicable — this category aggregates multiple systems across different eras.", ru: "Не применимо — эта категория объединяет множество систем разных эпох." },
+        specs: [
+          { label: { en: "Coverage", ru: "Охват" }, value: { en: "DF-5 ICBM (~20), DF-26 IRBM, DF-21 ASBM, H-6 bombers, new silo fields under construction", ru: "МБР DF-5 (~20), БРСД DF-26, ПКР DF-21, бомбардировщики H-6, новые шахты в строительстве" } },
+        ],
+        warheads: 200,
+        history: { en: "Same — aggregates multiple systems.", ru: "То же — объединяет множество систем." },
+        designers: { en: "Various design bureaus and laboratories across different historical periods.", ru: "Различные КБ и лаборатории разных исторических периодов." },
+        inventory: { en: "Estimated ~200 warheads across all non-strategic and reserve systems.", ru: "По оценкам ~200 боеголовок на всех нестратегических и резервных системах." },
+        tests: { en: "Not applicable — aggregate category.", ru: "Не применимо — сводная категория." },
+        source: "https://www.sipri.org",
       },
     ],
   },
@@ -500,6 +665,7 @@ export const countries: Country[] = [
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel", ru: "трёхступенчатый твердотопливный" } },
           { label: { en: "Accuracy", ru: "Точность" }, value: { en: "~150–200 m CEP", ru: "~150–200 м КВО" } },
         ],
+        warheads: 240,
         history: {
           en: "Development of the M51 began in the 1990s to replace the M45 SLBM. First test launch in 2006, with entry into service in 2010 on the Triomphant-class submarine Le Terrible. The M51 ensures France maintains a continuous at-sea deterrent patrol — the Force océanique stratégique.",
           ru: "Разработка M51 началась в 1990-х годах для замены БРПЛ M45. Первый испытательный пуск в 2006 году, принятие на вооружение в 2010 году на подводной лодке класса «Триумфан» Le Terrible. M51 обеспечивает Франции непрерывное патрулирование в море — Force océanique stratégique.",
@@ -545,6 +711,7 @@ export const countries: Country[] = [
           { label: { en: "Length", ru: "Длина" }, value: { en: "5.4 m", ru: "5,4 м" } },
           { label: { en: "Launch weight", ru: "Стартовая масса" }, value: { en: "~860 kg", ru: "~860 кг" } },
         ],
+        warheads: 54,
         history: {
           en: "The original ASMP entered service in 1986. The improved ASMP-A was introduced in 2009 for the Rafale aircraft. The missile has been used in French nuclear deterrent patrols and exercises. The ASN4G successor is expected in the 2035–2040 timeframe.",
           ru: "Оригинальная ASMP поступила на вооружение в 1986 году. Улучшенная ASMP-A была введена в 2009 году для самолёта Rafale. Ракета использовалась во французских патрулях ядерного сдерживания и учениях. Преемник ASN4G ожидается в 2035–2040 годах.",
@@ -598,6 +765,7 @@ export const countries: Country[] = [
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel (US missile, UK warhead)", ru: "трёхступенчатый твердотопливный (американская ракета, британская боеголовка)" } },
           { label: { en: "Accuracy", ru: "Точность" }, value: { en: "~100 m CEP", ru: "~100 м КВО" } },
         ],
+        warheads: 120,
         history: {
           en: "The UK's independent nuclear deterrent began in the 1950s. The Trident system replaced the Polaris system in the 1990s. The 2010 Strategic Defence and Security Review capped the stockpile at 120 operational warheads. The UK has reduced from 48 to 40 missile tubes per submarine and from 8 to 4 deployed missiles per boat under the 2010 review.",
           ru: "Независимое ядерное сдерживание Великобритании началось в 1950-х годах. Система Trident заменила Polaris в 1990-х годах. Обзор стратегической обороны и безопасности 2010 года ограничил арсенал 120 оперативными боеголовками. Великобритания сократила количество ракетных шахт с 48 до 40 на подводную лодку и количество развёрнутых ракет с 8 до 4 в соответствии с обзором 2010 года.",
@@ -615,6 +783,25 @@ export const countries: Country[] = [
           ru: "Великобритания не проводит ядерные испытательные взрывы, полагаясь на программу испытаний США для ракет Trident. Совместные американо-британские демонстрационные пуски проводятся с подводных лодок класса «Вэнгард».",
         },
         source: "https://en.wikipedia.org/wiki/Trident_(missile)#United_Kingdom",
+      },
+      {
+        id: "uk-other",
+        name: { en: "Other nuclear systems (tactical, reserve, retired)", ru: "Прочие ядерные системы (тактические, резерв, утилизация)" },
+        versions: { en: "Includes tactical nuclear weapons, reserve warheads, retired systems awaiting dismantlement, and weapons in the life-extension pipeline.", ru: "Включает тактическое ядерное оружие, резервные боеголовки, снятые с вооружения системы, ожидающие утилизации, и оружие в программах продления срока службы." },
+        description: {
+          en: "The UK maintains a stockpile of approximately 120 operational warheads for its Trident missiles, with an additional 105 warheads in the reserve or life-extension pipeline. The UK has a 'megatonnage ceiling' policy and maintains a single nuclear system (Trident SLBM), but the total stockpile includes warheads being refurbished or awaiting dismantlement.",
+          ru: "Великобритания содержит примерно 120 операционных боеголовок для ракет Trident и ещё 105 боеголовок в резерве или программе продления срока службы. Великобритания придерживается политики «потолка мегатоннажа» и поддерживает единственную ядерную систему (Trident SLBM), но общий арсенал включает боеголовки на модернизации или ожидающие утилизации.",
+        },
+        upgrades: { en: "Not applicable — this category aggregates multiple systems across different eras.", ru: "Не применимо — эта категория объединяет множество систем разных эпох." },
+        specs: [
+          { label: { en: "Coverage", ru: "Охват" }, value: { en: "Reserve warheads in refurbishment pipeline", ru: "Резервные боеголовки в программе модернизации" } },
+        ],
+        warheads: 105,
+        history: { en: "Same — aggregates multiple systems.", ru: "То же — объединяет множество систем." },
+        designers: { en: "Various design bureaus and laboratories across different historical periods.", ru: "Различные КБ и лаборатории разных исторических периодов." },
+        inventory: { en: "Estimated ~105 warheads across all non-strategic and reserve systems.", ru: "По оценкам ~105 боеголовок на всех нестратегических и резервных системах." },
+        tests: { en: "Not applicable — aggregate category.", ru: "Не применимо — сводная категория." },
+        source: "https://www.sipri.org",
       },
     ],
   },
@@ -653,6 +840,7 @@ export const countries: Country[] = [
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "two-stage solid fuel", ru: "двухступенчатый твердотопливный" } },
           { label: { en: "Launch weight", ru: "Стартовая масса" }, value: { en: "~25 t", ru: "~25 т" } },
         ],
+        warheads: 12,
         history: {
           en: "Development of the Shaheen series began in the 1990s with Chinese and North Korean technical assistance. Shaheen-III was first tested in 2015 and entered service later that year. The missile was unveiled at a military parade in 2017. It is operated by the Pakistani Army Strategic Forces Command.",
           ru: "Разработка серии Shaheen началась в 1990-х годах с технической помощью Китая и Северной Кореи. Shaheen-III впервые испытан в 2015 году и поступил на вооружение в том же году. Ракета была представлена на военном параде в 2017 году. Она эксплуатируется Командованием стратегических сил армии Пакистана.",
@@ -698,6 +886,7 @@ export const countries: Country[] = [
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "two-stage solid fuel", ru: "двухступенчатый твердотопливный" } },
           { label: { en: "Launch weight", ru: "Стартовая масса" }, value: { en: "~1.2 t", ru: "~1,2 т" } },
         ],
+        warheads: 20,
         history: {
           en: "The Nasr was first publicly tested in April 2011. Its development raised international concern due to the risks of escalation with tactical nuclear weapons on a densely populated battlefield. Pakistan has emphasized that the Nasr is a credible deterrent against any Indian military incursion.",
           ru: "Nasr впервые публично испытана в апреле 2011 года. Её разработка вызвала международную обеспокоенность из-за рисков эскалации с применением тактического ядерного оружия на густонаселённом театре военных действий. Пакистан подчёркивает, что Nasr является надёжным средством сдерживания любого индийского военного вторжения.",
@@ -715,6 +904,25 @@ export const countries: Country[] = [
           ru: "Многочисленные лётные испытания с 2011 года, включая залповые пуски нескольких ракет одновременно. Испытания объявляются Межведомственной связью общественности.",
         },
         source: "https://en.wikipedia.org/wiki/Nasr_(missile)",
+      },
+      {
+        id: "pakistan-other",
+        name: { en: "Other nuclear systems (tactical, reserve, retired)", ru: "Прочие ядерные системы (тактические, резерв, утилизация)" },
+        versions: { en: "Includes tactical nuclear weapons, reserve warheads, retired systems awaiting dismantlement, and weapons in the life-extension pipeline.", ru: "Включает тактическое ядерное оружие, резервные боеголовки, снятые с вооружения системы, ожидающие утилизации, и оружие в программах продления срока службы." },
+        description: {
+          en: "Pakistan operates multiple nuclear-capable systems beyond those listed: Shaheen-I (IRBM, range 650–900 km), Shaheen-II (MRBM, 1,500 km), Ghaznavi (SRBM, 290 km), Abdali (SRBM, 180 km), and Babar cruise missiles (350–700 km). Pakistan's nuclear arsenal is diversified across short, medium, and long-range systems, with a focus on survivability through mobile launchers and road-mobile systems. Pakistan does not declare its nuclear doctrine fully, maintaining ambiguity about arsenal size.",
+          ru: "Пакистан эксплуатирует множество ядерных систем помимо перечисленных: Shaheen-I (БРСД, 650–900 км), Shaheen-II (БРСД, 1 500 км), Ghaznavi (БРМД, 290 км), Abdali (БРМД, 180 км) и крылатые ракеты Babar (350–700 км). Ядерный арсенал Пакистана диверсифицирован по системам малой, средней и большой дальности, с акцентом на живучесть через мобильные пусковые установки. Пакистан не декларирует свою ядерную доктрину полностью, сохраняя неопределённость относительно размера арсенала.",
+        },
+        upgrades: { en: "Not applicable — this category aggregates multiple systems across different eras.", ru: "Не применимо — эта категория объединяет множество систем разных эпох." },
+        specs: [
+          { label: { en: "Coverage", ru: "Охват" }, value: { en: "Shaheen-I, Shaheen-II, Ghaznavi, Abdali, Babar cruise missiles, air-delivered bombs", ru: "Shaheen-I, Shaheen-II, Ghaznavi, Abdali, крылатые ракеты Babar, авиабомбы" } },
+        ],
+        warheads: 140,
+        history: { en: "Same — aggregates multiple systems.", ru: "То же — объединяет множество систем." },
+        designers: { en: "Various design bureaus and laboratories across different historical periods.", ru: "Различные КБ и лаборатории разных исторических периодов." },
+        inventory: { en: "Estimated ~140 warheads across all non-strategic and reserve systems.", ru: "По оценкам ~140 боеголовок на всех нестратегических и резервных системах." },
+        tests: { en: "Not applicable — aggregate category.", ru: "Не применимо — сводная категория." },
+        source: "https://www.sipri.org",
       },
     ],
   },
@@ -753,6 +961,7 @@ export const countries: Country[] = [
           { label: { en: "Guidance", ru: "Наведение" }, value: { en: "inertial with Ring Laser Gyro", ru: "инерциальное с кольцевым лазерным гироскопом" } },
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel", ru: "трёхступенчатый твердотопливный" } },
         ],
+        warheads: 16,
         history: {
           en: "The Agni series began with Agni-I in 2002. Agni-V was first tested in 2012 and was inducted into service in 2018. The missile significantly expands India's strategic reach. India follows a no-first-use nuclear policy but the Agni-V provides essential second-strike credibility against China.",
           ru: "Серия Agni началась с Agni-I в 2002 году. Agni-V впервые испытан в 2012 году и принят на вооружение в 2018 году. Ракета значительно расширяет стратегический охват Индии. Индия придерживается политики неприменения первой, но Agni-V обеспечивает необходимую способность ответного удара по Китаю.",
@@ -797,6 +1006,7 @@ export const countries: Country[] = [
           { label: { en: "Guidance", ru: "Наведение" }, value: { en: "inertial", ru: "инерциальное" } },
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "two-stage solid fuel", ru: "двухступенчатый твердотопливный" } },
         ],
+        warheads: 8,
         history: {
           en: "The K-4 was first tested in 2014 from a submerged pontoon. Multiple development tests followed. The missile is now deployed on Arihant-class submarines alongside the shorter-range K-15. The K-4 significantly improves India's assured retaliation capability from the sea.",
           ru: "K-4 впервые испытан в 2014 году с подводного понтона. Последовали многочисленные испытания. Ракета развёрнута на подводных лодках класса «Арихант» вместе с K-15 меньшей дальности. K-4 значительно улучшает способность Индии к гарантированному ответному удару с моря.",
@@ -814,6 +1024,25 @@ export const countries: Country[] = [
           ru: "Первое испытание в марте 2014 года с подводной платформы. Многочисленные последующие тесты, включая пуски с INS Arihant. Продолжаются испытания для сертификации подводных лодок.",
         },
         source: "https://en.wikipedia.org/wiki/K-4_(missile)",
+      },
+      {
+        id: "india-other",
+        name: { en: "Other nuclear systems (tactical, reserve, retired)", ru: "Прочие ядерные системы (тактические, резерв, утилизация)" },
+        versions: { en: "Includes tactical nuclear weapons, reserve warheads, retired systems awaiting dismantlement, and weapons in the life-extension pipeline.", ru: "Включает тактическое ядерное оружие, резервные боеголовки, снятые с вооружения системы, ожидающие утилизации, и оружие в программах продления срока службы." },
+        description: {
+          en: "India operates several nuclear delivery systems beyond those listed: Agni-I (SRBM, 700 km), Agni-II (MRBM, 2,000 km), Agni-III (IRBM, 3,500 km), Agni-IV (IRBM, 4,000 km), Prithvi-I/II (SRBM, 150–350 km), Dhanush (ship-launched SRBM), and nuclear-capable aircraft (Mirage 2000, Rafale, Jaguar). India maintains a 'no-first-use' policy but is expanding its triad capabilities, including a new SSBN class and Agni-VI in development.",
+          ru: "Индия эксплуатирует множество ядерных систем помимо перечисленных: Agni-I (БРМД, 700 км), Agni-II (БРСД, 2 000 км), Agni-III (БРСД, 3 500 км), Agni-IV (БРСД, 4 000 км), Prithvi-I/II (БРМД, 150–350 км), Dhanush (корабельная БРМД) и ядерную авиацию (Mirage 2000, Rafale, Jaguar). Индия придерживается политики «неприменения первой», но расширяет свою триаду, включая новый класс SSBN и Agni-VI в разработке.",
+        },
+        upgrades: { en: "Not applicable — this category aggregates multiple systems across different eras.", ru: "Не применимо — эта категория объединяет множество систем разных эпох." },
+        specs: [
+          { label: { en: "Coverage", ru: "Охват" }, value: { en: "Agni-I to Agni-IV, Prithvi-I/II, Dhanush, nuclear-capable aircraft", ru: "Agni-I — Agni-IV, Prithvi-I/II, Dhanush, ядерная авиация" } },
+        ],
+        warheads: 140,
+        history: { en: "Same — aggregates multiple systems.", ru: "То же — объединяет множество систем." },
+        designers: { en: "Various design bureaus and laboratories across different historical periods.", ru: "Различные КБ и лаборатории разных исторических периодов." },
+        inventory: { en: "Estimated ~140 warheads across all non-strategic and reserve systems.", ru: "По оценкам ~140 боеголовок на всех нестратегических и резервных системах." },
+        tests: { en: "Not applicable — aggregate category.", ru: "Не применимо — сводная категория." },
+        source: "https://www.sipri.org",
       },
     ],
   },
@@ -852,6 +1081,7 @@ export const countries: Country[] = [
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "three-stage solid fuel", ru: "трёхступенчатый твердотопливный" } },
           { label: { en: "Launch weight", ru: "Стартовая масса" }, value: { en: "~30 t", ru: "~30 т" } },
         ],
+        warheads: 24,
         history: {
           en: "The Jericho missile program began in the 1960s with French assistance. The Jericho III was first tested in 2008 from the Palmachim Airbase. Israel's nuclear policy is deliberately ambiguous — neither confirming nor denying possession of nuclear weapons. The Jericho III is believed to be the core of Israel's strategic deterrent.",
           ru: "Программа Jericho началась в 1960-х годах с французской помощью. Jericho III впервые испытан в 2008 году с авиабазы Пальмахим. Ядерная политика Израиля намеренно неопределённа — ни подтверждения, ни отрицания наличия ядерного оружия. Jericho III считается основой стратегического сдерживания Израиля.",
@@ -869,6 +1099,25 @@ export const countries: Country[] = [
           ru: "Публично объявленное испытание в 2008 году (навесная траектория в Средиземное море). Другие испытания проводились, но подробности остаются засекреченными.",
         },
         source: "https://en.wikipedia.org/wiki/Jericho_(missile)",
+      },
+      {
+        id: "israel-other",
+        name: { en: "Other nuclear systems (tactical, reserve, retired)", ru: "Прочие ядерные системы (тактические, резерв, утилизация)" },
+        versions: { en: "Includes tactical nuclear weapons, reserve warheads, retired systems awaiting dismantlement, and weapons in the life-extension pipeline.", ru: "Включает тактическое ядерное оружие, резервные боеголовки, снятые с вооружения системы, ожидающие утилизации, и оружие в программах продления срока службы." },
+        description: {
+          en: "Israel maintains its nuclear arsenal under a policy of 'deliberate ambiguity'. Beyond the Jericho III ICBM, Israel is believed to operate Jericho II (IRBM, 2,800 km), nuclear-capable aircraft (F-15, F-16), and possibly submarine-launched cruise missiles (Popeye Turbo / Harop with nuclear warheads). Israel's total arsenal is estimated at 90 warheads, with the Jericho III accounting for approximately 24.",
+          ru: "Израиль содержит ядерный арсенал в рамках политики «намеренной неопределённости». Помимо МБР Jericho III, Израиль, как полагают, имеет Jericho II (БРСД, 2 800 км), ядерную авиацию (F-15, F-16) и, возможно, крылатые ракеты подводного базирования (Popeye Turbo / Harop с ядерными боеголовками). Общий арсенал Израиля оценивается в 90 боеголовок, из которых Jericho III составляет примерно 24.",
+        },
+        upgrades: { en: "Not applicable — this category aggregates multiple systems across different eras.", ru: "Не применимо — эта категория объединяет множество систем разных эпох." },
+        specs: [
+          { label: { en: "Coverage", ru: "Охват" }, value: { en: "Jericho II IRBM, aircraft bombs, submarine cruise missiles (undeclared)", ru: "Jericho II, авиабомбы, подводные КР (необъявленные)" } },
+        ],
+        warheads: 66,
+        history: { en: "Same — aggregates multiple systems.", ru: "То же — объединяет множество систем." },
+        designers: { en: "Various design bureaus and laboratories across different historical periods.", ru: "Различные КБ и лаборатории разных исторических периодов." },
+        inventory: { en: "Estimated ~65 warheads across all non-strategic and reserve systems.", ru: "По оценкам ~65 боеголовок на всех нестратегических и резервных системах." },
+        tests: { en: "Not applicable — aggregate category.", ru: "Не применимо — сводная категория." },
+        source: "https://www.sipri.org",
       },
     ],
   },
@@ -907,6 +1156,7 @@ export const countries: Country[] = [
           { label: { en: "Guidance", ru: "Наведение" }, value: { en: "inertial", ru: "инерциальное" } },
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "liquid fuel (two-stage)", ru: "жидкостный (двухступенчатый)" } },
         ],
+        warheads: 20,
         history: {
           en: "The Hwasong-17 was first revealed in October 2020 at a military parade. The first full-range test was conducted on November 18, 2022, with the missile landing near Japan. North Korea claims the missile can reach targets anywhere in the world. The system is deployed on 11-axle transporter-erector-launcher vehicles.",
           ru: "Хвасон-17 впервые показан в октябре 2020 года на военном параде. Первое полномасштабное испытание проведено 18 ноября 2022 года с приземлением ракеты у берегов Японии. Северная Корея утверждает, что ракета может поражать цели в любой точке мира. Система развёрнута на 11-осных транспортно-пусковых установках.",
@@ -951,6 +1201,7 @@ export const countries: Country[] = [
           { label: { en: "Guidance", ru: "Наведение" }, value: { en: "inertial", ru: "инерциальное" } },
           { label: { en: "Propulsion", ru: "Двигатель" }, value: { en: "two-stage solid fuel", ru: "двухступенчатый твердотопливный" } },
         ],
+        warheads: 10,
         history: {
           en: "The Pukguksong-3 was first tested in October 2019 from a submerged platform off the coast of Wonsan. North Korea continues to develop both the missile and dedicated submarine platforms. The missile is part of North Korea's expanding nuclear deterrent and provides a potential sea-based launch capability.",
           ru: "Пуккыксон-3 впервые испытан в октябре 2019 года с подводной платформы у побережья Вонсана. Северная Корея продолжает разработку как ракеты, так и специализированных подводных платформ. Ракета является частью расширяющегося ядерного сдерживания Северной Кореи и обеспечивает потенциальную возможность запуска с моря.",
@@ -968,6 +1219,25 @@ export const countries: Country[] = [
           ru: "Октябрь 2019 года (подтверждено Южной Кореей и Японией). Дополнительные испытания с подводных платформ и, возможно, с экспериментальной подводной лодки Северной Кореи.",
         },
         source: "https://en.wikipedia.org/wiki/Pukguksong-3",
+      },
+      {
+        id: "north-korea-other",
+        name: { en: "Other nuclear systems (tactical, reserve, retired)", ru: "Прочие ядерные системы (тактические, резерв, утилизация)" },
+        versions: { en: "Includes tactical nuclear weapons, reserve warheads, retired systems awaiting dismantlement, and weapons in the life-extension pipeline.", ru: "Включает тактическое ядерное оружие, резервные боеголовки, снятые с вооружения системы, ожидающие утилизации, и оружие в программах продления срока службы." },
+        description: {
+          en: "North Korea's nuclear arsenal includes several systems beyond those listed: Hwasong-14 (ICBM, 10,000 km), Hwasong-12 (IRBM, 4,500 km), KN-23/KN-24 (SRBMs, 400–900 km), and possible nuclear-capable artillery. North Korea is actively expanding its arsenal and delivery systems, with ongoing tests of solid-fuel ICBMs and hypersonic weapons. The opacity of the regime makes estimates highly uncertain.",
+          ru: "Ядерный арсенал КНДР включает несколько систем помимо перечисленных: Hwasong-14 (МБР, 10 000 км), Hwasong-12 (БРСД, 4 500 км), KN-23/KN-24 (БРМД, 400–900 км) и возможно ядерную артиллерию. КНДР активно расширяет арсенал и средства доставки, проводя испытания твердотопливных МБР и гиперзвукового оружия. Непрозрачность режима делает оценки крайне неопределёнными.",
+        },
+        upgrades: { en: "Not applicable — this category aggregates multiple systems across different eras.", ru: "Не применимо — эта категория объединяет множество систем разных эпох." },
+        specs: [
+          { label: { en: "Coverage", ru: "Охват" }, value: { en: "Hwasong-14 ICBM, Hwasong-12 IRBM, KN-23/KN-24 SRBMs, possible nuclear artillery", ru: "Hwasong-14, Hwasong-12, KN-23/KN-24, возможная ядерная артиллерия" } },
+        ],
+        warheads: 30,
+        history: { en: "Same — aggregates multiple systems.", ru: "То же — объединяет множество систем." },
+        designers: { en: "Various design bureaus and laboratories across different historical periods.", ru: "Различные КБ и лаборатории разных исторических периодов." },
+        inventory: { en: "Estimated ~30 warheads across all non-strategic and reserve systems.", ru: "По оценкам ~30 боеголовок на всех нестратегических и резервных системах." },
+        tests: { en: "Not applicable — aggregate category.", ru: "Не применимо — сводная категория." },
+        source: "https://www.sipri.org",
       },
     ],
   },

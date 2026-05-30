@@ -23,6 +23,12 @@ function pickScenario(s: Scenario) {
     })
   }
 }
+
+function renderSurvival(text: string | undefined): string {
+  return (text ?? "")
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br>")
+}
 </script>
 
 <template>
@@ -118,6 +124,11 @@ function pickScenario(s: Scenario) {
               <h3 class="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">{{ t("scenarios.survival") }}</h3>
               <p class="text-sm leading-relaxed text-foreground">{{ selectedScenario.survival[locale] ?? selectedScenario.survival.en }}</p>
             </div>
+          </div>
+
+          <div class="rounded-lg border border-green-500/20 bg-green-500/5 p-4">
+            <h3 class="mb-2 text-xs font-bold uppercase tracking-wider text-green-400">{{ t("scenarios.survivalActions") }}</h3>
+            <p class="text-sm leading-relaxed text-foreground" v-html="renderSurvival(selectedScenario.survivalActions[locale] ?? selectedScenario.survivalActions.en)" />
           </div>
 
           <div class="flex items-center justify-between rounded-lg border border-border bg-card p-4">

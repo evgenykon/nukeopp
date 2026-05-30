@@ -17,8 +17,8 @@ function pickModel(m: SafetyModel) {
   }
 }
 
-function renderMd(text: string): string {
-  return text
+function renderMd(text: string | undefined): string {
+  return (text ?? "")
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/\n/g, "<br>")
 }

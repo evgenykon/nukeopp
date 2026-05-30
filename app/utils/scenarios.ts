@@ -7,6 +7,7 @@ export interface Scenario {
   casualties: Record<string, string>
   planetary: Record<string, string>
   survival: Record<string, string>
+  survivalActions: Record<string, string>
   probability: Record<string, string>
   probabilityLabel: Record<string, string>
   probabilitySource: string
@@ -37,6 +38,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "50,000–200,000 immediate deaths. Hundreds of thousands exposed to radiation.", ru: "50 000–200 000 мгновенных смертей. Сотни тысяч подверглись облучению." },
         planetary: { en: "Minimal. No significant soot injection into the stratosphere. Long-term ozone depletion below 1%.", ru: "Минимальное. Значительного выброса сажи в стратосферу нет. Долгосрочное разрушение озона менее 1%." },
         survival: { en: "High for non-participating countries. Moderate in affected regions outside blast zones.", ru: "Высокая для не участвующих стран. Умеренная в затронутых регионах за пределами зон поражения." },
+        survivalActions: {
+          en: "— For civilians in Eastern Europe, Baltics, Poland: evacuate major cities immediately; head westward or southward away from Russian borders; avoid military bases and government buildings\n— For civilians in Russia: avoid Moscow, St. Petersburg, and military command centers; head to rural areas 200+ km from any strategic target; stockpile 2–4 weeks of supplies\n— Stockpile 2–4 weeks of supplies in a rural location 100+ km from any city",
+          ru: "— Для граждан в Восточной Европе, Прибалтике, Польше: немедленно покинуть крупные города; двигаться на запад или юг в сторону от границ России; избегать военных баз и правительственных зданий\n— Для граждан в России: избегать Москвы, Санкт-Петербурга и военных командных центров; направляться в сельские районы в 200+ км от стратегических целей; создать запас на 2–4 недели\n— Создать запас продуктов и воды на 2–4 недели в сельской местности в 100+ км от любого города",
+        },
         probability: { en: "Very Low (3–5%)", ru: "Очень низкая (3–5%)" },
         probabilityLabel: { en: "Very Low", ru: "Очень низкая" },
         probabilitySource: "https://sipri.org",
@@ -58,6 +63,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "50–80 million immediate deaths in Europe. 100–150 million total casualties including radiation sickness and famine.", ru: "50–80 миллионов мгновенных смертей в Европе. 100–150 миллионов общих потерь с учётом лучевой болезни и голода." },
         planetary: { en: "Moderate — 5–10 Tg of soot injected into the stratosphere. Global temperature drop of 1–2°C. Agricultural collapse in the Northern Hemisphere for 2–3 years.", ru: "Умеренное — 5–10 Тг сажи в стратосфере. Глобальное падение температуры на 1–2°C. Коллапс сельского хозяйства в Северном полушарии на 2–3 года." },
         survival: { en: "Low in Europe. Moderate in the Americas and Australia. High in the Southern Hemisphere away from strategic targets.", ru: "Низкая в Европе. Умеренная в Америке и Австралии. Высокая в Южном полушарии вдали от стратегических целей." },
+        survivalActions: {
+          en: "— For all Europeans: evacuate any city immediately — you have 12–24 hours before first strikes; head to rural areas in southern Europe (Spain, Greece) or Scandinavia (Norway, Sweden); do NOT head east — fallout from Russian strikes will drift eastward\n— For Russians: evacuate Moscow, St. Petersburg, and ALL major cities; head to rural Siberia (east of Urals) away from military targets; secure a basement or underground shelter\n— For everyone: stockpile 1–3 months of food, water, and medical supplies; have a battery-powered radio for emergency broadcasts; secure a basement or underground shelter — even a cellar reduces radiation exposure by 90%",
+          ru: "— Для всех европейцев: немедленно покинуть любой город — у вас 12–24 часа до первых ударов; направляться в сельские районы южной Европы (Испания, Греция) или Скандинавии (Норвегия, Швеция); НЕ двигаться на восток — осадки от российских ударов будут дрейфовать на восток\n— Для россиян: покинуть Москву, Санкт-Петербург и ВСЕ крупные города; направляться в сельскую Сибирь (восточнее Урала) вдали от военных целей; обеспечить подвал или подземное укрытие\n— Для всех: создать запас продуктов, воды и медикаментов на 1–3 месяца; иметь радиоприёмник на батарейках для экстренных сообщений; подвал снижает радиационное облучение на 90%",
+        },
         probability: { en: "Very Low (1–3%)", ru: "Очень низкая (1–3%)" },
         probabilityLabel: { en: "Very Low", ru: "Очень низкая" },
         probabilitySource: "https://thebulletin.org",
@@ -79,6 +88,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "500 million–1 billion immediate deaths. 2–3 billion total deaths within the first year from starvation, radiation, and disease.", ru: "500 миллионов–1 миллиард мгновенных смертей. 2–3 миллиарда общих потерь в первый год от голода, радиации и болезней." },
         planetary: { en: "Severe — 50–150 Tg of soot. Nuclear winter: global temperature drop of 4–8°C. Ozone layer depleted by 40–60%. Agriculture collapses worldwide for 5–10 years. Mass extinction event.", ru: "Тяжёлое — 50–150 Тг сажи. Ядерная зима: падение глобальной температуры на 4–8°C. Разрушение озонового слоя на 40–60%. Коллапс сельского хозяйства на 5–10 лет. Массовое вымирание." },
         survival: { en: "Near zero in the Northern Hemisphere. Below 5% globally. Surviving populations face starvation, radiation, and societal collapse.", ru: "Близка к нулю в Северном полушарии. Менее 5% глобально. Выжившие столкнутся с голодом, радиацией и коллапсом общества." },
+        survivalActions: {
+          en: "— For everyone in the Northern Hemisphere: your survival chances are near zero — if you can reach the Southern Hemisphere (Australia, NZ, South Africa, Chile, Argentina), do so immediately\n— For Russians and Europeans: both sides will be equally devastated — there is no 'safe side' in a global nuclear war\n— For those in the Southern Hemisphere: head to rural areas away from major ports and cities that might be targeted; stockpile 1–2 years of supplies; join or form a self-sufficient community with farming skills and water access\n— For everyone: learn analog survival skills now — the internet, power grids, and all electronics will fail within days",
+          ru: "— Для всех в Северном полушарии: ваши шансы на выживание близки к нулю — если можете добраться до Южного полушария (Австралия, Новая Зеландия, ЮАР, Чили, Аргентина), сделайте это немедленно\n— Для россиян и европейцев: обе стороны будут одинаково уничтожены — «безопасной стороны» в глобальной ядерной войне нет\n— Для тех, кто в Южном полушарии: направляйтесь в сельские районы вдали от крупных портов и городов; создайте запас на 1–2 года; присоединитесь к самообеспечивающейся общине\n— Для всех: освойте аналоговые навыки выживания сейчас — интернет, электросети и вся электроника откажут в течение дней",
+        },
         probability: { en: "Extremely Low (<1%)", ru: "Чрезвычайно низкая (<1%)" },
         probabilityLabel: { en: "Extremely Low", ru: "Чрезвычайно низкая" },
         probabilitySource: "https://nature.com",
@@ -100,6 +113,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "5–15 million immediate deaths. 30–50 million total from fallout and secondary effects.", ru: "5–15 миллионов мгновенных смертей. 30–50 миллионов общих потерь от радиоактивных осадков и вторичных эффектов." },
         planetary: { en: "Moderate — 10–20 Tg of soot. Temperature drop of 1–2°C. Regional agricultural collapse.", ru: "Умеренное — 10–20 Тг сажи. Падение температуры на 1–2°C. Региональный коллапс сельского хозяйства." },
         survival: { en: "Moderate in non-targeted regions. Low in targeted countries. The absurdity of the cause may accelerate ceasefire.", ru: "Умеренная в нецелевых регионах. Низкая в странах-целях. Абсурдность причины может ускорить прекращение огня." },
+        survivalActions: {
+          en: "— For everyone in NATO and Russia: this is a limited exchange caused by error — do NOT escalate further; listen for ceasefire announcements\n— For civilians near command centers and military bases (both sides): evacuate immediately — these are primary targets\n— For those in missile silo regions (Montana, North Dakota, USA and Saratov, Orenburg, Russia): pre-evacuate now — these areas will be targeted regardless\n— Stay in shelter for at least 48 hours after the last detonation in your area\n— Do NOT assume it's over after the first wave — escalation is still possible",
+          ru: "— Для всех в НАТО и России: это ограниченный обмен, вызванный ошибкой — НЕ эскалируйте дальше; слушайте объявления о прекращении огня\n— Для граждан рядом с командными центрами и военными базами (обе стороны): немедленно эвакуироваться — это первичные цели\n— Для жителей «ракетных регионов» (Монтана, Северная Дакота, США и Саратов, Оренбург, Россия): эвакуироваться заранее — эти районы будут поражены в любом случае\n— Оставайтесь в укрытии минимум 48 часов после последнего взрыва в вашем районе\n— НЕ считайте, что всё кончено после первой волны — эскалация ещё возможна",
+        },
         probability: { en: "Very Low (1–3%)", ru: "Очень низкая (1–3%)" },
         probabilityLabel: { en: "Very Low", ru: "Очень низкая" },
         probabilitySource: "https://thebulletin.org/doomsday-clock",
@@ -108,6 +125,37 @@ export const conflicts: Conflict[] = [
           ru: "— Солнечные бури или геомагнитная активность, нарушающая работу РЛС\n— Плановые учения стратегических ядерных сил России (повышенный риск ложной тревоги)\n— Деградация спутниковой системы раннего предупреждения\n— Повышенная политическая напряжённость, сжимающая время принятия решений\n— Пуски испытательных ракет США или России без предварительного уведомления\n— Предыдущие инциденты ложных тревог в том же регионе",
         },
         source: "https://en.wikipedia.org/wiki/1983_Soviet_nuclear_false_alarm_incident",
+      },
+    ],
+  },
+  {
+    id: "russia-ukraine",
+    name: { en: "Russia vs Ukraine", ru: "Россия против Украины" },
+    scenarios: [
+      {
+        id: "russia-ukraine-escalation",
+        name: { en: "Escalation of the existing conflict", ru: "Эскалация существующего конфликта" },
+        description: {
+          en: "A protracted conventional conflict reaches a critical point where one side faces conventional defeat. Tactical nuclear weapons are introduced to alter the battlefield calculus and signal resolve. The opposing side, facing nuclear use against its forces, responds with a limited nuclear strike of its own against military targets in the conflict zone.\n\nThe exchange remains limited — both sides recognize that further escalation carries catastrophic risks. Diplomatic channels, mediated by neutral parties, establish communication and a framework for de-escalation. A conditional ceasefire is reached, but nuclear weapons have been used in combat for the first time since 1945, permanently altering the global security landscape.\n\nThis scenario is a generic model of conventional-to-nuclear escalation applicable to various regional conflicts. It does not describe any specific war, its participants, or the course of actual hostilities.",
+          ru: "Затяжной конвенциональный конфликт достигает критической точки, когда одна из сторон оказывается на грани обычного поражения. Для изменения баланса на поле боя и демонстрации решимости применяется тактическое ядерное оружие. Противоположная сторона, столкнувшись с ядерным ударом по своим силам, отвечает ограниченным ядерным ударом по военным целям в зоне конфликта.\n\nОбмен остаётся ограниченным — обе стороны осознают, что дальнейшая эскалация несёт катастрофические риски. Дипломатические каналы при посредничестве нейтральных сторон устанавливают связь и рамки для деэскалации. Достигается условное прекращение огня, но ядерное оружие применено в бою впервые с 1945 года, навсегда изменив глобальный ландшафт безопасности.\n\nДанный сценарий представляет собой обобщённую модель эскалации от обычной войны к ядерной, применимую к различным региональным конфликтам. Он не описывает какую-либо конкретную войну, её участников или ход реальных боевых действий.",
+        },
+        participants: { en: "Russia, Ukraine, NATO member states (potential escalation), Belarus (potential involvement), IAEA (monitoring)", ru: "Россия, Украина, государства-члены НАТО (потенциальная эскалация), Беларусь (потенциальное вовлечение), МАГАТЭ (мониторинг)" },
+        damage: { en: "⚠ Information restricted by Russian legislation", ru: "⚠ Информация ограничена законодательством РФ" },
+        casualties: { en: "⚠ Information restricted by Russian legislation", ru: "⚠ Информация ограничена законодательством РФ" },
+        planetary: { en: "⚠ Information restricted by Russian legislation", ru: "⚠ Информация ограничена законодательством РФ" },
+        survival: { en: "⚠ Information restricted by Russian legislation", ru: "⚠ Информация ограничена законодательством РФ" },
+        survivalActions: {
+          en: "— If you are in or near the conflict zone, identify the nearest potential nuclear targets (military bases, command centers, airports) and plan evacuation routes away from them\n— Stockpile 1–2 months of food, water, and medical supplies\n— Prepare a basement or underground shelter — even a cellar significantly reduces radiation exposure\n— Keep a battery-powered radio, iodine pills, and a Geiger counter ready\n— Establish communication plans with family members and agree on a meeting point outside any major city\n— Monitor official statements and international nuclear risk assessments (IAEA, SIPRI)",
+          ru: "— Если вы находитесь в зоне конфликта или рядом с ней, определите ближайшие потенциальные ядерные цели (военные базы, командные центры, аэропорты) и спланируйте маршруты эвакуации в сторону от них\n— Сделайте запас продуктов, воды и медикаментов на 1–2 месяца\n— Подготовьте подвал или подземное укрытие — даже погреб значительно снижает радиационное облучение\n— Держите наготове радиоприёмник на батарейках, йод и дозиметр\n— Согласуйте план связи с близкими и точку встречи за пределами крупных городов\n— Следите за официальными заявлениями и международными оценками ядерного риска (МАГАТЭ, SIPRI)",
+        },
+        probability: { en: "Low (5–10%)", ru: "Низкая (5–10%)" },
+        probabilityLabel: { en: "Low", ru: "Низкая" },
+        probabilitySource: "https://sipri.org",
+        harbingers: {
+          en: "— Movement of tactical nuclear weapons to forward deployment areas\n— Activation of nuclear command and control exercises near conflict zone\n— Statements by officials lowering the threshold for nuclear use\n— Closure of airspace and maritime exclusion zones\n— Evacuation of cities near potential target areas\n— Deployment of additional air defense and missile defense systems to the region\n— Increased readiness of strategic aviation and submarine patrols\n— Unannounced test launches of ballistic or cruise missiles",
+          ru: "— Выдвижение тактического ядерного оружия в районы передового развёртывания\n— Активация учений ядерных сил командования вблизи зоны конфликта\n— Заявления официальных лиц о снижении порога применения ядерного оружия\n— Закрытие воздушного пространства и морских зон\n— Эвакуация городов вблизи потенциальных целей\n— Развёртывание дополнительных систем ПВО и ПРО в регионе\n— Повышенная готовность стратегической авиации и подводных патрулей\n— Незаявленные испытательные пуски баллистических или крылатых ракет",
+        },
+        source: "https://www.consultant.ru/document/cons_doc_LAW_10699/",
       },
     ],
   },
@@ -127,6 +175,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "100,000–500,000 military and civilian deaths, primarily from naval engagements and secondary effects.", ru: "100 000–500 000 военных и гражданских смертей, в основном от морских сражений и вторичных эффектов." },
         planetary: { en: "Minimal. Limited soot injection. Some regional radiation contamination.", ru: "Минимальное. Ограниченный выброс сажи. Локальное радиационное заражение." },
         survival: { en: "High globally. Moderate in East Asian coastal regions.", ru: "Высокая глобально. Умеренная в прибрежных регионах Восточной Азии." },
+        survivalActions: {
+          en: "— For Taiwanese: evacuate ALL major cities — Taipei, Kaohsiung, Taichung; head to rural eastern Taiwan or offshore islands; avoid military bases and ports\n— For Chinese civilians in coastal cities: evacuate Shanghai, Ningbo, Fuzhou, Xiamen; head inland at least 300 km; avoid naval bases and ASBM launch sites\n— For US personnel and civilians near bases in Japan, Guam: evacuate Yokosuka, Sasebo, Kadena, Andersen AFB; head to inland Japan or the US mainland\n— Stockpile 2–4 weeks of supplies; avoid the Taiwan Strait area",
+          ru: "— Для тайваньцев: покинуть ВСЕ крупные города — Тайбэй, Гаосюн, Тайчжун; направляться в сельский восточный Тайвань или на отдалённые острова; избегать военных баз и портов\n— Для китайских граждан в прибрежных городах: покинуть Шанхай, Нинбо, Фучжоу, Сямынь; двигаться вглубь материка минимум на 300 км; избегать военно-морских баз\n— Для персонала США и граждан рядом с базами в Японии, на Гуаме: покинуть Йокосуку, Сасебо, Кадену; направляться во внутреннюю Японию или на материковую часть США\n— Создать запас припасов на 2–4 недели; избегать района Тайваньского пролива",
+        },
         probability: { en: "Low (5–10%)", ru: "Низкая (5–10%)" },
         probabilityLabel: { en: "Low", ru: "Низкая" },
         probabilitySource: "https://rand.org",
@@ -148,6 +200,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "200–400 million immediate deaths. Up to 1 billion total in the first year.", ru: "200–400 миллионов мгновенных смертей. До 1 миллиарда в первый год." },
         planetary: { en: "Severe — 30–80 Tg of soot. Global temperature drop of 3–5°C. Widespread ozone depletion. Global famine.", ru: "Тяжёлое — 30–80 Тг сажи. Падение температуры на 3–5°C. Массовое разрушение озона. Глобальный голод." },
         survival: { en: "Low in the Northern Hemisphere. Moderate in the Southern Hemisphere.", ru: "Низкая в Северном полушарии. Умеренная в Южном." },
+        survivalActions: {
+          en: "— For Americans: evacuate ALL West Coast cities (Los Angeles, San Francisco, Seattle, Portland, San Diego); head inland at least 500 km to Nevada, Arizona, Utah, Colorado; avoid military bases, ports, and command centers\n— For Chinese: evacuate ALL major cities (Beijing, Shanghai, Guangzhou, Shenzhen, Tianjin, Nanjing); head to rural western China (Gansu, Qinghai, Inner Mongolia); avoid military industrial centers\n— For Japanese and South Koreans: evacuate ALL coastal cities — fallout from US-China exchange will drift over the Pacific; head to mountainous inland areas\n— For everyone: stockpile 6+ months of supplies; prepare for nuclear winter (3–5°C global temperature drop); the global economy will collapse instantly",
+          ru: "— Для американцев: покинуть ВСЕ города западного побережья (Лос-Анджелес, Сан-Франциско, Сиэтл, Портленд, Сан-Диего); двигаться вглубь материка минимум на 500 км в Неваду, Аризону, Юту, Колорадо; избегать военных баз\n— Для китайцев: покинуть ВСЕ крупные города (Пекин, Шанхай, Гуанчжоу, Шэньчжэнь, Тяньцзинь, Нанкин); направляться в сельские западные провинции (Ганьсу, Цинхай, Внутренняя Монголия)\n— Для японцев и южнокорейцев: покинуть ВСЕ прибрежные города — осадки дрейфуют над Тихим океаном; направляться в горные внутренние районы\n— Для всех: создать запас на 6+ месяцев; готовиться к ядерной зиме (падение температуры на 3–5°C); глобальная экономика рухнет мгновенно",
+        },
         probability: { en: "Very Low (1–3%)", ru: "Очень низкая (1–3%)" },
         probabilityLabel: { en: "Very Low", ru: "Очень низкая" },
         probabilitySource: "https://csis.org",
@@ -175,6 +231,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "10–30 million immediate deaths. 50–80 million total from famine and radiation.", ru: "10–30 миллионов мгновенных смертей. 50–80 миллионов общих потерь от голода и радиации." },
         planetary: { en: "Moderate — 5–15 Tg of soot. Regional climate effects. Monsoon disruption causing additional famine across South Asia.", ru: "Умеренное — 5–15 Тг сажи. Региональные климатические эффекты. Нарушение муссонов вызывает дополнительный голод в Южной Азии." },
         survival: { en: "Low in South Asia. Moderate in the Middle East and Southeast Asia. High elsewhere.", ru: "Низкая в Южной Азии. Умеренная на Ближнем Востоке и в Юго-Восточной Азии. Высокая в остальном мире." },
+        survivalActions: {
+          en: "— For Indians in Punjab: evacuate Amritsar, Jammu, and border areas immediately; head south toward Delhi or into the Himalayas\n— For Pakistanis in Punjab: evacuate Lahore, Rawalpindi, Islamabad; head south toward Karachi or north into the mountains\n— For both sides: avoid military installations, air force bases, and the Line of Control; the agricultural heartland of both nations will be contaminated — do NOT drink well water for at least 6 months\n— Stockpile 2–3 months of supplies; if you are outside blast zones, you have a good chance of survival",
+          ru: "— Для индийцев в Пенджабе: немедленно покинуть Амритсар, Джамму и приграничные зоны; направляться на юг к Дели или в Гималаи\n— Для пакистанцев в Пенджабе: покинуть Лахор, Равалпинди, Исламабад; направляться на юг к Карачи или на север в горы\n— Для обеих сторон: избегать военных объектов, авиабаз и Линии контроля; сельскохозяйственный центр обеих стран будет заражён — НЕ пить колодезную воду минимум 6 месяцев\n— Создать запас припасов на 2–3 месяца; если вы вне зон поражения, у вас хорошие шансы на выживание",
+        },
         probability: { en: "Medium (15–25%)", ru: "Средняя (15–25%)" },
         probabilityLabel: { en: "Medium", ru: "Средняя" },
         probabilitySource: "https://sipri.org",
@@ -202,6 +262,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "5–15 million immediate deaths. 20–40 million from radiation, famine, and regional collapse.", ru: "5–15 миллионов мгновенных смертей. 20–40 миллионов от радиации, голода и регионального коллапса." },
         planetary: { en: "Moderate — 3–8 Tg of soot from oil fires. Regional climate effects and severe ozone depletion over the Middle East.", ru: "Умеренное — 3–8 Тг сажи от пожаров на нефтяных объектах. Региональные климатические эффекты и серьёзное разрушение озона над Ближним Востоком." },
         survival: { en: "Very low in Israel and Iran. Low in neighboring countries. High in Europe and the Americas.", ru: "Очень низкая в Израиле и Иране. Низкая в соседних странах. Высокая в Европе и Америке." },
+        survivalActions: {
+          en: "— For Israelis: evacuate Tel Aviv, Jerusalem, Haifa, Beersheba; head to the Negev desert away from military bases; avoid nuclear facility areas (Dimona)\n— For Iranians: evacuate Tehran, Isfahan, Shiraz, Tabriz, Mashhad; head to rural Caspian coast (away from Natanz and Fordow nuclear sites)\n— For neighbors (Iraq, Turkey, Gulf states): evacuate Baghdad, Ankara, Istanbul, Dubai, Doha — fallout will spread across the region\n— Global oil markets will collapse — prepare for economic breakdown regardless of where you live\n— Stockpile 2–3 months of supplies; radiation from damaged nuclear facilities will be severe and long-lasting",
+          ru: "— Для израильтян: покинуть Тель-Авив, Иерусалим, Хайфу, Беэр-Шеву; направляться в пустыню Негев вдали от военных баз; избегать района ядерного центра (Димона)\n— Для иранцев: покинуть Тегеран, Исфахан, Шираз, Тебриз, Мешхед; направляться на сельское побережье Каспия (вдали от Натанза и Фордо)\n— Для соседей (Ирак, Турция, страны Залива): покинуть Багдад, Анкару, Стамбул, Дубай, Доху — осадки распространятся по всему региону\n— Глобальные нефтяные рынки рухнут — готовьтесь к экономическому коллапсу независимо от места жительства\n— Создать запас припасов на 2–3 месяца; радиация от повреждённых ядерных объектов будет серьёзной и долговременной",
+        },
         probability: { en: "Medium (10–20%)", ru: "Средняя (10–20%)" },
         probabilityLabel: { en: "Medium", ru: "Средняя" },
         probabilitySource: "https://iaea.org",
@@ -229,6 +293,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "10–30 million immediate deaths in South Korea and Japan. 50 million total casualties.", ru: "10–30 миллионов мгновенных смертей в Южной Корее и Японии. 50 миллионов общих потерь." },
         planetary: { en: "Moderate — 5–10 Tg of soot. Regional climate effects in East Asia. Severe local fallout.", ru: "Умеренное — 5–10 Тг сажи. Региональные климатические эффекты в Восточной Азии. Серьёзное локальное радиоактивное заражение." },
         survival: { en: "Very low in South Korea and Japan. Low in North Korea. Moderate in China and Russia's Far East. High elsewhere.", ru: "Очень низкая в Южной Корее и Японии. Низкая в КНДР. Умеренная в Китае и на Дальнем Востоке России. Высокая в остальном мире." },
+        survivalActions: {
+          en: "— For South Koreans: if you are in Seoul, you have 5–15 minutes — leave NOW; evacuate ALL major cities (Busan, Daegu, Incheon, Gwangju); head to rural southern Korea or attempt evacuation to Japan\n— For North Koreans: evacuate Pyongyang, Nampo, Wonsan — your own government is launching missiles from near these cities, making them retaliatory targets; head to rural northern areas near the Chinese border\n— For Japanese: evacuate Tokyo, Osaka, Yokohama — US bases in Japan will be targeted; head to rural northern Honshu or Hokkaido\n— For everyone: fallout from North Korean surface bursts will contaminate the Korean Peninsula for decades; stockpile iodine pills, Geiger counters, and radiation protection",
+          ru: "— Для южнокорейцев: если вы в Сеуле, у вас 5–15 минут — УХОДИТЕ СЕЙЧАС ЖЕ; покинуть ВСЕ крупные города (Пусан, Тэгу, Инчхон, Кванджу); направляться в сельские южные районы или попытаться эвакуироваться в Японию\n— Для северокорейцев: покинуть Пхеньян, Нампхо, Вонсан — ваше собственное правительство запускает ракеты рядом с этими городами, делая их целями возмездия; направляться в сельские северные районы у границы с Китаем\n— Для японцев: покинуть Токио, Осаку, Йокогаму — базы США в Японии будут целями; направляться в сельский северный Хонсю или Хоккайдо\n— Для всех: осадки от северокорейских наземных взрывов заразят Корейский полуостров на десятилетия; запастись йодом, дозиметрами и радиационной защитой",
+        },
         probability: { en: "Low (5–10%)", ru: "Низкая (5–10%)" },
         probabilityLabel: { en: "Low", ru: "Низкая" },
         probabilitySource: "https://38north.org",
@@ -256,6 +324,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "500,000–2 million immediate deaths, primarily military. Civilian casualties from fallout.", ru: "500 000–2 миллиона мгновенных смертей, в основном военных. Гражданские потери от радиоактивных осадков." },
         planetary: { en: "Minimal. Limited high-altitude detonations cause some EMP effects and local fallout.", ru: "Минимальное. Ограниченные высотные подрывы вызывают локальные ЭМИ-эффекты и местные осадки." },
         survival: { en: "High globally. Moderate in northern India and western China.", ru: "Высокая глобально. Умеренная в северной Индии и западном Китае." },
+        survivalActions: {
+          en: "— For Indians in border regions: evacuate Ladakh, Arunachal Pradesh, Uttarakhand, Sikkim; head southward away from the Himalayan border; avoid military bases and forward deployment areas\n— For Chinese in border regions: evacuate Tibet (Lhasa, Shigatse) and Xinjiang (Kashgar, Hotan); head eastward away from the border; avoid PLA military installations\n— For both sides: the exchange is limited to tactical weapons — if you are 100+ km from the border, you are likely safe; avoid high-altitude areas where EMP may disrupt communications\n— Listen for ceasefire announcements — this scenario is likely to de-escalate quickly",
+          ru: "— Для индийцев в приграничных регионах: покинуть Ладакх, Аруначал-Прадеш, Уттаракханд, Сикким; двигаться на юг от гималайской границы; избегать военных баз\n— Для китайцев в приграничных регионах: покинуть Тибет (Лхаса, Шигадзе) и Синьцзян (Кашгар, Хотан); двигаться на восток от границы; избегать военных объектов НОАК\n— Для обеих сторон: обмен ограничен тактическим оружием — если вы в 100+ км от границы, вы в безопасности; избегать высокогорных районов, где ЭМИ может нарушить связь\n— Слушать объявления о прекращении огня — этот сценарий вероятно деэскалирует быстро",
+        },
         probability: { en: "Low (3–8%)", ru: "Низкая (3–8%)" },
         probabilityLabel: { en: "Low", ru: "Низкая" },
         probabilitySource: "https://www.sipri.org",
@@ -283,6 +355,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "50,000–200,000 deaths, primarily military and naval personnel. Civilian casualties from cruise missile strikes and nuclear fallout warning zone.", ru: "50 000–200 000 смертей, в основном военных и моряков. Гражданские потери от ударов крылатыми ракетами и зоны предупреждения о ядерных осадках." },
         planetary: { en: "Minimal. A single tactical detonation at sea produces limited fallout. No significant climate impact.", ru: "Минимальное. Один тактический взрыв в море даёт ограниченные осадки. Значимого климатического эффекта нет." },
         survival: { en: "High globally. Moderate in the Russian Far East and northern Japan.", ru: "Высокая глобально. Умеренная на Дальнем Востоке России и в северной Японии." },
+        survivalActions: {
+          en: "— For Russians: evacuate the Kuril Islands, Sakhalin, and Kamchatka — these are the primary conflict zone; head to mainland Russia (Khabarovsk, Vladivostok); avoid Pacific Fleet bases\n— For Japanese: evacuate Hokkaido (especially near the Sea of Okhotsk coast); head to southern Japan (Honshu, Kyushu); avoid JSDF bases in northern Japan\n— The nuclear warning detonation at sea creates limited fallout risk — avoid the Sea of Okhotsk coastline for 48 hours\n— Stockpile 2–4 weeks of supplies — shipping disruption in the Sea of Okhotsk may affect supply chains",
+          ru: "— Для россиян: покинуть Курильские острова, Сахалин и Камчатку — это основная зона конфликта; направляться на материковую часть России (Хабаровск, Владивосток); избегать баз Тихоокеанского флота\n— Для японцев: покинуть Хоккайдо (особенно побережье Охотского моря); направляться в южную Японию (Хонсю, Кюсю); избегать баз Сил самообороны в северной Японии\n— Предупредительный ядерный взрыв в море создаёт ограниченный риск осадков — избегать побережья Охотского моря 48 часов\n— Создать запас припасов на 2–4 недели — нарушение судоходства в Охотском море может повлиять на поставки",
+        },
         probability: { en: "Low (3–8%)", ru: "Низкая (3–8%)" },
         probabilityLabel: { en: "Low", ru: "Низкая" },
         probabilitySource: "https://www.csis.org",
@@ -310,6 +386,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "100,000–500,000 mostly military and border personnel deaths. Limited civilian casualties from precision strikes.", ru: "100 000–500 000 смертей, в основном военных и пограничников. Ограниченные гражданские потери от высокоточных ударов." },
         planetary: { en: "Minimal. Conflict remains below the nuclear threshold. Climate impact negligible.", ru: "Минимальное. Конфликт остаётся ниже ядерного порога. Климатическое воздействие незначительно." },
         survival: { en: "High globally. Moderate in border regions of Russia and China.", ru: "Высокая глобально. Умеренная в приграничных регионах России и Китая." },
+        survivalActions: {
+          en: "— For Russians: evacuate Altai, Amur region, Zabaikalsky Krai — the border conflict zone; head to central Russia (Novosibirsk, Krasnoyarsk); avoid military installations along the Chinese border\n— For Chinese: evacuate Xinjiang (Kashgar, Urumqi) and Inner Mongolia (Hohhot); head to central China (Xi'an, Chengdu, Wuhan); avoid PLA border bases\n— No nuclear detonations are expected — the primary risks are conventional warfare, power disruptions, and supply chain breaks\n— Stockpile 1–2 months of supplies; cross-border trade will freeze; international mediation may lead to ceasefire within weeks",
+          ru: "— Для россиян: покинуть Алтай, Приамурье, Забайкалье — зону приграничного конфликта; направляться в центральную Россию (Новосибирск, Красноярск); избегать военных объектов вдоль китайской границы\n— Для китайцев: покинуть Синьцзян (Кашгар, Урумчи) и Внутреннюю Монголию (Хух-Хото); направляться в центральный Китай (Сиань, Чэнду, Ухань); избегать приграничных баз НОАК\n— Ядерных взрывов не ожидается — основные риски: обычные боевые действия, отключения электричества и нарушение поставок\n— Создать запас припасов на 1–2 месяца; трансграничная торговля заморозится; международное посредничество может привести к прекращению огня в течение недель",
+        },
         probability: { en: "Low (2–5%)", ru: "Низкая (2–5%)" },
         probabilityLabel: { en: "Low", ru: "Низкая" },
         probabilitySource: "https://www.rand.org",
@@ -337,6 +417,10 @@ export const conflicts: Conflict[] = [
         casualties: { en: "30,000–100,000 deaths, primarily military. Civilian casualties from naval bombardments and cruise missile strikes.", ru: "30 000–100 000 смертей, в основном военных. Гражданские потери от морских бомбардировок и ударов крылатыми ракетами." },
         planetary: { en: "Minimal. No nuclear use in this scenario. Regional environmental damage from oil spills in the Black Sea.", ru: "Минимальное. Ядерное оружие в этом сценарии не применяется. Региональный экологический ущерб от разливов нефти в Чёрном море." },
         survival: { en: "High globally. Moderate in the Black Sea and Caucasus regions.", ru: "Высокая глобально. Умеренная в регионах Чёрного моря и Кавказа." },
+        survivalActions: {
+          en: "— For Russians: evacuate Black Sea coast (Novorossiysk, Sochi, Sevastopol, Anapa); head inland 200+ km; avoid Black Sea Fleet bases and naval infrastructure\n— For Turks: evacuate Istanbul, Trabzon, Samsun, Sinop — the Black Sea coast is the primary conflict zone; head to central Anatolia (Ankara, Konya, Cappadocia); avoid NATO installations and Incirlik Air Base\n— For Caucasus residents (Georgia, Armenia, Azerbaijan): evacuate Tbilisi, Batumi, Baku, Yerevan — conventional strikes may hit Caucasus military infrastructure\n— No nuclear weapons are used in this scenario — the main risks are conventional warfare, economic disruption, and Black Sea trade blockage\n— Stockpile 1–2 months of supplies; global fuel and food prices will spike due to Black Sea route disruption",
+          ru: "— Для россиян: покинуть побережье Чёрного моря (Новороссийск, Сочи, Севастополь, Анапа); двигаться вглубь материка на 200+ км; избегать баз Черноморского флота\n— Для турок: покинуть Стамбул, Трабзон, Самсун, Синоп — черноморское побережье — основная зона конфликта; направляться в центральную Анатолию (Анкара, Конья, Каппадокия); избегать объектов НАТО и авиабазы Инджирлик\n— Для жителей Кавказа (Грузия, Армения, Азербайджан): покинуть Тбилиси, Батуми, Баку, Ереван — обычные удары могут поразить кавказскую военную инфраструктуру\n— Ядерное оружие в этом сценарии не применяется — основные риски: обычные боевые действия, экономический срыв и блокировка черноморской торговли\n— Создать запас припасов на 1–2 месяца; цены на топливо и продовольствие взлетят из-за нарушения черноморского маршрута",
+        },
         probability: { en: "Low (5–10%)", ru: "Низкая (5–10%)" },
         probabilityLabel: { en: "Low", ru: "Низкая" },
         probabilitySource: "https://www.crisisgroup.org",
