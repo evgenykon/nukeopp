@@ -1,26 +1,6 @@
 # Nuclear Opposition
 
-| Parameter | Value |
-|--|--|
-| Base URL | https://subtle-elf-215f75.netlify.app/ |
-| JS | [iles](https://bulma.io/) + [Vue 3](https://vuejs.org/) |
-| CSS | [Bulma](https://bulma.io/) |
+Личный манифест против коллективного безумия. Проект привлекает внимание к проблеме ядерной угрозы и предлагает инструменты для сопротивления уничтожению.
 
-
-## Developing
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
+**Стек:** Nuxt 4, Vue 3, TypeScript 6, Tailwind CSS 4
+**Локализация:** en, ru
