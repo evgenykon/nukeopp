@@ -73,6 +73,8 @@ onClickOutside(survivalRef, closeSurvival)
               { to: '/survival/first-aid', label: t('nav.survival_firstAid') },
               { to: '/survival/cheatsheet', label: t('nav.survival_cheatsheet') },
               { to: '/survival/prepare', label: t('nav.survival_prepare') },
+              { to: '/survival/communication', label: t('nav.survival_communication') },
+              { to: '/survival/society', label: t('nav.survival_society') },
             ]"
             :key="sub.to"
             :to="sub.to"

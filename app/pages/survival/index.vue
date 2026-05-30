@@ -6,6 +6,8 @@ const sections = [
   { to: "/survival/first-aid", key: "firstAid" },
   { to: "/survival/cheatsheet", key: "cheatsheet" },
   { to: "/survival/prepare", key: "prepare" },
+  { to: "/survival/communication", key: "communication" },
+  { to: "/survival/society", key: "society" },
 ]
 </script>
 
