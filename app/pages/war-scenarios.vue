@@ -23,12 +23,6 @@ function pickScenario(s: Scenario) {
     })
   }
 }
-
-function renderSurvival(text: string | undefined): string {
-  return (text ?? "")
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\n/g, "<br>")
-}
 </script>
 
 <template>
@@ -128,7 +122,11 @@ function renderSurvival(text: string | undefined): string {
 
           <div class="rounded-lg border border-green-500/20 bg-green-500/5 p-4">
             <h3 class="mb-2 text-xs font-bold uppercase tracking-wider text-green-400">{{ t("scenarios.survivalActions") }}</h3>
-            <p class="text-sm leading-relaxed text-foreground" v-html="renderSurvival(selectedScenario.survivalActions[locale] ?? selectedScenario.survivalActions.en)" />
+            <p class="whitespace-pre-line text-sm leading-relaxed text-foreground">{{ selectedScenario.survivalActions[locale] ?? selectedScenario.survivalActions.en }}</p>
+          </div>
+
+          <div class="text-right text-xs text-muted-foreground">
+            <NuxtLink to="/survival" class="text-orange-400 hover:text-orange-300">{{ t("scenarios.moreSurvival") }}</NuxtLink>
           </div>
 
           <div class="flex items-center justify-between rounded-lg border border-border bg-card p-4">

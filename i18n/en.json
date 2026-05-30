@@ -13,11 +13,19 @@
     "survival_cheatsheet": "Survival Cheatsheet",
     "survival_prepare": "How to Prepare"
   },
+  "survivalIndex": {
+    "subtitle": "In the event of a nuclear threat, the difference between life and death is often measured in minutes and preparation. This section contains practical guides on what to do before, during, and after a nuclear event.",
+    "threatDesc": "Immediate actions when a nuclear threat is detected: where to hide, how long to stay sheltered, what to do in the first minutes.",
+    "firstAidDesc": "Basic first aid for radiation exposure, burns, and blast injuries. What medications to stockpile and how to treat common nuclear event injuries.",
+    "cheatsheetDesc": "A condensed quick-reference page with essential survival checklists: go-bag contents, shelter requirements, radiation safety rules.",
+    "prepareDesc": "Long-term preparation: building a fallout shelter, stockpiling supplies, choosing evacuation routes, creating family communication plans."
+  },
   "pages": {
     "warTargets": "War Targets",
     "warScenarios": "War Scenarios",
     "weapons": "Weapons",
     "safetyModels": "Safety Models",
+    "survival": "Survival",
     "survival_threat": "In Case of Threat",
     "survival_firstAid": "First Aid",
     "survival_cheatsheet": "Survival Cheatsheet",
@@ -37,6 +45,7 @@
     "planetary": "Planetary impact",
     "survival": "Survival probability",
     "survivalActions": "Actions for survival",
+    "moreSurvival": "More survival guides →",
     "probability": "Estimated probability",
     "probSource": "Source of probability estimate",
     "harbingers": "Early warning signs",
